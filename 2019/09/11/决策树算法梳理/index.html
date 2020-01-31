@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="sklearn,机器学习,熵,ID3,C4.5,CART,剪枝," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="DataWhale暑期学习小组-初级算法梳理第八期Task3。">
+<meta name="keywords" content="sklearn,机器学习,熵,ID3,C4.5,CART,剪枝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="决策树算法梳理">
+<meta property="og:url" content="http://datacruiser.io/2019/09/11/决策树算法梳理/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="DataWhale暑期学习小组-初级算法梳理第八期Task3。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/%E5%86%B3%E7%AD%96%E6%A0%91/%2A%20%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E6%9D%8E%E8%88%AA%28%E9%9D%9E%E6%89%AB%E6%8F%8F%E7%89%88%29%202019-09-13%2022-39-24.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/%E5%86%B3%E7%AD%96%E6%A0%91/%E5%86%B3%E7%AD%96%E6%A0%91%E5%8F%AF%E8%A7%86%E5%8C%96.png">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="决策树算法梳理">
+<meta name="twitter:description" content="DataWhale暑期学习小组-初级算法梳理第八期Task3。">
+<meta name="twitter:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/%E5%86%B3%E7%AD%96%E6%A0%91/%2A%20%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E6%9D%8E%E8%88%AA%28%E9%9D%9E%E6%89%AB%E6%8F%8F%E7%89%88%29%202019-09-13%2022-39-24.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/09/11/决策树算法梳理/"/>
+
+
+
+
+
+  <title>决策树算法梳理 | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/09/11/决策树算法梳理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">决策树算法梳理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-11T18:31:05+00:00">
+                2019-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/11/决策树算法梳理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/09/11/决策树算法梳理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  13.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  51
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  DataWhale暑期学习小组-初级算法梳理第八期Task3。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个暑假参加了DataWhale暑期学习-高级算法梳理的第八期，在整个学习的过程当中发现，无论之前看过多少次视频，翻过几遍书，对于知识的系统理解都不如自己好好梳理、推导并用文字把它记下来那么有效果。因此，虽然这一期并没有参加初级算法（线性回归、决策树、逻辑回归等）梳理的学习，但是一直有这个念想等得空的时候也把这些算法一起梳理一遍，加深理解。特别是决策树和逻辑回归，前者是后面bagging和boosting等各种集成算法的主要基学习器，后者在神经网络以及基于神经网络的各种深度学习算法发挥重要的基础作用，特别是各种优化算法，梯度下降、牛顿法等等，这些都是相通的。</p>
+<p>本篇主要对决策树进行梳理。</p>
+<p>决策树算法的思想其实非常古老，我们可以将决策树看出一个if-then规则的集合，问题的关键是在面对很多条件特征的时候，用哪个条件特征先做if，哪个条件特征后做，各个特征条件的阈值如何确定。这些都是决策树机器学习算法的关键。</p>
+<p>上世纪70年代，昆兰用信息论的熵来度量决策树的决策选择过程，它的简洁和高效立刻掀起了决策树研究的热潮，从最初的ID3，到后面昆兰持续优化的C4.0、C4.5，以及可用于回归的CART树，不断地被研究者提出。从决策树算法的发展历程来看，我们需要从信息论入手。</p>
+<h1 id="信息论基础"><a href="#信息论基础" class="headerlink" title="信息论基础"></a>信息论基础</h1><h2 id="熵"><a href="#熵" class="headerlink" title="熵"></a>熵</h2><p>熵（Entropy）起初是热力学中的概念，对，热力学就是本人的老本行，最早由德国物理学家克劳修斯于1865年提出。在热力学当中，熵是一种测量在动力学方面不能做功的能量总数，也就是当总体的熵增加，其做功能力也下降，熵的量度正是能量退化的指标。熵亦被用于计算一个系统中的失序现象，也就是计算该系统混乱的程度，系统越无序，熵越大。</p>
+<p>香农大神在1948年将熵引入到信息论，用来表示接收的每条消息中包含的信息的平均量，“消息”代表来自分布或者数据流中的事件、样本或者特征。我们可以将熵理解为不确定性的度量，因为越随机的信号源，熵越大。</p>
+<p>为了和<a href="https://zh.wikipedia.org/wiki/%E6%B3%A2%E8%8C%B2%E6%9B%BC%E7%86%B5%E5%85%AC%E5%BC%8F" target="_blank" rel="noopener">玻尔兹曼熵公式</a>形式上面的一致，香农将<strong>信息熵</strong>定义如下：<br>$$H(X)=E[I(X)]=E[-\log(P(X))]=E[\log{\frac{1}{P(X)}}]$$</p>
+<p>实际上，熵是随机变量$X$的函数$\log{\frac{1}{P(X)}}$的期望。</p>
+<p>如果$X$是一个取有限个值的离散随机变量，其概率分布为：<br>$$P(X=x_i)=p_i,\,\, i=1,2,…,n$$</p>
+<p>则随机变量$X$的熵的定义为：<br>$$H(X)=-\sum_{i=1}^np^i\log p_i$$ </p>
+<p>如果$p_i=0$，则定义$0 \log 0=0$，这与极限也是一致的。</p>
+<h2 id="联合熵"><a href="#联合熵" class="headerlink" title="联合熵"></a>联合熵</h2><p>联合熵是针对联合分布概率的，用来度量一个联合分布的随机系统的不确定度，其物理意义是观察一个多个随机变量的随机系统获得的信息量。下面给出两个随机变量的联合熵的定义：<br>$$H(X,Y)=-\sum_{x \in X}\sum_{y  in Y}P(x,y)\log P(x,y)=E[\log{\frac{1}{P(X,Y)}}]$$</p>
+<h2 id="条件熵"><a href="#条件熵" class="headerlink" title="条件熵"></a>条件熵</h2><p>条件熵$H(Y|X)$表示已知随机变量$X$的条件下，随机变量$Y$的信息熵还有多少。随机变量$X$给定的条件下随机变量$Y$的条件熵$H(Y|X)$，定义为$X$给定条件下$Y$的条件概率分布的熵对$X$的数学期望：<br>$$H(Y|X)=\sum_{i=1}^np_iH(Y|X=x_i)$$</p>
+<p>进一步化简有：<br>$$<br>\begin{align}<br>H(Y|X) &amp;= -\sum_{x \in X}p(x)\sum_{y \in Y}p(y|x) \log p(y|x)  \\\\<br>&amp;= -\sum_{x \in X}\sum_{y \in Y}p(x,y)\log p(y|x) \\\\<br>&amp;= -\sum_{x \in X,y \in Y}p(x,y)\log p(y|x) \\\\<br>&amp;= -\sum_{x \in X,y \in Y}p(x,y)\log {\frac{p(x,y)}{p(x)}} \\\\<br>&amp;= \sum_{x \in X,y \in Y}p(x,y)\log {\frac{p(x)}{p(x,y)}} \end{align}<br>$$</p>
+<p>当且仅当$Y$的值完全由$X$确定时，$H(Y|X)=0$。相反，当且仅当$Y$ 和$X$ 为独立随机变量时 $H(Y|X)=H(Y)$。</p>
+<h2 id="链式法制"><a href="#链式法制" class="headerlink" title="链式法制"></a>链式法制</h2><p>假设两个随机变量 $X$ 和$ Y$ 确定的组合系统的联合熵为 $H(X,Y)$，即我们需要$H(X,Y)$ bits的信息来描述它的确切状态。</p>
+<p>现在，若我们先学习 $ X$ 的值，我们得到$H(X)$ bits的信息。 一旦知道了 $H $，我们只需$ H(X,Y)-H(X)$ bits来描述整个系统的状态。 </p>
+<p>这个量正是条件熵$H(Y|X)$，它给出了<strong>条件熵</strong>的链式法则：<br>$$H(Y|X)=H(X,Y)-H(X)$$</p>
+<p>可以根据以上联合熵、条件熵、信息熵的定义进行推导如下：<br>$$<br>\begin{align}<br>H(Y|X) &amp;= \sum_{x \in X,y \in Y}p(x,y)\log {\frac{p(x)}{p(x,y)}}  \\\\<br>&amp;= -\sum_{x \in X,y \in Y}p(x,y)\log p(x,y)+\sum_{x \in X,y \in Y}p(x,y)\log p(x) \\\\<br>&amp;= H(X,Y) + \sum_{x \in X}p(x)\log p(x) \\\\<br>&amp;= H(X,Y)-H(X)<br>\end{align}<br>$$</p>
+<h2 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h2><p>当熵和条件熵的概率由数据估计（特别是极大似然估计）得到时，所对应的熵和条件熵分别称为经验熵（empirical entropy）和经验条件熵（empirical conditional entropy）。此时，如果有0概率，令$0\log 0=0$。</p>
+<p>信息增益（information gain）表示得知特征$X$的信息而使得类$Y$的信息的不确定性减少的程度，具体定义如下：</p>
+<p>特征$A$对训练数据集的信息增益$g(D,A)$，定义为集合$D$的经验熵$H(D)$与特征$A$给定条件下$D$的经验条件熵$H(D|A)$子差，即：<br>$$g(D,A)=H(D)-H(D|A)$$</p>
+<p>一般的，熵$H(Y)$与条件熵$H(Y|X)$之差也被称为互信息（mutual information），$I(X,Y)$。</p>
+<p>上面的概念较多，用下面这个图很容易明白他们的关系。左边的圆代表$H(X)$，右边的圆代表$H(Y)$，中间重合的部分就是我们的互信息或者信息增益$I(X,Y)$，左边的圆去掉重合部分就是$H(X|Y)$，右边的圆去掉重合部分就是$H(Y|X)$。两个圆的并就是$H(X,Y)$。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E8%81%94%E5%90%88%E7%86%B5#/media/File:Entropy-mutual-information-relative-entropy-relation-diagram.svg" target="_blank" rel="noopener">示意图</a></p>
+<h2 id="信息增益比"><a href="#信息增益比" class="headerlink" title="信息增益比"></a>信息增益比</h2><p>以信息增益作为划分训练数据集的特征，存在偏向于选择取值较多的特征的问题，因为取值较多的特征在分类的时候可以分得更细，叶子节点更多，信息增益也越大。通常我们会使用信息增益比（information gain ratio）对这个问题进行校正。</p>
+<p>信息增益比的定义如下：</p>
+<p>特征$A$对训练数据集的信息增益比$g_R(D,A)$定义为其信息增益$g(D,A)$与训练数据集$D$关于特征$A$的值的$H_A(D)$之比，即：<br>$$g_R(D,A)=\frac{g(D,A)}{H_A(D)}$$</p>
+<p>其中，$H_A(D)=-\sum{i=1}^n\frac{|D_i|}{|D|}\log {\frac{|D_i|}{|D|}}$，n 是特征 $A$ 取值的个数，$D_i$为特征$A$的第 $i$ 个取值对应的样本个数，$|D|$为样本个数。</p>
+<h2 id="基尼不纯度"><a href="#基尼不纯度" class="headerlink" title="基尼不纯度"></a>基尼不纯度</h2><p>如果我们将信息熵换一种方式进行描述如下：<br>$$H(X)=-\sum_{x \in X}p(x) \log p(x)$$</p>
+<p>对上式中的$\log p(x)$进行泰勒展开，因为p小于1，忽略高阶项，就能够得到基尼不纯度（gini inpurity）的公式：<br>$$Gini(X)=\sum_{x \in X}p(x)(1-p(x))$$</p>
+<p>所以，本质上，基尼不纯度是熵的一个近似值，含义和熵差不多，可以衡量不确定性的大小，可以衡量杂乱程度也就是不纯度。</p>
+<p>对于基尼不纯度换一个表述方式，在分类问题中，假设有$K$个类，样点属于第$k$类的概率为$p_k$，则概率分布的基尼不纯度可表示为：<br>$$Gini(p)=\sum_{k=1}^K p_k(1-p_k)=1-\sum_{k=1}^K p_k^2$$</p>
+<p>上式的推导当中用到了一个性质：$\sum_{k=1}^K p_k=1$</p>
+<p>特别的，如果是二分类问题，若样本点属于第1个类的概率为$p$，则属于第2个类的概率为$1-p$，此时概率分布的基尼不纯度为：<br>$$Gini(P)=p(1-p)+(1-p)p=2p(1-p)$$</p>
+<p>对于给定的样本集合$D$，其基尼不纯度为：<br>$$Gini(D)=1-\sum_{k=1}^K(\frac{|C_k|}{|D|})^2$$</p>
+<p>其中，$C_k$是 $D$ 中属于第$k$类的样本子集，$K$是类的个数。</p>
+<p>如果样本集合$D$根据特征$A$是否取某一个可能值被分割成两个子集$D_1$和 $D_2$，则在特征$A$的条件下，集合$D$的条件基尼不纯度定义为：<br>$$Gini(D,A)=\frac{|D_1|}{|D|}Gini(D_1)+\frac{|D_2|}{|D|}Gini(D_2)$$</p>
+<p>基尼不纯度$Gini(D)$表示集合$D$的不确定性，条件基尼不纯度$Gini(D,A)$表示在特征$A$的分类已知的情况下$D$的不确定性。</p>
+<h1 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>ID3算法采用信息增益大小来判断当前节点应该用什么特征来构建决策树，用计算出的信息增益最大的特征来建立决策树的当前节点。</p>
+<p>这里举一个信息增益计算的具体例子，有15个样本$D$，输出为0或者1.其中9个输出为1，6个输出为0。样本当中有个特征$A$，取值分别为<code>A1</code>，<code>A2</code>和<code>A3</code>。在取值为<code>A1</code>的样本的输出中，有3个输出为1， 2个输出为0，取值为<code>A2</code>的样本输出中，2个输出为1，3个输出为0，在取值为<code>A3</code>的样本中，4个输出为1，1个输出为0。</p>
+<p>样本$D$的经验熵为:<br>$$H(D)=-(\frac{9}{15}\log{\frac{9}{15}}+\frac{6}{15}\log{\frac{6}{15}})$$</p>
+<p>样本$D$在特征$A$下面的经验条件熵为:<br>$$<br>\begin{align}<br>H(D|A) &amp;= \frac{5}{15}H(D1)+\frac{5}{15}H(D2)+\frac{5}{15}H(D3)  \\\\<br>&amp;= -\frac{5}{15}(\frac{3}{5}\log {\frac{3}{5}}+\frac{2}{5}\log {\frac{2}{5}})-\frac{5}{15}(\frac{2}{5}\log {\frac{2}{5}}+\frac{3}{5}\log {\frac{3}{5}})-\frac{5}{15}(\frac{4}{5}\log {\frac{4}{5}}+\frac{1}{5}\log {\frac{1}{5}}) \\\\<br>&amp;= 0.888<br>\end{align}<br>$$</p>
+<p>对应的信息增益为:<br>$$g(D,A)=H(D)-H(D|A)=0.971-0.888=0.083$$</p>
+<p>具体的算法流程如下:</p>
+<p>输入得是$m$个样本, 样本输出集合为$D$, 每个样本有$n$个特征, 特征集合为$A$, 输出为决策树$T$, 通常用”分而治之”的递归思路来构建决策树. </p>
+<ul>
+<li>1) 初始化信息增益的阈值$\epsilon$</li>
+<li>2) 判断样本是否为同一类输出$D_i$，如果是则返回单节点树$T$。标记类别为$D_i$</li>
+<li>3) 判断特征是否为空或者样本$D$在特征$A$上面取值相同, 如果任意一个条件满足, 则返回$T$, 并标记类别为样本中输出类别$D$样本数最多的类别</li>
+<li>4) 计算$A$中各个特征对输出$D$的信息增益, 选择信息增益最大的特征$A_g$</li>
+<li>5) 如果$A_g$的信息增益小于阈值$\epsilon$, 则返回单节点树$T$, 并标记类别为样本中输出类别$D$样本数最多的类别</li>
+<li>6) 如果$A_g$的信息增益大于阈值$\epsilon$, 按特征$A_g$的不同取值$A_{gi}$将对应的样本输出$D$分成不同得类别$D_i$, 每个类别产生一个子节点, 对应的特征值为$A_{gi}$, 返回增加了节点的树$T$</li>
+<li>7) 对于所有的子节点, 令$D=D_i,A=A-\{A_g\}$, 然后递归调用2~6步, 得到并返回子树$T_i$</li>
+</ul>
+<h2 id="应用场景和不足"><a href="#应用场景和不足" class="headerlink" title="应用场景和不足"></a>应用场景和不足</h2><p>ID3算法可用于划分离散型数据集, 没有剪枝的过程, 为了预防过拟合, 可通过裁剪合并相邻的无法产生大量信息增益的叶子节点（例如设置信息增益阀值）。<br>0<br>可见, ID3算法的应用场景有限, 也存在许多优化的空间, 主要有以下几点:</p>
+<ul>
+<li>ID3没有考虑连续特征，比如长度、密度等连续值，无法在ID3中运用，这大大限制了ID3的用途</li>
+<li>ID3采用信息增益大的特征优先建立决策树的节点，但是，在相同条件下，取值较多的特征比取值较少的特征信息增益大，信息增益准则对可取值数较多的特征有所偏好，这个问题需要校正</li>
+<li>ID3算法无法对缺失值进行处理</li>
+<li>最后，也没有考虑过过拟合的问题</li>
+</ul>
+<p>ID3 算法的作者昆兰基于上述不足，对ID3算法做了改进，这就是C4.5算法，也许你会问，为什么不叫ID4，ID5之类的名字呢？那是因为决策树太火爆，他的ID3一出来，别人二次创新，很快 就占了ID4、ID5，所以他另辟蹊径，取名C4.0算法，后来的进化版为C4.5算法。下面我们介绍下C4.5算法。</p>
+<h1 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h1><h2 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h2><p>C4.5算法主要是基于ID3算法的不足进行针对性的优化，我们结合上面提到的ID3的不足，逐一讨论C4.5的优化之处。</p>
+<h3 id="连续特征处理"><a href="#连续特征处理" class="headerlink" title="连续特征处理"></a>连续特征处理</h3><p>对于这个问题，C4.5的思路是将连续的特征离散化。比如$m$个样本的连续特征$A$有 $m$ 个，从小到大排列为$a_1,a_2,…,a_m$，C4.5取相邻两个样本值的平均值，一共可以取到$m-1$个划分点，其中第$i$个划分点$T_i$表示为：<br>$$T_i=\frac{a_i+a_{i+1}}{2}$$</p>
+<p>对于这$m-1$个点，分别计算以该点作为二元分类点时的信息增益比。选择信息增益比最大的点作为该连续特征的二元离散分散点。比如取到的信息增益比最大的点为$a_t$，则小于$a_t$的值为类别0，大于$a_t$的值为类别1。这样就完成了连续特征的离散化。</p>
+<p>需要注意的是，与离散特征不同的是，如果当前节点为连续特征，根据离散化的过程，则这个特征后续还可以参与子节点的产生选择过程。</p>
+<h3 id="信息增益准则校正"><a href="#信息增益准则校正" class="headerlink" title="信息增益准则校正"></a>信息增益准则校正</h3><p>对于这个问题，C4.5算法使用了前面提到的信息增益比作为特征选择的准则。需要注意的是，信息增益比准则对于可取数较少的特征有所偏好，这个与信息增益正好相反。为了避免走向另外一个极端，C4.5算法并不是直接选择信息增益比最大的候选特征，而是使用了一个启发式：先从候选特征中找出信息增益比高于平均水平的特征，再从这个子候选特征集当中选择信息增益比最高的特征。</p>
+<p>这里举一个信息增益比计算的具体例子，有15个样本$D$，输出为0或者1.其中9个输出为1，6个输出为0。样本当中有个特征$A$，取值分别为<code>A1</code>，<code>A2</code>和<code>A3</code>。在取值为<code>A1</code>的样本的输出中，有3个输出为1， 2个输出为0，取值为<code>A2</code>的样本输出中，2个输出为1，3个输出为0，在取值为<code>A3</code>的样本中，4个输出为1，1个输出为0。</p>
+<p>样本$D$的经验熵为:<br>$$H(D)=-(\frac{9}{15}\log{\frac{9}{15}}+\frac{6}{15}\log{\frac{6}{15}})$$</p>
+<p>样本$D$在特征$A$下面的经验条件熵为:<br>$$<br>\begin{align}<br>H(D|A) &amp;= \frac{5}{15}H(D1)+\frac{5}{15}H(D2)+\frac{5}{15}H(D3)  \\\\<br>&amp;= -\frac{5}{15}(\frac{3}{5}\log {\frac{3}{5}}+\frac{2}{5}\log {\frac{2}{5}})-\frac{5}{15}(\frac{2}{5}\log {\frac{2}{5}}+\frac{3}{5}\log {\frac{3}{5}})-\frac{5}{15}(\frac{4}{5}\log {\frac{4}{5}}+\frac{1}{5}\log {\frac{1}{5}}) \\\\<br>&amp;= 0.888<br>\end{align}<br>$$</p>
+<p>对应的信息增益为:<br>$$g(D,A)=H(D)-H(D|A)=0.971-0.888=0.083$$</p>
+<p>再由$H_A(D)=-\sum{i=1}^n\frac{|D_i|}{|D|}\log {\frac{|D_i|}{|D|}}$，n 是特征 $A$ 取值的个数，$D_i$为特征$A$的第 $i$ 个取值对应的样本个数，$|D|$为样本个数，可得：<br>$$<br>\begin{align}<br>H_A(D) &amp;= -\frac{5}{15}\log{\frac{3}{15}}-\frac{5}{15}\log{\frac{5}{15}}-\frac{5}{15}\log{\frac{5}{15}} \\\\<br>&amp;= 1.0986<br>\end{align}<br>$$</p>
+<p>对应的 信息增益比为：<br>$$g_R(D,A)=\frac{g(D,A)}{H_A(D)}=0.083/1.0986=0.0756$$</p>
+<h3 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h3><p>对于缺失值处理的问题，主要解决以下两个问题：</p>
+<ul>
+<li>在样本的某些特征缺失的情况下选择划分的属性</li>
+<li>选定了划分属性，对于在该属性上缺失特征样本的处理</li>
+</ul>
+<p>对于第一个问题，C4.5算法的思路是将有缺失值的特征$A$的数据分成两部分，对每个样本设置一个权重（初始可以都为1），然后划分数据，一部分是有特征值$A$的数据集$D_1$，另外一部分是没有特征$A$的数据集$D_2$。然后对于没有缺失特征$A$的 数据集$D_1$来和对应的$A$特征的各个特征值一起计算加权重后的信息增益比，最后乘上一个系数，这个系数是无特征$A$缺失的样本加权后所占加权总样本的比例。</p>
+<p>对于第二个问题，可以将缺失特征的样本同时划分入所有的子节点，不过将该样本的权重按各个子节点样本的数量比例来分配。比如缺失特征$A$的样本$D_a$之前权重为1，特征$A$有3个特征值$A_1,A_2,A_3$。 3个特征值对应的无缺失$A$特征的样本个数为2、3、4。则$D_a$同时划分入$A_1，A_2，A_3$。对应权重调节为$\frac{2}{9}, \frac{3}{9}, \frac{4}{9}$。</p>
+<h3 id="过拟合问题"><a href="#过拟合问题" class="headerlink" title="过拟合问题"></a>过拟合问题</h3><p>C4.5引入了正则化系统进行初步的剪枝，对于决策树的剪枝，后面会专题进行讨论。</p>
+<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><p>除了以上4点，C4.5算法与ID3算法类似，主要流程如下：</p>
+<p>输入得是$m$个样本, 样本输出集合为$D$, 每个样本有$n$个特征, 特征集合为$A$, 输出为决策树$T$, 通常用”分而治之”的递归思路来构建决策树. </p>
+<ul>
+<li>1) 初始化信息增益的阈值$\epsilon$</li>
+<li>2) 判断样本是否为同一类输出$D_i$，如果是则返回单节点树$T$。标记类别为$D_i$</li>
+<li>3) 判断特征是否为空或者样本$D$在特征$A$上面取值相同, 如果任意一个条件满足, 则返回$T$, 并标记类别为样本中输出类别$D$样本数最多的类别</li>
+<li>4) 计算$A$中各个特征对输出$D$的信息增益比, 选择信息增益比超出信息增益平均值的子集当中最大的特征$A_g$</li>
+<li>5) 如果$A_g$的信息增益比小于阈值$\epsilon$, 则返回单节点树$T$, 并标记类别为样本中输出类别$D$样本数最多的类别</li>
+<li>6) 如果$A_g$的信息增益比大于阈值$\epsilon$, 按特征$A_g$的不同取值$A_{gi}$将对应的样本输出$D$分成不同得类别$D_i$, 每个类别产生一个子节点, 对应的特征值为$A_{gi}$, 返回增加了节点的树$T$</li>
+<li>7) 对于所有的子节点, 令$D=D_i,A=A-\{A_g\}$, 然后递归调用2~6步, 得到并返回子树$T_i$</li>
+</ul>
+<h2 id="应用场景和不足-1"><a href="#应用场景和不足-1" class="headerlink" title="应用场景和不足"></a>应用场景和不足</h2><p>ID3算法可用于划分离散型或者连续型数据集, 为了预防过拟合, 可通过裁剪合并相邻的无法产生大量信息增益的叶子节点（例如设置信息增益阀值），也有剪枝的过程。但是依然有比较多的优化空间。主要有以下几点：</p>
+<ul>
+<li>决策树算法非常容易过拟合，虽然C4.5算法采用了剪枝的处理方式，但是它的剪枝方法有优化的空间</li>
+<li>C4.5算法和ID3算法一样，生成的是多叉树，学过数据结构应该知道在计算机当中二叉树的运算效率更高</li>
+<li>C4.5算法对ID3算法的优化依然没有改变只能应用于分类的事实，对于机器学习当中另外一大类任务<strong>回归</strong>却无能为力</li>
+<li>C4.5算法的优化同样还是采用熵模型，里面有大量的耗时的对数运算,如果是连续值还有大量的排序运算。如果能对模型进行简化并采用一些通用的优化算法，一方面可以大大提高效率，同时另外一方面，又不牺牲太多准确性就更好了</li>
+</ul>
+<h1 id="CART算法"><a href="#CART算法" class="headerlink" title="CART算法"></a>CART算法</h1><p>上面针对C4.5算法所提到的不足，由Breiman等人在1984年提出的分类与回归树（classification and regression tree，CART）模型进行了较为全面的改进和优化。</p>
+<p>从算法的名字就可以看出CART算法即可以做分类，也可以做回归。下面先从CART分类树算法开始，重点比较和C4.5算法的不同点。接着介绍CART回归树算法，重点介绍和CART分类树的不同点。然后我们讨论CART树的建树算法和剪枝算法。</p>
+<h2 id="CART分类树"><a href="#CART分类树" class="headerlink" title="CART分类树"></a>CART分类树</h2><h3 id="特征选择方法优化"><a href="#特征选择方法优化" class="headerlink" title="特征选择方法优化"></a>特征选择方法优化</h3><p>为了绕过涉及大量对数计算的熵模型，CART分类树算法采用对信息熵进行泰勒展开后的近似的基尼不纯度作为特征选择的标准。基尼不纯度代表了模型的不纯度，基尼不纯度越小，则不纯度越低，特征越好。这和信息增益(比)是相反的。</p>
+<p>比较下基尼不纯度表达式和熵模型的表达式，二次运算是不是比对数简单很多？尤其是二类分类的计算，更加简单。但是简单归简单，和熵模型的度量方式比，基尼系数对应的误差有多大呢？对于二类分类，基尼系数和熵之半的曲线如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/%E5%86%B3%E7%AD%96%E6%A0%91/%2A%20%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E6%9D%8E%E8%88%AA%28%E9%9D%9E%E6%89%AB%E6%8F%8F%E7%89%88%29%202019-09-13%2022-39-24.png" alt="Gini不纯度"></p>
+<p>从上图可以看出，基尼系数和熵之半的曲线非常接近，仅仅在45度角附近误差稍大，这和泰勒展开以后被忽略后的高阶部分有关。但是这种精度的近似是可以接受的。</p>
+<p>另外，CART算法每次仅仅对某个特征的值进行二分，而不是多分，这样CART分类树算法建立起来的是二叉树，而不是多叉树。这样一可以进一步简化基尼系数的计算，二可以建立一个更加优雅的二叉树模型。</p>
+<h3 id="特征处理优化"><a href="#特征处理优化" class="headerlink" title="特征处理优化"></a>特征处理优化</h3><h4 id="连续特征优化"><a href="#连续特征优化" class="headerlink" title="连续特征优化"></a>连续特征优化</h4><p>CART算法对于连续特征的离散化的总体思路与C4.5算法是类似的，只是在对第$m-1$个划分点进行处理时的分类准则不同，一脉相承地用基尼不纯度来代替C4.5算法的信息增益比。具体思路如下： </p>
+<p>。比如$m$个样本的连续特征$A$有 $m$ 个，从小到大排列为$a_1,a_2,…,a_m$，C4.5取相邻两个样本值的平均值，一共可以取到$m-1$个划分点，其中第$i$个划分点$T_i$表示为：<br>$$T_i=\frac{a_i+a_{i+1}}{2}$$</p>
+<p>对于这$m-1$个点，分别计算以该点作为二元分类点时的基尼不纯度。选择基尼不纯度最小的点作为该连续特征的二元离散分散点。比如取到的基尼不纯度最小的点为$a_t$，则小于$a_t$的值为类别0，大于$a_t$的值为类别1。这样就完成了连续特征的离散化。</p>
+<p>需要注意的是，与ID3或者C4.5处理离散特征不同的是，如果当前节点为连续特征，根据离散化的过程，则这个特征后续还可以参与子节点的产生选择过程。</p>
+<h4 id="离散特征优化"><a href="#离散特征优化" class="headerlink" title="离散特征优化"></a>离散特征优化</h4><p>对于离散特征的优化点就是在于用二叉树代替了多叉树，通过增加二叉树的深度来增加叶子节点，达到原来多叉树分类的目的。下面举个简单的例子：</p>
+<p>回忆下ID3或者C4.5，如果某个特征$A$被选取建立决策树节点，如果它有$A_1,A_2,A_3$三种类别，我们会在决策树上一下建立一个三叉的节点。这样导致决策树是多叉树。但是CART分类树使用的方法不同，他采用的是不停的二分，还是这个例子，CART分类树会考虑把$A$分成$\{A_1\}和\{A_2,A_3\}$, $\{A_2\} 和 \{A_1,A_3\}$, $\{A_3\}和\{A_1,A_2\}$三种情况，找到基尼系数最小的组合，比如$\{A_2\}和\{A_1,A_3\}$，然后建立二叉树节点，一个节点是$A_2$对应的样本，另一个节点是$\{A_1,A_3\}$对应的节点。同时，由于这次没有把特征$A$的取值完全分开，后面我们还有机会在子节点继续选择到特征$A$来划分$A_1$和$A_3$。这和ID3或者C4.5不同，在ID3或者C4.5的一棵子树中，离散特征只会参与一次节点的建立。</p>
+<h3 id="建树算法流程"><a href="#建树算法流程" class="headerlink" title="建树算法流程"></a>建树算法流程</h3><ul>
+<li>输入：训练集$D$，基尼不纯度的阈值$\epsilon$，样本个数阈值$n$</li>
+<li>输出：决策树$T$</li>
+<li>算法从根节点开始，用训练集递归地建立CART分类树<ul>
+<li>1）初始化基尼不纯度阈值$\epsilon$和样本个数阈值$n$</li>
+<li>2）对于当前节点的数据集为$D$，如果样本个数小于阈值或者没有特征，则返回决策子树，当前节点停止递归</li>
+<li>3）计算样本集$D$的基尼系数，如果基尼系数小于阈值，则返回决策树子树，当前节点停止递归</li>
+<li>4）计算当前节点现有的各个特征的各个特征值对数据集$D$的基尼不纯度</li>
+<li>5）在计算出来的各个特征的各个特征值对数据集$D$的基尼不纯度中，选择基尼不纯度最小的特征$A$和对应的特征值$a$。根据这个最优特征和最优特征值，把数据集划分成两部分$D_1$和 $D_2$，同时建立当前节点的左右节点，做节点的数据集$D$ 为$D_1$，右节点的数据集$D$为 $D_2$</li>
+<li>6）对左右的子节点递归的调用2-5步，生成决策树</li>
+</ul>
+</li>
+</ul>
+<p>对于生成的决策树做预测的时候，假如测试集里的样本$A$落到了某个叶子节点，而节点里有多个训练样本。则对于$A$的类别预测采用的是这个叶子节点里概率最大的类别。</p>
+<h2 id="CART回归树"><a href="#CART回归树" class="headerlink" title="CART回归树"></a>CART回归树</h2><h3 id="回归树与分类树区别"><a href="#回归树与分类树区别" class="headerlink" title="回归树与分类树区别"></a>回归树与分类树区别</h3><p>首先，我们要明白什么是分类树，什么是回归树。两者的区别在于样本输出值的类型不同，如果样本输出值是离散型，那么这是一棵分类树；如果样本输出值是连续型，那么这是一棵回归树。</p>
+<p>因此，分类或者回归本身的区别并不是太大。CART回归树和CART分类树的建立算法大体上也是类似的，主要有以下三点：</p>
+<ul>
+<li>特征选择方法不同</li>
+<li>连续值的处理方法不同</li>
+<li>决策树建立以后做预测的方式不同</li>
+</ul>
+<p>首先，在分类树当中，对于特征的选择是基于基尼不纯度，对于连续型特征同样也是用基尼不纯度的大小来度量特征的各个划分点的优劣情况。这比较适合分类模型，但是对于回归模型，我们使用了常见的平方误差$\sum_{x_i  \in  D}(y_i-f(x_i))^2$的度量方式，来表示CART回归树相对于训练数据的预测误差。</p>
+<p>对于给定的训练集$D=\{(x_1,y_2),(x_2,y_2),…,(x_n,y_n)\}$</p>
+<p>一棵树模型对应着输入空间的一个划分以及在划分的单元上面对应的输出值。假设已经将输入空间划分为$M$个单元$R_1,R_2,…,R_M$，并且每一个单元$R_m$上面对应一个固定的输出值$c_m$，于是回归树模型可以表示如下：<br>$$f(x)=\sum_{m=1}^M c_m I(x \in  R_m)$$</p>
+<p>然后用平方误差最小的准则在划分输入空间时求解每个单元上面的最优输出值。令单元$R_m$上的$c_m$的最优值$\hat{c_m}$是 $R_m$上面所有输入实例$x_i$所对应的输出$y_i$的均值，表达式表示如下：<br>$$\hat{c_m}=average(y_i|x_i \in R_m)$$</p>
+<p>这也是在CART回归树建立以后做预测方式与CART分类树不同的地方。上面讲到了CART分类树采用叶子节点里概率最大的类别作为当前节点的预测类别。而回归树输出不是类别，它采用的是用最终叶子节点里面所包含所有实例的平均值或者中位数来预测输出结果，为了推导方便，后面还是暂用平均值。</p>
+<p>在如何对输入空间进行划分上面，体现了CART回归树在特征选择和连续值处理方面与CART分类树的不同。</p>
+<p>这里采用启发式的方法，选择第$j$个特征$x^{(j)}$和它取的值$s$，作为切分特征（splitting variable）和切分点（splitting point），并据此定义两个区域：<br>$$R_1(j,s)=\{x|x^{(j)}\leqslant s\},\,\,\,\,R_2(j,s)=\{x|x^{(j)} &gt; s\}$$</p>
+<p>CART回归树的度量目标是，对于任意划分特征$x^{(j)}$，对应的任意划分点$s$两边划分成的数据集$R_1$和 $R_2$，求出使$R_1$和 $R_2$各自集合的均方差最小，同时$R_1$和 $R_2$均方差之和最小所对应的特征和特征值划分点。表达式为：<br>$$\mathop{\arg\min}_{j,s}\left[ \mathop{\arg\min}_{c_1}\sum_{x_i \in R_1(j,s)}(y_i-c_1)^2+\mathop{\arg\min}_{c_2}\sum_{x_i \in R_2(j,s)}(y_i-c_2)^2\right]$$</p>
+<p>对于固定的输入特征$j$可以找到最优切分点$s$，此时：<br>$$\hat{c_1}=average(y_i|x_i \in R_1(j,s))\,\,\,\,\hat{c_2}=average(y_i|x_i \in R_2(j,s))$$</p>
+<p>遍历所有输入特征，找到最优的切分特征$j$，构成一个最优切分特征和切分点对$(j,s)$。依此将输入空间划分为两个 区域。接着，对每个区域重复上述划分过程，直到满足停止条件为止。</p>
+<h3 id="建树算法流程-1"><a href="#建树算法流程-1" class="headerlink" title="建树算法流程"></a>建树算法流程</h3><p>下面对CART回归树的建树算法流程做一个梳理。</p>
+<ul>
+<li>输入：训练集$D$，树的最大深度，叶子节点最小实例数等</li>
+<li>输出：回归树$f(x)$</li>
+<li>算法从根节点开始，在训练数据集所在的输入空间中，递归地将每个区域划分为两个子区域并决定每个子区域上的输出值，构建二叉决策树建立CART回归树<ul>
+<li>1）选择最优切分特征$j$和切分点$s$，求解<br>$$\mathop{\arg\min}_{j,s}\lbrack \mathop{\arg\min}_{c_1}\sum_{x_i \in R_1(j,s)}(y_i-c_1)^2+\mathop{\arg\min}_{c_2}\sum_{x_i \in R_2(j,s)}(y_i-c_2)^2\rbrack$$</li>
+<li>2）用选定的最优切分特征和最优切分点对$(j,s)$划分区域并确定相应子节点所含实例相应的输出值：<br>$$R_1(j,s)=\{x|x^{(j)}\leqslant s\},\,\,\,\,R_2(j,s)=\{x|x^{(j)} &gt; s\}$$<br>$$\hat{c_m}=\frac{1}{N_m}\sum_{x_i  \in R_m(j,s)}y_i,  \,\,\, x \in R_m,\,\,\, m=1,2$$</li>
+<li>3）继续对划分出来的两个子区域调用1-2步，直到满足停止条件，停止条件可以是树的最大深度、叶子节点最小实例数等，可以提高树模型的泛化能力</li>
+<li>4）最后将输入空间划分为$M$个区域$R_1,R_2,…,R_m$，生成回归决策树模型：<br>$$f(x)=\sum_{m=1}^M\hat{c_m}I(x \in R_m)$$</li>
+</ul>
+</li>
+</ul>
+<h2 id="CART剪枝"><a href="#CART剪枝" class="headerlink" title="CART剪枝"></a>CART剪枝</h2><p>CART回归树和CART分类树的剪枝策略除了在度量损失的时候一个使用均方差，一个使用基尼不纯度，算法基本完全一样，这里我们一起来讲。</p>
+<p>由于决策树算法很容易对训练集过拟合，而导致泛化能力差，为了解决这个问题，我们需要对CART树进行剪枝，即类似于线性回归的正则化，来增加决策树的泛化能力。</p>
+<p>但是，剪枝方法很多，我们应该这么选择呢？CART采用的办法是后剪枝法，即先生成决策树，然后产生所有可能的剪枝后的CART树，然后使用交叉验证来检验各种剪枝的效果，选择泛化能力最好的剪枝策略。</p>
+<p>也就是说，CART树的剪枝算法可以概括为两步，第一步是从原始决策树生成各种剪枝效果的决策树，第二部是用交叉验证来检验剪枝后的预测能力，选择泛化预测能力最好的剪枝后的数作为最终的CART树。</p>
+<h3 id="剪枝形成子树序列"><a href="#剪枝形成子树序列" class="headerlink" title="剪枝形成子树序列"></a>剪枝形成子树序列</h3><p>在剪枝的过程当中，对于任意一棵子树$T$，其损失函数的度量为：<br>$$C_{\alpha}(T_t)=C(T_t)+\alpha|T_t|$$</p>
+<p>其中，$\alpha$为正则化参数，恒大于等于0，用来权衡训练数据的拟合程度与模型的复杂度，这和线性回归的正则化类似。$C(T_t)$为训练集的预测误差，分类树用的是基尼不纯度，回归树用的是均方差，$|T_t|$是子树$T$的叶子节点的数量。</p>
+<p>对于固定的$\alpha$，一定存在使损失函数$C_{\alpha}(T)$最小的子树$T_\alpha$，在损失函数$C_{\alpha}(T)$ 最小的意义下，$T_{\alpha}$是最优的，而且容易证明，最优子树是唯一的。</p>
+<p>当$\alpha=0$时，即没有正则化，原始的生成的CART树即为最优子树。当$\alpha=\infty$时，即正则化强度达到最大，此时由原始的生成的CART树的根节点组成的单节点树为最优子树。当然，这是两种极端情况。一般来说，$\alpha$越大，则剪枝剪的越厉害，生成的最优子树相比原生决策树就越偏小。</p>
+<p>对于任意一棵位于节点$t$的子树$T_t$，如果没有剪枝，它的损失为：<br>$$C_{\alpha}(T_t)=C(T_t)+\alpha|T_t|$$</p>
+<p>如果将其剪掉，仅仅保留根节点，则损失为：<br>$$C_{\alpha}(T)=C(T)+\alpha$$</p>
+<p>当$\alpha=0$或者$\alpha$很小时，$C_{\alpha}(T_t)&lt;C_{\alpha}(T)$，当$\alpha$增大到一定的程度时，有<br>$$C_{\alpha}(T_t)=C_{\alpha}(T)$$</p>
+<p>当$\alpha$继续增大时不等式反向，也就是说，如果满足下式：<br>$$\alpha=\frac{C(T)-C(T_t)}{|T_t|-1}$$</p>
+<p>$T_t$与 $T$有相同的损失函数值，而$T$的节点更少，更为可取，对$T_t$进行剪枝。</p>
+<p>假设$T_0$为未剪枝前构建的完整的全树，对它的每一个内部节点$t$，计算：<br>$$g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}$$</p>
+<p>用来表示剪枝后整体损失函数减少的程度。在$T_0$当中减去$g(t)$最小的$T_t$，将得到的子树作为$T_1$，同时将最小的$g(t)$设为$\alpha_1$。则在区间$[\alpha_1,\alpha_2)$ 上的最优子树为$T_1$。</p>
+<p>如此剪枝下去，直至得到根结点，可以得到一个子树序列$T_0,T_1,…,T_n$。在这一过程中，不断地增加$\alpha$的值，产生新的区间。</p>
+<h3 id="交叉验证确定最优子树"><a href="#交叉验证确定最优子树" class="headerlink" title="交叉验证确定最优子树"></a>交叉验证确定最优子树</h3><p>利用独立的验证数据集，测试子树序列$T_0,T_1,…,T_n$当中各棵子树的平方误差或者基尼不纯度。平方误差或者基尼不纯度最小的决策树被认为是最优的决策树。另外，在子树序列当中，每棵子树$T$都对应一个参数$\alpha$。所以，当最优子树$T_k$确定的时候，对应的$\alpha_k$也就确定了。</p>
+<h3 id="剪枝算法流程"><a href="#剪枝算法流程" class="headerlink" title="剪枝算法流程"></a>剪枝算法流程</h3><ul>
+<li>输入：CART算法生产的决策树$T_0$</li>
+<li>输出：最优决策树$T_{\alpha}$</li>
+<li>算法从不断遍历原树的各个节点开始<ul>
+<li>1）设$k=0,\,\,T=T_0$</li>
+<li>2）初始化$\alpha_{min}=\infty$，最优子树集合$\omega=\{T\}$</li>
+<li>3）从叶子节点开始自下而上计算各内部节点$t$的训练误差损失函数$C_{\alpha}(T_t)$（回归树为平方误差，分类树为基尼不纯度），叶子节点数$|T_t|$，以及正则化阈值：<br>$$g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}$$<br>$$\alpha_{min}=min(\alpha_{min},g(t))$$</li>
+<li>4）得到所有节点的$\alpha$值的集合$M$</li>
+<li>5）从$M$中选择最小的值$\alpha_k$，自上而下地访问的内部节点$t$，如果有$g(t)=\alpha$，进行剪枝，并决定叶节点$t$的值。如果是分类树，则是概率最高的类别，如果是回归树，则是所有样本输出的均值。这样得到$\alpha_k$对应的最优子树$T_k$</li>
+<li>6）最优子树集合$\omega=\omega \cup T_k,\,\,\,M=M-\{\alpha_k\}$，更新$k$： $k=k+1$</li>
+<li>7）如果$M$不为空，则回到步骤5。直到$M$为空，得到所有的可选最优子集$\omega$</li>
+<li>8）采用交叉验证在$\omega$上面选择最优子树$T_{\alpha}$</li>
+</ul>
+</li>
+</ul>
+<h2 id="应用场景和不足-2"><a href="#应用场景和不足-2" class="headerlink" title="应用场景和不足"></a>应用场景和不足</h2><p>应该说相比去ID3和C4.5算法，CART算法做了很大的提升，能同时处理离散型变量和连续型变量，即可以用于分类，也可以用于回归。无论是以对信息熵进行近似的基尼不纯度或者在线性回归当中非常常用的平方误差为损失函数，都有着不错的计算效率和较好的精度，而且还支持剪枝，能够较大幅度的提高泛化能力。但是作为基本的树模型还是有本身固有的一些缺陷存在：</p>
+<ul>
+<li>无论是ID3、C4.5还是CART，在做特征选择的时候都是选择最优的一个特征来做分类决策，但是大多数，分类决策不应该是由某一个特征决定的，而是应该由一组特征决定的，而且还要考虑特征之间的交叉特性。这样决策得到的决策树更加准确</li>
+<li>决策树算法非常容易过拟合，且本身极为不稳定，如果样本发生一点点的改动，就会导致树结构的剧烈改变。这看似是个缺点，但是却非常适合在集成学习当中被选为基学习器。比如XGBoost的基学习器就是CART树。</li>
+</ul>
+<h1 id="sklearn参数详解"><a href="#sklearn参数详解" class="headerlink" title="sklearn参数详解"></a>sklearn参数详解</h1><p>scikit-learn决策树算法类库内部实现是使用了调优过的CART树算法，既可以做分类，又可以做回归。分类决策树的类对应的是<a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier" target="_blank" rel="noopener">DecisionTreeClassifier</a>，而回归决策树的类对应的是<a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor" target="_blank" rel="noopener">DecisionTreeRegressor</a>。</p>
+<h2 id="DecisionTreeClassifier"><a href="#DecisionTreeClassifier" class="headerlink" title="DecisionTreeClassifier"></a><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier" target="_blank" rel="noopener">DecisionTreeClassifier</a></h2><h3 id="参数（Parameters）"><a href="#参数（Parameters）" class="headerlink" title="参数（Parameters）"></a>参数（Parameters）</h3><ul>
+<li><p><strong>criterion : string, optional (default=”gini”)</strong></p>
+<ul>
+<li>特征选择标准：可以使用”gini”或者”entropy”，前者代表基尼系数，后者代表信息增益。一般说使用默认的基尼系数”gini”就可以了，即CART算法。除非你更喜欢类似ID3, C4.5的最优特征选择方法</li>
+</ul>
+</li>
+<li><p><strong>splitter : string, optional (default=”best”)</strong></p>
+<ul>
+<li>特征划分点选择标准：可以使用”best”或者”random”。前者在特征的所有划分点中找出最优的划分点。后者是随机的在部分划分点中找局部最优的划分点。默认的”best”适合样本量不大的时候，而如果样本数据量非常大，此时决策树构建推荐”random” </li>
+</ul>
+</li>
+<li><p><strong>max_depth : int or None, optional (default=None)</strong></p>
+<ul>
+<li>树的最大深度：默认可以不输入，如果不输入的话，决策树在建立子树的时候不会限制子树的深度。一般来说，数据少或者特征少的时候可以不管这个值。如果模型样本量多，特征也多的情况下，推荐限制这个最大深度，具体的取值取决于数据的分布。常用的可以取值10-100之间</li>
+</ul>
+</li>
+<li><p><strong>min_samples_split : int, float, optional (default=2)</strong></p>
+<ul>
+<li>分裂一个内部节点所需要的最小的样本数：这个值限制了子树继续划分的条件，如果某节点的样本数少于<code>min_samples_split</code>，则不会继续再尝试选择最优特征来进行划分。 默认是2.如果样本量不大，不需要管这个值。如果样本量数量级非常大，则推荐增大这个值</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_samples_leaf : int, float, optional (default=1)</strong></p>
+<ul>
+<li>叶子节点所需要的最小样本数：这个值限制了叶子节点最少的样本数，如果某叶子节点数目小于样本数，则会和兄弟节点一起被剪枝。 默认是1,可以输入最少的样本数的整数，或者最少样本数占样本总数的百分比。如果样本量不大，不需要管这个值。如果样本量数量级非常大，则推荐增大这个值</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_weight_fraction_leaf : float, optional (default=0.)</strong></p>
+<ul>
+<li>叶子节点最小的样本权重和：这个值限制了叶子节点所有样本权重和的最小值，如果小于这个值，则会和兄弟节点一起被剪枝。 默认是0，就是不考虑权重问题。一般来说，如果我们有较多样本有缺失值，或者分类树样本的分布类别偏差很大，就会引入样本权重，这时我们就要注意这个值了</li>
+</ul>
+</li>
+<li><p><strong>max_features : int, float, string or None, optional (default=None)</strong></p>
+<ul>
+<li>寻找最优分裂的特征数量：可以使用很多种类型的值，默认是”None”,意味着划分时考虑所有的特征数；如果是”log2”意味着划分时最多考虑$\log N$个特征；如果是”sqrt”或者”auto”意味着划分时最多考虑$\sqrt{N}$个特征。如果是整数，代表考虑的特征绝对数。如果是浮点数，代表考虑特征百分比，即考虑（百分比x$N$）取整后的特征数。其中$N$为样本总特征数。一般来说，如果样本特征数不多，比如小于50，我们用默认的”None”就可以了，如果特征数非常多，我们可以灵活使用刚才描述的其他取值来控制划分时考虑的最大特征数，以控制决策树的生成时间</li>
+</ul>
+</li>
+<li><p><strong>random_state : int, RandomState instance or None, optional (default=None)</strong></p>
+<ul>
+<li>随机数种子</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>max_leaf_nodes : int or None, optional (default=None)</strong></p>
+<ul>
+<li>最大叶子节点数：通过限制最大叶子节点数，可以防止过拟合，默认是”None”，即不限制最大的叶子节点数。如果加了限制，算法会建立在最大叶子节点数内最优的决策树。如果特征不多，可以不考虑这个值，但是如果特征分成多的话，可以加以限制，具体的值可以通过交叉验证得到</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_impurity_decrease : float, optional (default=0.)</strong></p>
+<ul>
+<li>一个节点当且仅在分裂所减小的不纯度大于或者等于该值时才会分裂</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_impurity_split : float, (default=1e-7)</strong></p>
+<ul>
+<li>建树时候早停的基尼不纯度阈值：这个值限制了决策树的增长，如果某节点的不纯度(基尼系数，信息增益，均方差，绝对差)小于这个阈值，则该节点不再生成子节点。即为叶子节点。后续被<code>min_impurity_decrease</code>代替</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>class_weight : dict, list of dicts, “balanced” or None, default=None</strong></p>
+<ul>
+<li>类别权重：指定样本各类别的的权重，主要是为了防止训练集某些类别的样本过多，导致训练的决策树过于偏向这些类别。这里可以自己指定各个样本的权重，或者用“balanced”，如果使用“balanced”，则算法会自己计算权重，样本量少的类别所对应的样本权重会高。当然，如果你的样本类别分布没有明显的偏倚，则可以不管这个参数，选择默认的”None”。注意这些权重会与<code>sample_weight</code>相乘</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>presort : bool, optional (default=False)</strong></p>
+<ul>
+<li>数据是否预排序，对于大数据集如果预排序会增加训练时间</li>
+</ul>
+</li>
+</ul>
+<h3 id="属性（Attributes）"><a href="#属性（Attributes）" class="headerlink" title="属性（Attributes）"></a>属性（Attributes）</h3><ul>
+<li><p><strong>classes_ : array of shape = [n_classes] or a list of such arrays</strong></p>
+<ul>
+<li>类别标签</li>
+</ul>
+</li>
+<li><p><strong>feature_importances_ : array of shape = [n_features]</strong></p>
+<ul>
+<li>返回特征重要性系数 </li>
+</ul>
+</li>
+<li><p><strong>max_features_ : int,</strong></p>
+<ul>
+<li>最大特征数</li>
+</ul>
+</li>
+<li><p><strong>n_classes_ : int or list</strong></p>
+<ul>
+<li>类别数</li>
+</ul>
+</li>
+<li><p><strong>n_features_ : int</strong></p>
+<ul>
+<li>入模型的特征数</li>
+</ul>
+</li>
+<li><p><strong>n_outputs_ : int</strong></p>
+<ul>
+<li>输出类别数</li>
+</ul>
+</li>
+<li><p><strong>tree_ : Tree object</strong></p>
+<ul>
+<li>树对象</li>
+</ul>
+</li>
+</ul>
+<h3 id="方法（Methods）"><a href="#方法（Methods）" class="headerlink" title="方法（Methods）"></a>方法（Methods）</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">方法名称</th>
+<th style="text-align:center">方法解释 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">apply(self, X[, check_input])</td>
+<td style="text-align:center">Returns the index of the leaf that each sample is predicted as.</td>
+</tr>
+<tr>
+<td style="text-align:center">decision_path(self, X[, check_input])</td>
+<td style="text-align:center">Return the decision path in the tree</td>
+</tr>
+<tr>
+<td style="text-align:center">fit(self, X, y[, sample_weight, …])</td>
+<td style="text-align:center">Build a decision tree classifier from the training set (X, y).</td>
+</tr>
+<tr>
+<td style="text-align:center">get_depth(self)</td>
+<td style="text-align:center">Returns the depth of the decision tree.</td>
+</tr>
+<tr>
+<td style="text-align:center">get_n_leaves(self)</td>
+<td style="text-align:center">Returns the number of leaves of the decision tree.</td>
+</tr>
+<tr>
+<td style="text-align:center">get_params(self[, deep])</td>
+<td style="text-align:center">Get parameters for this estimator.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict(self, X[, check_input])</td>
+<td style="text-align:center">Predict class or regression value for X.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict_log_proba(self, X)</td>
+<td style="text-align:center">Predict class log-probabilities of the input samples X.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict_proba(self, X[, check_input])</td>
+<td style="text-align:center">Predict class probabilities of the input samples X.</td>
+</tr>
+<tr>
+<td style="text-align:center">score(self, X, y[, sample_weight])</td>
+<td style="text-align:center">Returns the mean accuracy on the given test data and labels.</td>
+</tr>
+<tr>
+<td style="text-align:center">set_params(self, **params)</td>
+<td style="text-align:center">Set the parameters of this estimator.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="DecisionTreeRegressor"><a href="#DecisionTreeRegressor" class="headerlink" title="DecisionTreeRegressor"></a><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor" target="_blank" rel="noopener">DecisionTreeRegressor</a></h2><h3 id="参数（Parameters）-1"><a href="#参数（Parameters）-1" class="headerlink" title="参数（Parameters）"></a>参数（Parameters）</h3><ul>
+<li><p><strong>criterion : string, optional (default=”mse”)</strong></p>
+<ul>
+<li>特征选择标准：可以使用”mse”或者”mae”，前者是均方差，后者是和均值之差的绝对值之和。推荐使用默认的”mse”。一般来说”mse”比”mae”更加精确。除非你想比较二个参数的效果的不同之处</li>
+</ul>
+</li>
+<li><p><strong>splitter : string, optional (default=”best”)</strong></p>
+<ul>
+<li>特征划分点选择标准：可以使用”best”或者”random”。前者在特征的所有划分点中找出最优的划分点。后者是随机的在部分划分点中找局部最优的划分点。默认的”best”适合样本量不大的时候，而如果样本数据量非常大，此时决策树构建推荐”random” </li>
+</ul>
+</li>
+<li><p><strong>max_depth : int or None, optional (default=None)</strong></p>
+<ul>
+<li>树的最大深度：默认可以不输入，如果不输入的话，决策树在建立子树的时候不会限制子树的深度。一般来说，数据少或者特征少的时候可以不管这个值。如果模型样本量多，特征也多的情况下，推荐限制这个最大深度，具体的取值取决于数据的分布。常用的可以取值10-100之间</li>
+</ul>
+</li>
+<li><p><strong>min_samples_split : int, float, optional (default=2)</strong></p>
+<ul>
+<li>分裂一个内部节点所需要的最小的样本数：这个值限制了子树继续划分的条件，如果某节点的样本数少于<code>min_samples_split</code>，则不会继续再尝试选择最优特征来进行划分。 默认是2.如果样本量不大，不需要管这个值。如果样本量数量级非常大，则推荐增大这个值</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_samples_leaf : int, float, optional (default=1)</strong></p>
+<ul>
+<li>叶子节点所需要的最小样本数：这个值限制了叶子节点最少的样本数，如果某叶子节点数目小于样本数，则会和兄弟节点一起被剪枝。 默认是1,可以输入最少的样本数的整数，或者最少样本数占样本总数的百分比。如果样本量不大，不需要管这个值。如果样本量数量级非常大，则推荐增大这个值</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_weight_fraction_leaf : float, optional (default=0.)</strong></p>
+<ul>
+<li>叶子节点最小的样本权重和：这个值限制了叶子节点所有样本权重和的最小值，如果小于这个值，则会和兄弟节点一起被剪枝。 默认是0，就是不考虑权重问题。一般来说，如果我们有较多样本有缺失值，或者分类树样本的分布类别偏差很大，就会引入样本权重，这时我们就要注意这个值了</li>
+</ul>
+</li>
+<li><p><strong>max_features : int, float, string or None, optional (default=None)</strong></p>
+<ul>
+<li>寻找最优分裂的特征数量：可以使用很多种类型的值，默认是”None”,意味着划分时考虑所有的特征数；如果是”log2”意味着划分时最多考虑$\log N$个特征；如果是”sqrt”或者”auto”意味着划分时最多考虑$\sqrt{N}$个特征。如果是整数，代表考虑的特征绝对数。如果是浮点数，代表考虑特征百分比，即考虑（百分比x$N$）取整后的特征数。其中$N$为样本总特征数。一般来说，如果样本特征数不多，比如小于50，我们用默认的”None”就可以了，如果特征数非常多，我们可以灵活使用刚才描述的其他取值来控制划分时考虑的最大特征数，以控制决策树的生成时间</li>
+</ul>
+</li>
+<li><p><strong>random_state : int, RandomState instance or None, optional (default=None)</strong></p>
+<ul>
+<li>随机数种子</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>max_leaf_nodes : int or None, optional (default=None)</strong></p>
+<ul>
+<li>最大叶子节点数：通过限制最大叶子节点数，可以防止过拟合，默认是”None”，即不限制最大的叶子节点数。如果加了限制，算法会建立在最大叶子节点数内最优的决策树。如果特征不多，可以不考虑这个值，但是如果特征分成多的话，可以加以限制，具体的值可以通过交叉验证得到</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_impurity_decrease : float, optional (default=0.)</strong></p>
+<ul>
+<li>一个节点当且仅在分裂所减小的不纯度大于或者等于该值时才会分裂</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_impurity_split : float, (default=1e-7)</strong></p>
+<ul>
+<li>建树时候早停的基尼不纯度阈值：这个值限制了决策树的增长，如果某节点的不纯度(基尼系数，信息增益，均方差，绝对差)小于这个阈值，则该节点不再生成子节点。即为叶子节点。后续被<code>min_impurity_decrease</code>代替</li>
+</ul>
+</li>
+<li><p><strong>presort : bool, optional (default=False)</strong></p>
+<ul>
+<li>数据是否预排序，对于大数据集如果预排序会增加训练时间</li>
+</ul>
+</li>
+</ul>
+<h3 id="属性（Attributes）-1"><a href="#属性（Attributes）-1" class="headerlink" title="属性（Attributes）"></a>属性（Attributes）</h3><ul>
+<li><p><strong>feature_importances_ : array of shape = [n_features]</strong></p>
+<ul>
+<li>返回特征重要性系数 </li>
+</ul>
+</li>
+<li><p><strong>max_features_ : int,</strong></p>
+<ul>
+<li>最大特征数</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>n_features_ : int</strong></p>
+<ul>
+<li>入模型的特征数</li>
+</ul>
+</li>
+<li><p><strong>n_outputs_ : int</strong></p>
+<ul>
+<li>输出类别数</li>
+</ul>
+</li>
+<li><p><strong>tree_ : Tree object</strong></p>
+<ul>
+<li>树对象</li>
+</ul>
+</li>
+</ul>
+<h3 id="方法（Methods）-1"><a href="#方法（Methods）-1" class="headerlink" title="方法（Methods）"></a>方法（Methods）</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">方法名称</th>
+<th style="text-align:center">方法解释 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">apply(self, X[, check_input])</td>
+<td style="text-align:center">Returns the index of the leaf that each sample is predicted as.</td>
+</tr>
+<tr>
+<td style="text-align:center">decision_path(self, X[, check_input])</td>
+<td style="text-align:center">Return the decision path in the tree</td>
+</tr>
+<tr>
+<td style="text-align:center">fit(self, X, y[, sample_weight, …])</td>
+<td style="text-align:center">Build a decision tree classifier from the training set (X, y).</td>
+</tr>
+<tr>
+<td style="text-align:center">get_depth(self)</td>
+<td style="text-align:center">Returns the depth of the decision tree.</td>
+</tr>
+<tr>
+<td style="text-align:center">get_n_leaves(self)</td>
+<td style="text-align:center">Returns the number of leaves of the decision tree.</td>
+</tr>
+<tr>
+<td style="text-align:center">get_params(self[, deep])</td>
+<td style="text-align:center">Get parameters for this estimator.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict(self, X[, check_input])</td>
+<td style="text-align:center">Predict class or regression value for X.</td>
+</tr>
+<tr>
+<td style="text-align:center">score(self, X, y[, sample_weight])</td>
+<td style="text-align:center">Returns the mean accuracy on the given test data and labels.</td>
+</tr>
+<tr>
+<td style="text-align:center">set_params(self, **params)</td>
+<td style="text-align:center">Set the parameters of this estimator.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="sklearn决策树可视化"><a href="#sklearn决策树可视化" class="headerlink" title="sklearn决策树可视化"></a>sklearn决策树可视化</h1><p>sklearn决策树可视化需要通过<code>pip</code>命令预先安装<code>graphviz</code>和<code>pydotplus</code>这两个模块。</p>
+<p>以下是以sklearn自带的iris数据集为例的一个决策树可视化示例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 载入类库</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> tree</span><br><span class="line"></span><br><span class="line"><span class="comment"># 载入数据</span></span><br><span class="line"></span><br><span class="line">iris_data = load_iris()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化决策树对象</span></span><br><span class="line"></span><br><span class="line">clf_model = tree.DecisionTreeClassifier()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用fit函数拟合模型</span></span><br><span class="line"></span><br><span class="line">clf_model = clf_model.fit(iris_data.data, iris_data.target)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 载入pydotplus 直接在notebook可视化决策树</span></span><br><span class="line"><span class="keyword">import</span> pydotplus</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> Image  </span><br><span class="line"></span><br><span class="line">dot_data = tree.export_graphviz(clf_model, out_file=<span class="keyword">None</span>, </span><br><span class="line">                         feature_names=iris_data.feature_names,  </span><br><span class="line">                         class_names=iris_data.target_names,  </span><br><span class="line">                         filled=<span class="keyword">True</span>, rounded=<span class="keyword">True</span>,  </span><br><span class="line">                         special_characters=<span class="keyword">True</span>)  </span><br><span class="line">graph = pydotplus.graph_from_dot_data(dot_data)  </span><br><span class="line">Image(graph.create_png())</span><br></pre></td></tr></table></figure>
+<p>以上代码生产的决策树的图形如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/%E5%86%B3%E7%AD%96%E6%A0%91/%E5%86%B3%E7%AD%96%E6%A0%91%E5%8F%AF%E8%A7%86%E5%8C%96.png" alt=""></p>
+<h1 id="决策树算法小结"><a href="#决策树算法小结" class="headerlink" title="决策树算法小结"></a>决策树算法小结</h1><p>这里从决策树算法这一个大类来总结决策树算法的优缺点，参考<a href="https://scikit-learn.org/stable/modules/tree.html#tree" target="_blank" rel="noopener">sklear的文档</a>进行整理。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>理解简单，易于解释，可以对树进行可视化</li>
+<li>基本不需要太多的数据准备和预处理，比如归一化、类别特征编码、缺失值处理等</li>
+<li>树模型的算法复杂度是训练样本的对数</li>
+<li>可以同时处理数值型变量和类别型变量，其它一些算法往往特别针对其中一类的数据</li>
+<li>天然可以处理多分类问题</li>
+<li>并非黑盒模型，从逻辑上面来讲模型解释性极强</li>
+<li>可以用统计测试对模型进行交叉验证，提高模型泛化能力和稳定性</li>
+<li>对于数据有较好的容错能力</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>决策树非常容易过拟合，剪枝机制、设置叶子节点最小样本数或者树的最大深度可以一定程度上面减少这个问题</li>
+<li>决策树模型非常不稳定，数据的极小波动都会引起模型的剧烈变化，这是个缺点，但是也使得决策树非常适合于用作集成学习的基学习器</li>
+<li>寻找最优的决策树是一个NP难的问题，我们一般是通过启发式方法比如贪心算法获得对于每一个节点的局部最优解。这种算法无法确保获得全局最优解，这个也为通过集成学习之类的方法来改善模型留足了空间</li>
+<li>有些比较复杂的关系，决策树很难学习，比如异或，这个和感知机类似，可以换神经网络的分类方法来解决</li>
+<li>如果某些特征的样本比例过大，生成决策树容易偏向于这些特征。这也是建议在建模之前进行样本平衡的原因</li>
+</ul>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>从任务功能上来讲，分类和回归决策树都不在话下，从笔者的从业经历来看，单纯使用决策树模型的场景不太多，仅在金融领域的贷前审核会使用到，通会决策树算法与其它机器学习算法结合起来使用或者用作Bagging或者Boosting算法的基学习器。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p><a href="https://book.douban.com/subject/26708119/" target="_blank" rel="noopener">《机器学习》，周志华</a></p>
+</li>
+<li><p><a href="https://book.douban.com/subject/33437381/" target="_blank" rel="noopener">《统计学习方法》（第二版），李航</a></p>
+</li>
+<li><p><a href="https://zh.wikipedia.org" target="_blank" rel="noopener">Wiki 百科中文版</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/pinard/p/6050306.html" target="_blank" rel="noopener">决策树算法原理(上)</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/pinard/p/6053344.html" target="_blank" rel="noopener">决策树算法原理(下)</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/pinard/p/6056319.html" target="_blank" rel="noopener">scikit-learn决策树算法类库介绍</a></p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/76667156" target="_blank" rel="noopener">基尼系数与基尼不纯度</a></p>
+</li>
+<li><p>C4.5. Programs for Machine Learning, J. Ross Quinlan, Elsevier Inc. 1993</p>
+</li>
+<li><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier" target="_blank" rel="noopener">sklearn.tree.DecisionTreeClassifier¶</a></p>
+</li>
+<li><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor" target="_blank" rel="noopener">sklearn.tree.DecisionTreeRegressor</a></p>
+</li>
+<li><p><a href="https://scikit-learn.org/stable/modules/tree.html#tree" target="_blank" rel="noopener">1.10. Decision Trees</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/09/11/决策树算法梳理/" title="决策树算法梳理">http://datacruiser.io/2019/09/11/决策树算法梳理/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sklearn/" rel="tag"># sklearn</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/熵/" rel="tag"># 熵</a>
+          
+            <a href="/tags/ID3/" rel="tag"># ID3</a>
+          
+            <a href="/tags/C4-5/" rel="tag"># C4.5</a>
+          
+            <a href="/tags/CART/" rel="tag"># CART</a>
+          
+            <a href="/tags/剪枝/" rel="tag"># 剪枝</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/" rel="next" title="Leetcode Tencent 50 5. Longest Palindromic Substring">
+                <i class="fa fa-chevron-left"></i> Leetcode Tencent 50 5. Longest Palindromic Substring
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/15/Leetcode-Tencent-50-2-Add-Two-Numbers/" rel="prev" title="Leetcode Tencent 50 Task 31 2. Add Two Numbers">
+                Leetcode Tencent 50 Task 31 2. Add Two Numbers <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#信息论基础"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4FE1;&#x606F;&#x8BBA;&#x57FA;&#x7840;" class="headerlink" title="&#x4FE1;&#x606F;&#x8BBA;&#x57FA;&#x7840;"></a>&#x4FE1;&#x606F;&#x8BBA;&#x57FA;&#x7840;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#熵"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x71B5;" class="headerlink" title="&#x71B5;"></a>&#x71B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联合熵"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x8054;&#x5408;&#x71B5;" class="headerlink" title="&#x8054;&#x5408;&#x71B5;"></a>&#x8054;&#x5408;&#x71B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件熵"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x6761;&#x4EF6;&#x71B5;" class="headerlink" title="&#x6761;&#x4EF6;&#x71B5;"></a>&#x6761;&#x4EF6;&#x71B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链式法制"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x94FE;&#x5F0F;&#x6CD5;&#x5236;" class="headerlink" title="&#x94FE;&#x5F0F;&#x6CD5;&#x5236;"></a>&#x94FE;&#x5F0F;&#x6CD5;&#x5236;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信息增益"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x4FE1;&#x606F;&#x589E;&#x76CA;" class="headerlink" title="&#x4FE1;&#x606F;&#x589E;&#x76CA;"></a>&#x4FE1;&#x606F;&#x589E;&#x76CA;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信息增益比"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x4FE1;&#x606F;&#x589E;&#x76CA;&#x6BD4;" class="headerlink" title="&#x4FE1;&#x606F;&#x589E;&#x76CA;&#x6BD4;"></a>&#x4FE1;&#x606F;&#x589E;&#x76CA;&#x6BD4;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基尼不纯度"><span class="nav-number">1.7.</span> <span class="nav-text"><a href="#&#x57FA;&#x5C3C;&#x4E0D;&#x7EAF;&#x5EA6;" class="headerlink" title="&#x57FA;&#x5C3C;&#x4E0D;&#x7EAF;&#x5EA6;"></a>&#x57FA;&#x5C3C;&#x4E0D;&#x7EAF;&#x5EA6;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ID3算法"><span class="nav-number">2.</span> <span class="nav-text"><a href="#ID3&#x7B97;&#x6CD5;" class="headerlink" title="ID3&#x7B97;&#x6CD5;"></a>ID3&#x7B97;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x539F;&#x7406;" class="headerlink" title="&#x539F;&#x7406;"></a>&#x539F;&#x7406;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景和不足"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;" class="headerlink" title="&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;"></a>&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C4-5算法"><span class="nav-number">3.</span> <span class="nav-text"><a href="#C4-5&#x7B97;&#x6CD5;" class="headerlink" title="C4.5&#x7B97;&#x6CD5;"></a>C4.5&#x7B97;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理-1"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x539F;&#x7406;-1" class="headerlink" title="&#x539F;&#x7406;"></a>&#x539F;&#x7406;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连续特征处理"><span class="nav-number">3.1.1.</span> <span class="nav-text"><a href="#&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x5904;&#x7406;" class="headerlink" title="&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x5904;&#x7406;"></a>&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x5904;&#x7406;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息增益准则校正"><span class="nav-number">3.1.2.</span> <span class="nav-text"><a href="#&#x4FE1;&#x606F;&#x589E;&#x76CA;&#x51C6;&#x5219;&#x6821;&#x6B63;" class="headerlink" title="&#x4FE1;&#x606F;&#x589E;&#x76CA;&#x51C6;&#x5219;&#x6821;&#x6B63;"></a>&#x4FE1;&#x606F;&#x589E;&#x76CA;&#x51C6;&#x5219;&#x6821;&#x6B63;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺失值处理"><span class="nav-number">3.1.3.</span> <span class="nav-text"><a href="#&#x7F3A;&#x5931;&#x503C;&#x5904;&#x7406;" class="headerlink" title="&#x7F3A;&#x5931;&#x503C;&#x5904;&#x7406;"></a>&#x7F3A;&#x5931;&#x503C;&#x5904;&#x7406;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过拟合问题"><span class="nav-number">3.1.4.</span> <span class="nav-text"><a href="#&#x8FC7;&#x62DF;&#x5408;&#x95EE;&#x9898;" class="headerlink" title="&#x8FC7;&#x62DF;&#x5408;&#x95EE;&#x9898;"></a>&#x8FC7;&#x62DF;&#x5408;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法流程"><span class="nav-number">3.1.5.</span> <span class="nav-text"><a href="#&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;" class="headerlink" title="&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;"></a>&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景和不足-1"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;-1" class="headerlink" title="&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;"></a>&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CART算法"><span class="nav-number">4.</span> <span class="nav-text"><a href="#CART&#x7B97;&#x6CD5;" class="headerlink" title="CART&#x7B97;&#x6CD5;"></a>CART&#x7B97;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CART分类树"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#CART&#x5206;&#x7C7B;&#x6811;" class="headerlink" title="CART&#x5206;&#x7C7B;&#x6811;"></a>CART&#x5206;&#x7C7B;&#x6811;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特征选择方法优化"><span class="nav-number">4.1.1.</span> <span class="nav-text"><a href="#&#x7279;&#x5F81;&#x9009;&#x62E9;&#x65B9;&#x6CD5;&#x4F18;&#x5316;" class="headerlink" title="&#x7279;&#x5F81;&#x9009;&#x62E9;&#x65B9;&#x6CD5;&#x4F18;&#x5316;"></a>&#x7279;&#x5F81;&#x9009;&#x62E9;&#x65B9;&#x6CD5;&#x4F18;&#x5316;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征处理优化"><span class="nav-number">4.1.2.</span> <span class="nav-text"><a href="#&#x7279;&#x5F81;&#x5904;&#x7406;&#x4F18;&#x5316;" class="headerlink" title="&#x7279;&#x5F81;&#x5904;&#x7406;&#x4F18;&#x5316;"></a>&#x7279;&#x5F81;&#x5904;&#x7406;&#x4F18;&#x5316;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#连续特征优化"><span class="nav-number">4.1.2.1.</span> <span class="nav-text"><a href="#&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x4F18;&#x5316;" class="headerlink" title="&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x4F18;&#x5316;"></a>&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x4F18;&#x5316;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#离散特征优化"><span class="nav-number">4.1.2.2.</span> <span class="nav-text"><a href="#&#x79BB;&#x6563;&#x7279;&#x5F81;&#x4F18;&#x5316;" class="headerlink" title="&#x79BB;&#x6563;&#x7279;&#x5F81;&#x4F18;&#x5316;"></a>&#x79BB;&#x6563;&#x7279;&#x5F81;&#x4F18;&#x5316;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建树算法流程"><span class="nav-number">4.1.3.</span> <span class="nav-text"><a href="#&#x5EFA;&#x6811;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;" class="headerlink" title="&#x5EFA;&#x6811;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;"></a>&#x5EFA;&#x6811;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CART回归树"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#CART&#x56DE;&#x5F52;&#x6811;" class="headerlink" title="CART&#x56DE;&#x5F52;&#x6811;"></a>CART&#x56DE;&#x5F52;&#x6811;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#回归树与分类树区别"><span class="nav-number">4.2.1.</span> <span class="nav-text"><a href="#&#x56DE;&#x5F52;&#x6811;&#x4E0E;&#x5206;&#x7C7B;&#x6811;&#x533A;&#x522B;" class="headerlink" title="&#x56DE;&#x5F52;&#x6811;&#x4E0E;&#x5206;&#x7C7B;&#x6811;&#x533A;&#x522B;"></a>&#x56DE;&#x5F52;&#x6811;&#x4E0E;&#x5206;&#x7C7B;&#x6811;&#x533A;&#x522B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建树算法流程-1"><span class="nav-number">4.2.2.</span> <span class="nav-text"><a href="#&#x5EFA;&#x6811;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;-1" class="headerlink" title="&#x5EFA;&#x6811;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;"></a>&#x5EFA;&#x6811;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CART剪枝"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#CART&#x526A;&#x679D;" class="headerlink" title="CART&#x526A;&#x679D;"></a>CART&#x526A;&#x679D;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝形成子树序列"><span class="nav-number">4.3.1.</span> <span class="nav-text"><a href="#&#x526A;&#x679D;&#x5F62;&#x6210;&#x5B50;&#x6811;&#x5E8F;&#x5217;" class="headerlink" title="&#x526A;&#x679D;&#x5F62;&#x6210;&#x5B50;&#x6811;&#x5E8F;&#x5217;"></a>&#x526A;&#x679D;&#x5F62;&#x6210;&#x5B50;&#x6811;&#x5E8F;&#x5217;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉验证确定最优子树"><span class="nav-number">4.3.2.</span> <span class="nav-text"><a href="#&#x4EA4;&#x53C9;&#x9A8C;&#x8BC1;&#x786E;&#x5B9A;&#x6700;&#x4F18;&#x5B50;&#x6811;" class="headerlink" title="&#x4EA4;&#x53C9;&#x9A8C;&#x8BC1;&#x786E;&#x5B9A;&#x6700;&#x4F18;&#x5B50;&#x6811;"></a>&#x4EA4;&#x53C9;&#x9A8C;&#x8BC1;&#x786E;&#x5B9A;&#x6700;&#x4F18;&#x5B50;&#x6811;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝算法流程"><span class="nav-number">4.3.3.</span> <span class="nav-text"><a href="#&#x526A;&#x679D;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;" class="headerlink" title="&#x526A;&#x679D;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;"></a>&#x526A;&#x679D;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景和不足-2"><span class="nav-number">4.4.</span> <span class="nav-text"><a href="#&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;-2" class="headerlink" title="&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;"></a>&#x5E94;&#x7528;&#x573A;&#x666F;&#x548C;&#x4E0D;&#x8DB3;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sklearn参数详解"><span class="nav-number">5.</span> <span class="nav-text"><a href="#sklearn&#x53C2;&#x6570;&#x8BE6;&#x89E3;" class="headerlink" title="sklearn&#x53C2;&#x6570;&#x8BE6;&#x89E3;"></a>sklearn&#x53C2;&#x6570;&#x8BE6;&#x89E3;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DecisionTreeClassifier"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#DecisionTreeClassifier" class="headerlink" title="DecisionTreeClassifier"></a><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier" target="_blank" rel="noopener">DecisionTreeClassifier</a></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数（Parameters）"><span class="nav-number">5.1.1.</span> <span class="nav-text"><a href="#&#x53C2;&#x6570;&#xFF08;Parameters&#xFF09;" class="headerlink" title="&#x53C2;&#x6570;&#xFF08;Parameters&#xFF09;"></a>&#x53C2;&#x6570;&#xFF08;Parameters&#xFF09;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性（Attributes）"><span class="nav-number">5.1.2.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;&#xFF08;Attributes&#xFF09;" class="headerlink" title="&#x5C5E;&#x6027;&#xFF08;Attributes&#xFF09;"></a>&#x5C5E;&#x6027;&#xFF08;Attributes&#xFF09;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法（Methods）"><span class="nav-number">5.1.3.</span> <span class="nav-text"><a href="#&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;" class="headerlink" title="&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;"></a>&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DecisionTreeRegressor"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#DecisionTreeRegressor" class="headerlink" title="DecisionTreeRegressor"></a><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor" target="_blank" rel="noopener">DecisionTreeRegressor</a></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数（Parameters）-1"><span class="nav-number">5.2.1.</span> <span class="nav-text"><a href="#&#x53C2;&#x6570;&#xFF08;Parameters&#xFF09;-1" class="headerlink" title="&#x53C2;&#x6570;&#xFF08;Parameters&#xFF09;"></a>&#x53C2;&#x6570;&#xFF08;Parameters&#xFF09;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性（Attributes）-1"><span class="nav-number">5.2.2.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;&#xFF08;Attributes&#xFF09;-1" class="headerlink" title="&#x5C5E;&#x6027;&#xFF08;Attributes&#xFF09;"></a>&#x5C5E;&#x6027;&#xFF08;Attributes&#xFF09;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法（Methods）-1"><span class="nav-number">5.2.3.</span> <span class="nav-text"><a href="#&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;-1" class="headerlink" title="&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;"></a>&#x65B9;&#x6CD5;&#xFF08;Methods&#xFF09;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sklearn决策树可视化"><span class="nav-number">6.</span> <span class="nav-text"><a href="#sklearn&#x51B3;&#x7B56;&#x6811;&#x53EF;&#x89C6;&#x5316;" class="headerlink" title="sklearn&#x51B3;&#x7B56;&#x6811;&#x53EF;&#x89C6;&#x5316;"></a>sklearn&#x51B3;&#x7B56;&#x6811;&#x53EF;&#x89C6;&#x5316;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#决策树算法小结"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x51B3;&#x7B56;&#x6811;&#x7B97;&#x6CD5;&#x5C0F;&#x7ED3;" class="headerlink" title="&#x51B3;&#x7B56;&#x6811;&#x7B97;&#x6CD5;&#x5C0F;&#x7ED3;"></a>&#x51B3;&#x7B56;&#x6811;&#x7B97;&#x6CD5;&#x5C0F;&#x7ED3;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">7.1.</span> <span class="nav-text"><a href="#&#x4F18;&#x70B9;" class="headerlink" title="&#x4F18;&#x70B9;"></a>&#x4F18;&#x70B9;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">7.2.</span> <span class="nav-text"><a href="#&#x7F3A;&#x70B9;" class="headerlink" title="&#x7F3A;&#x70B9;"></a>&#x7F3A;&#x70B9;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用场景"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x5E94;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x5E94;&#x7528;&#x573A;&#x666F;"></a>&#x5E94;&#x7528;&#x573A;&#x666F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x53C2;&#x8003;" class="headerlink" title="&#x53C2;&#x8003;"></a>&#x53C2;&#x8003;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/09/11/决策树算法梳理/';
+          this.page.identifier = '2019/09/11/决策树算法梳理/';
+          this.page.title = '决策树算法梳理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="集成学习,sklearn,机器学习,GBDT,Gradient Boosting," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="DataWhale暑期学习小组-高级算法梳理第八期Task2。">
+<meta name="keywords" content="集成学习,sklearn,机器学习,GBDT,Gradient Boosting">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GBDT算法梳理">
+<meta property="og:url" content="http://datacruiser.io/2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="DataWhale暑期学习小组-高级算法梳理第八期Task2。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.384Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GBDT算法梳理">
+<meta name="twitter:description" content="DataWhale暑期学习小组-高级算法梳理第八期Task2。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/"/>
+
+
+
+
+
+  <title>GBDT算法梳理 | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GBDT算法梳理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-08T14:32:27+00:00">
+                2019-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6.7k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  28
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  DataWhale暑期学习小组-高级算法梳理第八期Task2。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>GBDT（Gradient Boosting Decision Tree）是一种可用于处理分类（classification）和回归（regression）任务的机器学习集成算法，和其它Boosting族的算法类似地分步构建模型，然后通过对任意可微的损失函数（loss function）的优化来进行推广运用。</p>
+<p>Gradient Boosting的思想起源于Leo Briman的评论：Boosting可以解释为一个基于合适的损失函数的优化算法。随后Friedman开发了显式回归梯度提升算法，同时部分学者从更通用的函数梯度下降（functional gradient descent）视角进行跟进，发表了将boosting算法作为迭代函数梯度下降算法（iterative functinal gradient descent algorithms）的观点。也就是说，GBDT是一种通过迭代选定的指向负梯度方向的函数（弱学习器）在函数空间对损失函数进行优化的算法。这种将boosting视为函数梯度的观点也推动了boosting族算法在回归和分类以外的其它机器（统计）学习领域的发展。</p>
+<h1 id="前向分布算法"><a href="#前向分布算法" class="headerlink" title="前向分布算法"></a>前向分布算法</h1><p>考虑加法模型（additive model）</p>
+<p>$$f(x)=\sum_{m=1}^M\beta_mb(x;\gamma_m)$$</p>
+<p>其中，$b(x;\gamma_m)$为基函数，$\gamma_m$为基函数的参数，$\beta_m$为基函数的系数。</p>
+<p>在给定训练数据以及损失函数$L(Y,f(x))$的条件下，学习加法模型$f(x)$成为经验风险极小化即损失函数极小化问题：</p>
+<p>$$\mathop{\arg\min}_{\beta_m,\;\gamma_m}\sum_{i=1}^{N}L\left(y_i,\sum_{m=1}^{M}\beta_mb(x_i;\gamma_m)\right)$$</p>
+<p>通常来说，这是一个复杂的优化问题，NP难。</p>
+<p>而前向分步算法（forward stage-wise algorithm）求解这一优化问题采用的是贪心策略：</p>
+<ul>
+<li>因为是加法模型，从前往后，每一步只学习一个基函数及其系数</li>
+<li>通过迭代，逐步逼近优化目标函数，求局部最优解，达到简化优化的复杂度</li>
+<li>每步只需优化的如下损失函数：</li>
+</ul>
+<p>$$\mathop{\arg\min}_{\beta,\;\gamma}L\left(y_i,\sum_{i=1}^{N}\beta\;b(x_i;\gamma)\right)$$</p>
+<p>前向分步算法的具体流程如下：</p>
+<ul>
+<li><p><strong>输入：</strong></p>
+<ul>
+<li>训练数据集$T=\{(x_1,y_1),(x_2,y_2),…,(x_N,y_N)\},x_i\in X\subseteq R^n,y_i \in Y=\{-1,+1\}$；损失函数 $L(Y,f(X))$；基函数集$\{b(x;\gamma)\}$</li>
+</ul>
+</li>
+<li><p><strong>输出：</strong></p>
+<ul>
+<li>加法模型 $f(x)$</li>
+</ul>
+</li>
+<li><p>初始化 $f_0(x)$</p>
+</li>
+<li>对$m=1,2,…,M$<ul>
+<li>极小化损失函数，得到参数$\beta_m,\,\gamma_m$<br>$$(\beta_m,\,\gamma_m)=\mathop{\arg\min}_{\beta,\;\gamma}\sum_{i=1}^{N}L\left(y_i,\,f_{m-1}(x_i)+\beta\;b(x_i;\gamma)\right)$$</li>
+<li>更新<br>$$f_m(x)=f_{m-1}(x)+\beta_mb(x;\gamma_m)$$</li>
+</ul>
+</li>
+<li>得到加法模型<br>$$f(x)=f_M(x)=\sum_{m=1}^M\beta_mb(x;\gamma_m)$$</li>
+</ul>
+<p>这样，前向分步算法将同时求解从$m=1$到$M$所有参数$\beta_m,\,\gamma_m$的优化问题简化为逐次求解各个$\beta_m,\,\gamma_m$的优化问题。</p>
+<h1 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h1><p>负梯度拟合，顾名思义，就是在损失函数梯度的负方向上进行拟合，这个和梯度下降算法咋看起来非常类似，梯度下降是在参数空间沿着负梯度的方向进行拟合，而Gradient Boosting是在函数空间沿着负梯度的方向进行拟合。这一方法由Freidman最早提出，用损失函数的负梯度来拟合本轮损失的近似值，第$m$轮的第$i$个样本的损失函数的负梯度表示为：</p>
+<p>$$r_{mi}=-[\frac{\partial L(y_i,\,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m-1}(x)}$$</p>
+<p>那么问题来了，为什么要拟合负梯度？这就涉及到泰勒公式和梯度下降算法了。</p>
+<h2 id="泰勒公式"><a href="#泰勒公式" class="headerlink" title="泰勒公式"></a>泰勒公式</h2><ul>
+<li><p>定义：泰勒公式是一个用函数在某点的信息描述其附近取值的近似公式，具有局部 有效性。</p>
+</li>
+<li><p>基本形式<br>$$f(x)=\sum_{n=0}^\infty\frac{f^{(n)}x_0}{n!}(x-x_o)^n$$</p>
+<ul>
+<li>一阶泰勒展开：<br>$$f(x)\approx f(x_0)+f’(x_0)(x-x_0)$$</li>
+<li>二阶泰勒展开：<br>$$f(x)\approx f(x_0)+f’(x_0)(x-x_0)+f’’(x_0)\frac{(x-x_0)^2}{2}$$</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>迭代形式</li>
+</ul>
+<p>假设$x^t=x^(t-1)+\Delta    x$，将$f(x^t)$在$x^{t-1}$处进行泰勒展开：<br>    $$<br>    \begin{align}<br>   f(x^t) &amp;=f(x^{t-1}+\Delta x) \\\ <br>    &amp; \approx f(x_0)+f’(x_0)(x-x_0)+f’’(x_0)\frac{(x-x_0)^2}{2}<br>    \end{align}<br>$$</p>
+<h2 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h2><p>在机器学习任务中，需要最小化损失函数 $L(\theta)$ ，其中 $\theta$是要求解的模型参数。梯度下降法常用来求解这种无约束最优化问题，它是一种迭代方法：选择初值 $\theta^0$，不断迭代更新 $\theta$ 的值，进行损失函数极小化。</p>
+<ul>
+<li>迭代公式： $\theta^t=\theta^{t-1}+\Delta\theta$</li>
+<li><p>将 $L(\theta^t)$ 在 $\theta^{t-1}$ 处进行一阶泰勒展开： $$<br>  \begin{align}<br> L(\theta^t) &amp;=L(\theta^{t-1}+\Delta \theta\,) \\\ <br>  &amp; \approx L(\theta^{t-1})+L’(\theta^{t-1})\,\Delta\theta<br>  \end{align}<br>$$</p>
+</li>
+<li><p>要使得  $L(\theta^t) &lt;L(\theta^{t-1}$ ，可取： $\Delta\theta=-\alpha L’(\theta^{t-1})$ ，则：  $\theta^t=\theta^{t-1}-\alpha L’(\theta^{t-1})$ ，这里 $\alpha$ 是步长，一般直接赋值一个小的数。</p>
+</li>
+</ul>
+<p>相对的，在函数空间里，有 $f^t(x)=f^{t-1}(x)+f_t(x)$</p>
+<p>此处把 $L(f^t(x))$ 看成提升树算法的第 $t$ 步损失函数的值， $L(f^{t-1}(x))$为第 $t-1$ 步损失函数值，要使  $L(f^t(x))&lt;L(f^{t-1}(x))$ ，则需要 $f_t(x)=-\alpha g_t(x)$ ，这里 $-g_t(x)$ 为当前模型的负梯度值，即第$t$步的回归树需要拟合的值。</p>
+<h1 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h1><p>因为GBDT是通过拟合损失函数负梯度来进行学习的，所有损失函数的选择非常重要。这里我们对GBDT常用的损失函数再做一个总结。</p>
+<h2 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h2><ul>
+<li>指数损失函数：</li>
+</ul>
+<p>$$L(y,f(x))=e^{(-yf(x))}$$</p>
+<ul>
+<li>对数似然损失函数（二分类）：</li>
+</ul>
+<p>$$L(y,f(x))=log\left(1+e^{(-yf(x))}\right)$$</p>
+<ul>
+<li>对数似然损失函数（多分类）：</li>
+</ul>
+<p>$$L(y,f(x))=-\sum_{k=1}^Ky_k\,log\,p_k(x)$$</p>
+<h2 id="回归问题"><a href="#回归问题" class="headerlink" title="回归问题"></a>回归问题</h2><ul>
+<li>平方损失函数：</li>
+</ul>
+<p>$$L(y,f(x))=(y-f(x))^2$$</p>
+<p>此时，负梯度正好与每一步迭代损失函数的残差相等，拟合负梯度也等同于拟合残差。</p>
+<ul>
+<li>绝对损失函数：</li>
+</ul>
+<p>$$L(y,f(x))=|(y-f(x))|$$</p>
+<p>对应负梯度方向为：</p>
+<p>$$sign(y_i-f(x_i))$$</p>
+<ul>
+<li>Huber损失，它是均方差和绝对损失的折中产物，对于远离中心的异常点，采用绝对损失误差，而对于靠近中心的点则采用平方损失。这个界限一般用分位数点度量。损失函数如下：</li>
+</ul>
+<p>$$<br>L(y,f(x))=\begin{cases}<br>\frac{1}{2}(y-f(x))^2,\quad &amp;|y-f(x)|\leq \delta \\\\<br>\delta\left(|y-f(x)|-\frac{\delta}{2}\right),\quad &amp;|y-f(x)|&gt;0<br>\end{cases}<br>$$</p>
+<p>对应的负梯度误差为：</p>
+<ul>
+<li>分位数损失，它对应的是分位数回归的损失函数，表达式为：</li>
+</ul>
+<p>$$L(y,f(x))=\sum_{y\geq f(x)}\theta|y-f(x)|+\sum_{y&lt;f(x)}(1-\theta)|y-f(x)|$$</p>
+<p>其中$\theta$为分位数，需要我们再回归前制定。对应的负梯度误差为：</p>
+<p>$$<br>r(y_i,f(x_i))=\begin{cases}<br>\theta, \quad &amp;y_i\geq f(x_i) \\\\<br>\theta-1,\quad &amp;y_i&lt; f(x_i)<br>\end{cases}<br>$$</p>
+<p>对于Huber损失和分位数损失，主要用于健壮回归，也就是减少异常点对损失函数的影响。</p>
+<h1 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h1><p>有了损失函数和损失函数拟合策略，下面来看看GBDT的具体实现。考虑到回归问题处理负梯度相对简单，那么从回归问题开始讲。</p>
+<ul>
+<li><p><strong>输入：</strong></p>
+<ul>
+<li>训练数据集$T=\{(x_1,y_1),(x_2,y_2),…,(x_N,y_N)\},x_i\in X\subseteq R^n,y_i \in Y\subseteq R$；损失函数$L(Y,f(X))$；最大迭代次数 $M$。</li>
+</ul>
+</li>
+<li><p><strong>输出：</strong></p>
+<ul>
+<li>回归树 $f(x)$</li>
+</ul>
+</li>
+<li><p>初始化弱学习器 $$f_0(x)=\mathop{\arg\min}_{c}\sum_{i=1}^{N}L(y_i,c)$$</p>
+</li>
+<li>对$m=1,2,…,M$<ul>
+<li>对$i=1,2,…,N$，计算损失函数在当前模型的负梯度：<br>$$r_{mi}=-[\frac{\partial L(y_i,\,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m-1}(x)}$$</li>
+<li>利用$(x_i,r_{mi})\,(i=1,2,…,N)$，拟合一棵CART树，得到第$m$棵树，其对应的叶子节点区域为$R_{mj},\,j=1,2,…,J$。其中$J$为树$m$的叶子节点的个数。</li>
+<li>对$j=1,2,…,J$，在损失函数极小化条件下，估计出相应叶节点区域的最佳拟合值：<br>$$c_{mj}=\mathop{\arg\min}_{c}\sum_{x_j\in R_{mj}}^{N}L(y_i,f_{m-1}(x_i)+c)$$</li>
+<li>更新强学习器：<br>$$f_m(x)=f_{m-1}(x)+\sum_{j=1}^{J}c_{mj}\,I(x\in R_{mj})$$</li>
+</ul>
+</li>
+<li>得到强学习器$f(x)$的表达式：<br>$$f(x)=f_M(x)=f_0(x)+\sum_{m=1}^M\sum_{j=1}^{J}c_{mj}\,I(x\in R_{mj})$$</li>
+</ul>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><p>下面再看看GBDT分类算法，GBDT的分类算法从思想上和GBDT的回归算法没有区别，但是由于样本输出不是连续的值，而是离散的类别，导致我们无法直接从输出类别去拟合类别输出的误差，好在GBDT可以根据学习任务灵活选择相应的损失函数。</p>
+<p>为了解决这个问题，有两个方法，一个是用指数损失函数，此时GBDT退化为Adaboost算法。另一种方法用类似逻辑回归的对数似然函数的方法。也就是说，我们用的是类别的预测概率值和真实概率值的差来拟合损失。Adaboost算法已经在<a href="http://datacruiser.io/2019/08/05/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E7%AE%97%E6%B3%95%E6%A2%B3%E7%90%86/">随机森林算法梳理</a>涉及，此处仅讨论用对数似然函数的GBDT分类算法。并且，分布讨论采用对数似然损失函数的二元分类和多元分类的区别。</p>
+<h2 id="二分类"><a href="#二分类" class="headerlink" title="二分类"></a>二分类</h2><ul>
+<li><p><strong>输入：</strong></p>
+<ul>
+<li>训练数据集$T=\{(x_1,y_1),(x_2,y_2),…,(x_N,y_N)\},x_i\in X\subseteq R^n,y_i \in Y=\{-1,+1\}$；损失函数$L(y,f(x))=log\left(1+e^{(-yf(x))}\right)$；最大迭代次数$M$。</li>
+</ul>
+</li>
+<li><p><strong>输出：</strong></p>
+<ul>
+<li>分类树 $f(x)$</li>
+</ul>
+</li>
+<li><p>初始化弱学习器 $$f_0(x)=\mathop{\arg\min}_{c}\sum_{i=1}^{N}L(y_i,c)$$</p>
+</li>
+<li>对$m=1,2,…,M$<ul>
+<li>对$i=1,2,…,N$，计算损失函数在当前模型的负梯度：<br>$$r_{mi}=-[\frac{\partial L(y_i,\,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m-1}(x)}=\frac{y_i}{1+e^{(y_i\,f(x_i))}}$$</li>
+<li>利用$(x_i,r_{mi})\,(i=1,2,…,N)$，拟合一棵CART树，得到第$m$棵树，其对应的叶子节点区域为$R_{mj},\,j=1,2,…,J$。其中$J$为树$m$的叶子节点的个数。</li>
+<li>对$j=1,2,…,J$，在损失函数极小化条件下，估计出相应叶节点区域的最佳拟合值：<br>$$c_{mj}=\mathop{\arg\min}_{c}\sum_{x_j\in R_{mj}}^{N}log\left(1+e^{(-y_i(f_{t-1}(x_i)+c))}\right)$$</li>
+<li>由于上式比较难优化，我们一般使用近似值代替：<br>$$c_{mj}=\sum_{x_j\in R_{mj}}/\sum_{x_j\in R_{mj}}|r_{mi}|(1-|r_{mi}|)$$</li>
+<li>更新强学习器：<br>$$f_m(x)=f_{m-1}(x)+\sum_{j=1}^{J}c_{mj}\,I(x\in R_{mj})$$</li>
+</ul>
+</li>
+<li>得到强学习器$f(x)$的表达式：<br>$$f(x)=f_M(x)=f_0(x)+\sum_{m=1}^M\sum_{j=1}^{J}c_{mj}\,I(x\in R_{mj})$$</li>
+</ul>
+<p>不难发现，除了负梯度计算和叶子节点的最佳负梯度拟合的线性搜索，二元GBDT分类和GBDT回归算法过程相同。</p>
+<h2 id="多分类"><a href="#多分类" class="headerlink" title="多分类"></a>多分类</h2><p>考虑到分类和回归算法的过程相似性，以下就阐述多分类GBDT算法的时候不再给出具体的流程，而仅仅列出差异的部分。</p>
+<p>多分类GBDT比二分类GBDT复杂些，对应的是多元逻辑回归和二元逻辑回归的复杂度差别。假设类别数为$K$，则此时我们的对数似然损失函数为：</p>
+<p>$$L(y,f(x))=-\sum_{k=1}^Ky_k\,log\,p_k(x)$$</p>
+<p>其中如果样本输出类别为 $k$，则 $y_i$ =1，第 $k$ 类的概率 $p_k(x)$ 的表达式为：</p>
+<p>$$p_k(x)=\frac{e^{f_k(x)}}{\sum_{l=1}^{K}e^{f_l(x)}}$$</p>
+<p>集合上两式，我们可以计算出第 $m$ 轮的第 $i$ 个样本对应类别 $l$ 的负梯度误差为：</p>
+<p>$$r_{mil}=-[\frac{\partial L(y_i,\,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{l,\,m-1}(x)}=y_{il}-p_{l,m-1}(x_i)$$</p>
+<p>观察上式可以看出，其实这里的误差就是样本 $i$ 对应类别 $l$ 的真实概率和 $t-1$ 轮预测概率的差值。</p>
+<p>对于生成的决策树，我们各个叶子节点的最佳负梯度拟合值为：</p>
+<p>$$c_{mjl}=\mathop{\arg\min}_{c_{jl}}\sum_{i=0}^{m}\sum_{k=1}^{K}L\left(y_k,\,f_{m-1,\,l}(x)+\sum_{j=0}^{J}c_{jl}\,I(x_i \in R_{mj})\right)$$</p>
+<p>由于上式比较难优化，我们一般使用近似值代替:</p>
+<p>$$c_{mjl}=\frac{K}{K-1}\frac{\sum_{x_i\in R_{mjl}}r_{mil}}{\sum_{x_i\in R_{mil}}|r_{mil}|(1-|r_{mil}|)}$$</p>
+<p>除了负梯度计算和叶子节点的最佳负梯度拟合的线性搜索，多分类GBDT与二分类GBDT以及GBDT回归算法过程相同。</p>
+<h1 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h1><p>GBDT有非常快降低Loss的能力，这也会造成一个问题：Loss迅速下降，模型偏差（bias），方差（variance）高，造成过拟合。下面简单介绍GBDT中抵抗过拟合的方法：</p>
+<ul>
+<li>限制树的复杂度，即对弱学习器CART树进行正则化剪枝，比如如控制树的最大深度、节点的最少样本数、最大叶子节点数、节点分支的最小样本数等</li>
+<li>Shrinkage，其思想认为，每次走一小步逐渐逼近结果的效果，要比每次迈一大步很快逼近结果的方式更容易避免过拟合。即它不完全信任每一个棵残差树，它认为每棵树只学到了真理的一小部分，累加的时候只累加一小部分，通过多学几棵树弥补不足。用方程来看更清晰，即给每棵数的输出结果乘上一个步长$\alpha$（learning rate）</li>
+</ul>
+<p>对于前面的弱学习器的迭代：</p>
+<p>$$f_m(x)=f_{m-1}(x)+T(x;\gamma_m)$$</p>
+<p>加上正则化项，则有</p>
+<p>$$f_m(x)=f_{m-1}(x)+\alpha\, T(x;\gamma_m)$$</p>
+<p>此处，$\alpha$的取值范围为(0,1]。对于同样的训练集学习效果，较小$\alpha$的意味着需要更多的弱学习器的迭代次数。通常我们用步长和迭代最大次数一起决定算法的拟合效果。</p>
+<p>下面是Sklearn的实现关于该参数设置的片段，XGBoost类似：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#code snippets from sklearn.ensemble.gradient_boosting</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GradientBoostingClassifier</span><span class="params">(BaseGradientBoosting, ClassifierMixin)</span>:</span></span><br><span class="line">    <span class="string">"""Gradient Boosting for classification."""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, ..., learning_rate=<span class="number">0.1</span>, n_estimators=<span class="number">100</span>, ...)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Parameters</span></span><br><span class="line"><span class="string">    ----------</span></span><br><span class="line"><span class="string">    learning_rate : float, optional (default=0.1)</span></span><br><span class="line"><span class="string">        learning rate shrinks the contribution of each tree by `learning_rate`.</span></span><br><span class="line"><span class="string">        There is a trade-off between learning_rate and n_estimators.</span></span><br><span class="line"><span class="string">    n_estimators : int (default=100)</span></span><br><span class="line"><span class="string">        The number of boosting stages to perform. Gradient boosting</span></span><br><span class="line"><span class="string">        is fairly robust to over-fitting so a large number usually</span></span><br><span class="line"><span class="string">        results in better performance</span></span><br><span class="line"><span class="string">    """</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>子采样比例(subsample)，取值范围为(0,1]，GBDT这里的做法是在每一轮建树时，样本是从原始训练集中采用无放回随机抽样的方式产生，与随机森立的有放回抽样产生采样集的方式不同。若取值为1，则采用全部样本进行训练，若取值小于1，则不选取全部样本进行训练。选择小于1的比例可以减少方差，防止过拟合，但可能会增加样本拟合的偏差。取值要适中，推荐<strong>[0.5,0.8]</strong></li>
+<li>Early stop，因为GBDT的可叠加性，我们使用的模型不一定是最终的ensemble，而根据测试集的测试情况，选择使用前若干棵树</li>
+</ul>
+<h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>可以灵活处理各种类型的数据，包括连续值和离散值</li>
+<li>具有伸缩不变性，不用归一化特征</li>
+<li>具有特征组合和特征选择的作用</li>
+<li>可自然地处理缺失值</li>
+<li>相对SVM而言，在相对较少的调参时间情况下，预测的准确率也比较高</li>
+<li>在使用一些健壮的损失函数，对异常值得鲁棒性非常强。比如Huber损失函数和Quantile损失函数</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>由于弱学习器之间存在较强依赖关系，难以整体并行训练</li>
+</ul>
+<h1 id="sklearn中的参数解释"><a href="#sklearn中的参数解释" class="headerlink" title="sklearn中的参数解释"></a>sklearn中的参数解释</h1><p>在sklearn当中按学习任务的不同一共有两个（暂不考虑其它对GBDT优化的框架）与GBDT相关的类：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier" target="_blank" rel="noopener">GradientBoostingClassifier</a>应用于分类学习任务，<a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor" target="_blank" rel="noopener">GradientBoostingRegressor</a>应用于回归学习任务。</p>
+<h3 id="GradientBoostingClassifier"><a href="#GradientBoostingClassifier" class="headerlink" title="GradientBoostingClassifier"></a>GradientBoostingClassifier</h3><h4 id="参数（parameters）"><a href="#参数（parameters）" class="headerlink" title="参数（parameters）"></a>参数（parameters）</h4><ul>
+<li><p><strong>loss : {‘deviance’, ‘exponential’}, optional (default=’deviance’)</strong></p>
+<ul>
+<li>需要优化的损失函数</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>learning_rate : float, optional (default=0.1)</strong></p>
+<ul>
+<li>学习率（learning_rate），与<code>n_estimators</code>之间有个平衡</li>
+</ul>
+</li>
+<li><p><strong>n_estimators : int (default=100)</strong></p>
+<ul>
+<li>boosting迭代步数，Gradient boosting通常对于过拟合有鲁棒性，一个较大的数通常意味着更好的性能，整型，默认时100</li>
+</ul>
+</li>
+<li><p><strong>subsample : float, optional (default=1.0)</strong></p>
+<ul>
+<li>用于训练基学习器的样本采样比例，小于1.0则等同于随机梯度提升（Stochasitc Gradient Boosting），与<code>n_estimators</code>相互作用，如果小于1则会减少方差，增加偏差</li>
+</ul>
+</li>
+<li><p><strong>criterion : string, optional (default=”friedman_mse”)</strong></p>
+<ul>
+<li>衡量特征分裂质量的函数，这是一个与基学习器决策树相关的参数，字符串类型，可选项，默认是”friedman_mse”</li>
+</ul>
+</li>
+<li><p><strong>min_samples_split : int, float, optional (default=2)</strong></p>
+<ul>
+<li>用于分裂一个内部结点的最小所需的样本数，整型或者浮点型，可选项，默认是2</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_samples_leaf : int, float, optional (default=1)</strong></p>
+<ul>
+<li>一个叶子结点所要求的最小样本个数，这个参数有平滑模型的作用，特别是回归的学习任务里面。整型或者浮点型，可选项，默认是1</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_weight_fraction_leaf : float, optional (default=0.)</strong></p>
+<ul>
+<li>一个叶子结点所有输入样本权重总和的最小权重分数，浮点型，可选项，默认为0.</li>
+</ul>
+</li>
+<li><p><strong>max_depth : integer, optional (default=3)</strong></p>
+<ul>
+<li>单棵回归树的最大深度，需要进行调参来获得更好的性能</li>
+</ul>
+</li>
+<li><p><strong>min_impurity_decrease : float, optional (default=0.)</strong></p>
+<ul>
+<li>最小不纯度减少值，结点将会继续分裂，如果这个分裂对于不纯度的减少能够大于或者等于该值。浮点型，可选项，默认为0.</li>
+</ul>
+</li>
+<li><p><strong>min_impurity_split : float, (default=1e-7)</strong></p>
+<ul>
+<li>建树过程中早起停止的阈值。如果节点的不纯度大于该值将会继续分裂，否则停止，成为叶子结点。浮点型，默认为1e-7</li>
+<li>后续将会被<code>min_impurity_decrease</code>参数替代</li>
+</ul>
+</li>
+<li><p><strong>init : estimator or ‘zero’, optional (default=None)</strong></p>
+<ul>
+<li>用来模型初始化的学习器对象，可以提供<code>fit</code>或者<code>predict</code>对象，如果是“zero”则初始预测为0</li>
+</ul>
+</li>
+<li><p><strong>random_state : int, RandomState instance or None, optional (default=None)</strong></p>
+<ul>
+<li>随机状态，有以下三种方式<ul>
+<li>int, random_state is the seed used by the random number generator; </li>
+<li>RandomState instance, random_state is the random number generator; </li>
+<li>None, the random number generator is the RandomState instance used by np.random.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>max_features : int, float, string or None, optional (default=”auto”)</strong></p>
+<ul>
+<li><p>寻找最优分裂时所考虑的特征个数，整型、浮点型、字符串或者None，可选项，默认是“auto”</p>
+<ul>
+<li>int, then consider max_features features at each split.</li>
+<li>float, then max_features is a fraction and int(max_features * n_features) features are considered at each split.</li>
+<li>“auto”, then max_features=sqrt(n_features).</li>
+<li>“sqrt”, then max_features=sqrt(n_features) (same as “auto”).</li>
+<li>“log2”, then max_features=log2(n_features).</li>
+<li>None, then max_features=n_features.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>verbose : int, optional (default=0)</strong></p>
+<ul>
+<li>控制在学习和预测时是否输出中间结果，整型，可选项，默认是0</li>
+</ul>
+</li>
+<li><p><strong>max_leaf_nodes : int or None, optional (default=None)</strong></p>
+<ul>
+<li>以最好的方式用<code>max_leaf_nodes</code>来建树，如果是Nonde的话则对叶子结点的个数不限制，整型或者Node，可选项，默认是Node</li>
+</ul>
+</li>
+<li><p><strong>warm_start : bool, optional (default=False)</strong></p>
+<ul>
+<li>布尔型，可选项，默认为False，如果设置为True，将重复使用上一次调用的解来学习并加入更多的学习器到集成算法当中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>presort : bool or ‘auto’, optional (default=’auto’)</strong></p>
+<ul>
+<li>在寻找最佳分裂时是否预排序。自动模式将对稠密数据进行预排序，对稀疏数据进行自然排序，对于稀疏数据采用预排序将会报错</li>
+</ul>
+</li>
+<li><p><strong>validation_fraction : float, optional, default 0.1</strong></p>
+<ul>
+<li>Early stopping时作为验证集的比例，只有在<code>n_iter_no_change</code>为整型时才起作用</li>
+</ul>
+</li>
+<li><p><strong>n_iter_no_change : int, default None</strong></p>
+<ul>
+<li>在验证分数不再提高时用来决定是否采用early stopping来结束训练，整型，默认是None，不考虑early stopping</li>
+</ul>
+</li>
+<li><p><strong>tol : float, optional, default 1e-4</strong></p>
+<ul>
+<li>early stopping的容差（tolerance），在early stopping启用时，在经过<code>n_iter_no_change</code>步迭代的提升都没有超过<code>tol</code>时，则停止训练</li>
+</ul>
+</li>
+</ul>
+<h4 id="属性（attributes）"><a href="#属性（attributes）" class="headerlink" title="属性（attributes）"></a>属性（attributes）</h4><ul>
+<li><p><strong>n_estimators_ : int</strong></p>
+<ul>
+<li>当early stopping启用时则是early stopping选定的学习器个数，否则等同于<code>n_estimators</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>feature_importances_ : array, shape (n_features,)</strong></p>
+<ul>
+<li>特征重要性系数</li>
+</ul>
+</li>
+<li><p><strong>oob_improvement_ : array, shape (n_estimators,)</strong></p>
+<ul>
+<li>包外样本相对于前一步迭代的损失提升，<code>oob_improvement_[0]</code>是第一步迭代相对于<code>init</code>学习器的损失提升</li>
+</ul>
+</li>
+<li><p><strong>train_score_ : array, shape (n_estimators,)</strong></p>
+<ul>
+<li>第i个得分<code>train_score_[i]</code>是指模型第i步迭代时对包内样本的损失，如果<code>subsample == 1</code>，则是对所有训练集的损失</li>
+</ul>
+</li>
+<li><p><strong>loss_ : LossFunction</strong></p>
+<ul>
+<li>损失函数对象</li>
+</ul>
+</li>
+<li><p><strong>init_ : estimator</strong></p>
+<ul>
+<li>用于模型初始化的学习器对象</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>estimators_ : array of DecisionTreeRegressor, shape (n_estimators, 1)</strong></p>
+<ul>
+<li>拟合后的基学习器集合</li>
+</ul>
+</li>
+</ul>
+<h4 id="方法（methods）"><a href="#方法（methods）" class="headerlink" title="方法（methods）"></a>方法（methods）</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">方法名称</th>
+<th style="text-align:center">方法解释 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">apply(self, X)</td>
+<td style="text-align:center">Apply trees in the ensemble to X, return leaf indices.</td>
+</tr>
+<tr>
+<td style="text-align:center">decision_function(self, X)</td>
+<td style="text-align:center">Compute the decision function of X.</td>
+</tr>
+<tr>
+<td style="text-align:center">fit(self, X, y[, sample_weight, monitor])</td>
+<td style="text-align:center">Fit the gradient boosting model.</td>
+</tr>
+<tr>
+<td style="text-align:center">get_params(self[, deep])</td>
+<td style="text-align:center">Get parameters for this estimator.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict(self, X)</td>
+<td style="text-align:center">Predict class for X.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict_log_proba(self, X)</td>
+<td style="text-align:center">Predict class log-probabilities for X.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict_proba(self, X)</td>
+<td style="text-align:center">Predict class probabilities for X.</td>
+</tr>
+<tr>
+<td style="text-align:center">score(self, X, y[, sample_weight])</td>
+<td style="text-align:center">Returns the mean accuracy on the given test data and labels.</td>
+</tr>
+<tr>
+<td style="text-align:center">set_params(self, **params)</td>
+<td style="text-align:center">Set the parameters of this estimator.</td>
+</tr>
+<tr>
+<td style="text-align:center">staged_decision_function(self, X)</td>
+<td style="text-align:center">Compute decision function of X for each iteration.</td>
+</tr>
+<tr>
+<td style="text-align:center">staged_predict(self, X)</td>
+<td style="text-align:center">Predict class at each stage for X.</td>
+</tr>
+<tr>
+<td style="text-align:center">staged_predict_proba(self, X)</td>
+<td style="text-align:center">Predict class probabilities at each stage for X.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="GradientBoostingRegressor"><a href="#GradientBoostingRegressor" class="headerlink" title="GradientBoostingRegressor"></a>GradientBoostingRegressor</h3><h4 id="参数（parameters）-1"><a href="#参数（parameters）-1" class="headerlink" title="参数（parameters）"></a>参数（parameters）</h4><ul>
+<li><p><strong>loss : {‘ls’, ‘lad’, ‘huber’, ‘quantile’}, optional (default=’ls’)</strong></p>
+<ul>
+<li>需要优化的损失函数</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>learning_rate : float, optional (default=0.1)</strong></p>
+<ul>
+<li>学习率（learning_rate），与<code>n_estimators</code>之间有个平衡</li>
+</ul>
+</li>
+<li><p><strong>n_estimators : int (default=100)</strong></p>
+<ul>
+<li>boosting迭代步数，Gradient boosting通常对于过拟合有鲁棒性，一个较大的数通常意味着更好的性能，整型，默认时100</li>
+</ul>
+</li>
+<li><p><strong>subsample : float, optional (default=1.0)</strong></p>
+<ul>
+<li>用于训练基学习器的样本采样比例，小于1.0则等同于随机梯度提升（Stochasitc Gradient Boosting），与<code>n_estimators</code>相互作用，如果小于1则会减少方差，增加偏差</li>
+</ul>
+</li>
+<li><p><strong>criterion : string, optional (default=”friedman_mse”)</strong></p>
+<ul>
+<li>衡量特征分裂质量的函数，这是一个与基学习器决策树相关的参数，字符串类型，可选项，默认是”friedman_mse”</li>
+</ul>
+</li>
+<li><p><strong>min_samples_split : int, float, optional (default=2)</strong></p>
+<ul>
+<li>用于分裂一个内部结点的最小所需的样本数，整型或者浮点型，可选项，默认是2</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_samples_leaf : int, float, optional (default=1)</strong></p>
+<ul>
+<li>一个叶子结点所要求的最小样本个数，这个参数有平滑模型的作用，特别是回归的学习任务里面。整型或者浮点型，可选项，默认是1</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>min_weight_fraction_leaf : float, optional (default=0.)</strong></p>
+<ul>
+<li>一个叶子结点所有输入样本权重总和的最小权重分数，浮点型，可选项，默认为0.</li>
+</ul>
+</li>
+<li><p><strong>max_depth : integer, optional (default=3)</strong></p>
+<ul>
+<li>单棵回归树的最大深度，需要进行调参来获得更好的性能</li>
+</ul>
+</li>
+<li><p><strong>min_impurity_decrease : float, optional (default=0.)</strong></p>
+<ul>
+<li>最小不纯度减少值，结点将会继续分裂，如果这个分裂对于不纯度的减少能够大于或者等于该值。浮点型，可选项，默认为0.</li>
+</ul>
+</li>
+<li><p><strong>min_impurity_split : float, (default=1e-7)</strong></p>
+<ul>
+<li>建树过程中早起停止的阈值。如果节点的不纯度大于该值将会继续分裂，否则停止，成为叶子结点。浮点型，默认为1e-7</li>
+<li>后续将会被<code>min_impurity_decrease</code>参数替代</li>
+</ul>
+</li>
+<li><p><strong>init : estimator or ‘zero’, optional (default=None)</strong></p>
+<ul>
+<li>用来模型初始化的学习器对象，可以提供<code>fit</code>或者<code>predict</code>对象，如果是“zero”则初始预测为0</li>
+</ul>
+</li>
+<li><p><strong>random_state : int, RandomState instance or None, optional (default=None)</strong></p>
+<ul>
+<li>随机状态，有以下三种方式<ul>
+<li>int, random_state is the seed used by the random number generator; </li>
+<li>RandomState instance, random_state is the random number generator; </li>
+<li>None, the random number generator is the RandomState instance used by np.random.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>max_features : int, float, string or None, optional (default=”auto”)</strong></p>
+<ul>
+<li><p>寻找最优分裂时所考虑的特征个数，整型、浮点型、字符串或者None，可选项，默认是“auto”</p>
+<ul>
+<li>int, then consider max_features features at each split.</li>
+<li>float, then max_features is a fraction and int(max_features * n_features) features are considered at each split.</li>
+<li>“auto”, then max_features=sqrt(n_features).</li>
+<li>“sqrt”, then max_features=sqrt(n_features) (same as “auto”).</li>
+<li>“log2”, then max_features=log2(n_features).</li>
+<li>None, then max_features=n_features.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>alpha : float (default=0.9)</strong></p>
+<ul>
+<li>当<code>loss=&#39;huber&#39;</code>或者<code>loss=&#39;quantile&#39;</code>时起作用，对应损失函数当中的参数</li>
+</ul>
+</li>
+<li><p><strong>verbose : int, optional (default=0)</strong></p>
+<ul>
+<li>控制在学习和预测时是否输出中间结果，整型，可选项，默认是0</li>
+</ul>
+</li>
+<li><p><strong>max_leaf_nodes : int or None, optional (default=None)</strong></p>
+<ul>
+<li>以最好的方式用<code>max_leaf_nodes</code>来建树，如果是Nonde的话则对叶子结点的个数不限制，整型或者Node，可选项，默认是Node</li>
+</ul>
+</li>
+<li><p><strong>warm_start : bool, optional (default=False)</strong></p>
+<ul>
+<li>布尔型，可选项，默认为False，如果设置为True，将重复使用上一次调用的解来学习并加入更多的学习器到集成算法当中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>presort : bool or ‘auto’, optional (default=’auto’)</strong></p>
+<ul>
+<li>在寻找最佳分裂时是否预排序。自动模式将对稠密数据进行预排序，对稀疏数据进行自然排序，对于稀疏数据采用预排序将会报错</li>
+</ul>
+</li>
+<li><p><strong>validation_fraction : float, optional, default 0.1</strong></p>
+<ul>
+<li>Early stopping时作为验证集的比例，只有在<code>n_iter_no_change</code>为整型时才起作用</li>
+</ul>
+</li>
+<li><p><strong>n_iter_no_change : int, default None</strong></p>
+<ul>
+<li>在验证分数不再提高时用来决定是否采用early stopping来结束训练，整型，默认是None，不考虑early stopping</li>
+</ul>
+</li>
+<li><p><strong>tol : float, optional, default 1e-4</strong></p>
+<ul>
+<li>early stopping的容差（tolerance），在early stopping启用时，在经过<code>n_iter_no_change</code>步迭代的提升都没有超过<code>tol</code>时，则停止训练</li>
+</ul>
+</li>
+</ul>
+<h4 id="属性（attributes）-1"><a href="#属性（attributes）-1" class="headerlink" title="属性（attributes）"></a>属性（attributes）</h4><ul>
+<li><p><strong>feature_importances_ : array, shape (n_features,)</strong></p>
+<ul>
+<li>特征重要性系数</li>
+</ul>
+</li>
+<li><p><strong>oob_improvement_ : array, shape (n_estimators,)</strong></p>
+<ul>
+<li>包外样本相对于前一步迭代的损失提升，<code>oob_improvement_[0]</code>是第一步迭代相对于<code>init</code>学习器的损失提升</li>
+</ul>
+</li>
+<li><p><strong>train_score_ : array, shape (n_estimators,)</strong></p>
+<ul>
+<li>第i个得分<code>train_score_[i]</code>是指模型第i步迭代时对包内样本的损失，如果<code>subsample == 1</code>，则是对所有训练集的损失</li>
+</ul>
+</li>
+<li><p><strong>loss_ : LossFunction</strong></p>
+<ul>
+<li>损失函数对象</li>
+</ul>
+</li>
+<li><p><strong>init_ : estimator</strong></p>
+<ul>
+<li>用于模型初始化的学习器对象</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>estimators_ : array of DecisionTreeRegressor, shape (n_estimators, 1)</strong></p>
+<ul>
+<li>拟合后的基学习器集合</li>
+</ul>
+</li>
+</ul>
+<h4 id="方法（methods）-1"><a href="#方法（methods）-1" class="headerlink" title="方法（methods）"></a>方法（methods）</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">方法名称</th>
+<th style="text-align:center">方法解释 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">apply(self, X)</td>
+<td style="text-align:center">Apply trees in the ensemble to X, return leaf indices.</td>
+</tr>
+<tr>
+<td style="text-align:center">fit(self, X, y[, sample_weight, monitor])</td>
+<td style="text-align:center">Fit the gradient boosting model.</td>
+</tr>
+<tr>
+<td style="text-align:center">get_params(self[, deep])</td>
+<td style="text-align:center">Get parameters for this estimator.</td>
+</tr>
+<tr>
+<td style="text-align:center">predict(self, X)</td>
+<td style="text-align:center">Predict regression target for X.</td>
+</tr>
+<tr>
+<td style="text-align:center">score(self, X, y[, sample_weight])</td>
+<td style="text-align:center">Returns the coefficient of determination R^2 of the prediction.</td>
+</tr>
+<tr>
+<td style="text-align:center">set_params(self, **params)</td>
+<td style="text-align:center">Set the parameters of this estimator.</td>
+</tr>
+<tr>
+<td style="text-align:center">staged_predict(self, X)</td>
+<td style="text-align:center">Predict regression target at each stage for X.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>GBDT应用场景广泛，几乎可用于所有回归问题（线性/非线性），相对logistic regression仅能用于线性回归，GBDT的适用面非常广。亦可用于二分类问题（设定阈值，大于阈值为正例，反之为负例）。</p>
+<p>此外，GBDT能够起到特征组合和特征选择的作用，可以作为终端学习器的前置作为特征工程的工具之一，比如Facebook就利用GBDT的这一特性，在GBDT后面接一个LR模型构建CRT模型来预测广告点击率，具体参阅相关论文<a href="https://quinonero.net/Publications/predicting-clicks-facebook.pdf" target="_blank" rel="noopener">Practical Lessons from Predicting Clicks on Ads at<br>Facebook</a>。这也是GBDT在推荐系统场景的应用。</p>
+<p>另外，在金融领域中的需求如欺诈检测、信用评级等，GBDT算法也能够发挥巨大的作用，有着大量基于GBDT算法的反欺诈模型、信用评分卡模型案例。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p><a href="https://book.douban.com/subject/26708119/" target="_blank" rel="noopener">《机器学习》，周志华</a></p>
+</li>
+<li><p><a href="https://book.douban.com/subject/33437381/" target="_blank" rel="noopener">《统计学习方法》（第二版），李航</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Gradient_boosting" target="_blank" rel="noopener">Wiki Gradient Boosting</a></p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://www.cnblogs.com/pinard/p/6140514.html" target="_blank" rel="noopener">梯度提升树(GBDT)原理小结</a></p>
+</li>
+<li><p><a href="http://wepon.me/files/gbdt.pdf" target="_blank" rel="noopener">GBDT算法原理与系统设计简介</a></p>
+</li>
+</ul>
+<ul>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier" target="_blank" rel="noopener">3.2.4.3.5. sklearn.ensemble.GradientBoostingClassifier</a></li>
+<li><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor" target="_blank" rel="noopener">3.2.4.3.6. sklearn.ensemble.GradientBoostingRegressor</a></p>
+</li>
+<li><p><a href="https://scikit-learn.org/stable/modules/ensemble.html#ensemble-methods" target="_blank" rel="noopener">1.11. Ensemble methods</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/" title="GBDT算法梳理">http://datacruiser.io/2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集成学习/" rel="tag"># 集成学习</a>
+          
+            <a href="/tags/sklearn/" rel="tag"># sklearn</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/GBDT/" rel="tag"># GBDT</a>
+          
+            <a href="/tags/Gradient-Boosting/" rel="tag"># Gradient Boosting</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/07/Leetcode-Tencent-50-No-6-148-Sort-List/" rel="next" title="Leetcode Tencent 50 Task 5 No.5 148. Sort List">
+                <i class="fa fa-chevron-left"></i> Leetcode Tencent 50 Task 5 No.5 148. Sort List
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/08/Leetcode-Tencent-50-Task6-78-Subsets/" rel="prev" title="Leetcode Tencent 50 No.6 78. Subsets">
+                Leetcode Tencent 50 No.6 78. Subsets <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前向分布算法"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x524D;&#x5411;&#x5206;&#x5E03;&#x7B97;&#x6CD5;" class="headerlink" title="&#x524D;&#x5411;&#x5206;&#x5E03;&#x7B97;&#x6CD5;"></a>&#x524D;&#x5411;&#x5206;&#x5E03;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负梯度拟合"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8D1F;&#x68AF;&#x5EA6;&#x62DF;&#x5408;" class="headerlink" title="&#x8D1F;&#x68AF;&#x5EA6;&#x62DF;&#x5408;"></a>&#x8D1F;&#x68AF;&#x5EA6;&#x62DF;&#x5408;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#泰勒公式"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x6CF0;&#x52D2;&#x516C;&#x5F0F;" class="headerlink" title="&#x6CF0;&#x52D2;&#x516C;&#x5F0F;"></a>&#x6CF0;&#x52D2;&#x516C;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降法"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;" class="headerlink" title="&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;"></a>&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#损失函数"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x635F;&#x5931;&#x51FD;&#x6570;" class="headerlink" title="&#x635F;&#x5931;&#x51FD;&#x6570;"></a>&#x635F;&#x5931;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类问题"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x5206;&#x7C7B;&#x95EE;&#x9898;" class="headerlink" title="&#x5206;&#x7C7B;&#x95EE;&#x9898;"></a>&#x5206;&#x7C7B;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回归问题"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x56DE;&#x5F52;&#x95EE;&#x9898;" class="headerlink" title="&#x56DE;&#x5F52;&#x95EE;&#x9898;"></a>&#x56DE;&#x5F52;&#x95EE;&#x9898;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回归"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DE;&#x5F52;" class="headerlink" title="&#x56DE;&#x5F52;"></a>&#x56DE;&#x5F52;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x5206;&#x7C7B;" class="headerlink" title="&#x5206;&#x7C7B;"></a>&#x5206;&#x7C7B;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分类"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#&#x4E8C;&#x5206;&#x7C7B;" class="headerlink" title="&#x4E8C;&#x5206;&#x7C7B;"></a>&#x4E8C;&#x5206;&#x7C7B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多分类"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#&#x591A;&#x5206;&#x7C7B;" class="headerlink" title="&#x591A;&#x5206;&#x7C7B;"></a>&#x591A;&#x5206;&#x7C7B;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正则化"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x6B63;&#x5219;&#x5316;" class="headerlink" title="&#x6B63;&#x5219;&#x5316;"></a>&#x6B63;&#x5219;&#x5316;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x4F18;&#x7F3A;&#x70B9;" class="headerlink" title="&#x4F18;&#x7F3A;&#x70B9;"></a>&#x4F18;&#x7F3A;&#x70B9;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">7.1.</span> <span class="nav-text"><a href="#&#x4F18;&#x70B9;" class="headerlink" title="&#x4F18;&#x70B9;"></a>&#x4F18;&#x70B9;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">7.2.</span> <span class="nav-text"><a href="#&#x7F3A;&#x70B9;" class="headerlink" title="&#x7F3A;&#x70B9;"></a>&#x7F3A;&#x70B9;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sklearn中的参数解释"><span class="nav-number">8.</span> <span class="nav-text"><a href="#sklearn&#x4E2D;&#x7684;&#x53C2;&#x6570;&#x89E3;&#x91CA;" class="headerlink" title="sklearn&#x4E2D;&#x7684;&#x53C2;&#x6570;&#x89E3;&#x91CA;"></a>sklearn&#x4E2D;&#x7684;&#x53C2;&#x6570;&#x89E3;&#x91CA;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GradientBoostingClassifier"><span class="nav-number">8.0.1.</span> <span class="nav-text"><a href="#GradientBoostingClassifier" class="headerlink" title="GradientBoostingClassifier"></a>GradientBoostingClassifier</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数（parameters）"><span class="nav-number">8.0.1.1.</span> <span class="nav-text"><a href="#&#x53C2;&#x6570;&#xFF08;parameters&#xFF09;" class="headerlink" title="&#x53C2;&#x6570;&#xFF08;parameters&#xFF09;"></a>&#x53C2;&#x6570;&#xFF08;parameters&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性（attributes）"><span class="nav-number">8.0.1.2.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;&#xFF08;attributes&#xFF09;" class="headerlink" title="&#x5C5E;&#x6027;&#xFF08;attributes&#xFF09;"></a>&#x5C5E;&#x6027;&#xFF08;attributes&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法（methods）"><span class="nav-number">8.0.1.3.</span> <span class="nav-text"><a href="#&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;" class="headerlink" title="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;"></a>&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GradientBoostingRegressor"><span class="nav-number">8.0.2.</span> <span class="nav-text"><a href="#GradientBoostingRegressor" class="headerlink" title="GradientBoostingRegressor"></a>GradientBoostingRegressor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数（parameters）-1"><span class="nav-number">8.0.2.1.</span> <span class="nav-text"><a href="#&#x53C2;&#x6570;&#xFF08;parameters&#xFF09;-1" class="headerlink" title="&#x53C2;&#x6570;&#xFF08;parameters&#xFF09;"></a>&#x53C2;&#x6570;&#xFF08;parameters&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性（attributes）-1"><span class="nav-number">8.0.2.2.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;&#xFF08;attributes&#xFF09;-1" class="headerlink" title="&#x5C5E;&#x6027;&#xFF08;attributes&#xFF09;"></a>&#x5C5E;&#x6027;&#xFF08;attributes&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法（methods）-1"><span class="nav-number">8.0.2.3.</span> <span class="nav-text"><a href="#&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;-1" class="headerlink" title="&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;"></a>&#x65B9;&#x6CD5;&#xFF08;methods&#xFF09;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用场景"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x5E94;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x5E94;&#x7528;&#x573A;&#x666F;"></a>&#x5E94;&#x7528;&#x573A;&#x666F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text"><a href="#&#x53C2;&#x8003;" class="headerlink" title="&#x53C2;&#x8003;"></a>&#x53C2;&#x8003;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/';
+          this.page.identifier = '2019/08/08/DataWhale-Workout-No-8-GBDT-Summary/';
+          this.page.title = 'GBDT算法梳理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

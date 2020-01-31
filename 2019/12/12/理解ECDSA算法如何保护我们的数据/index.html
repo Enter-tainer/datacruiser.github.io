@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="加密算法,比特币,go语言," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="学习区块链，总是无法避开各种加密算法，因为各种加密算法在实现区块链当中的各个环节都有着不可替代的作用。这里介绍一下在比特币以及以太坊当中被大量使用基于离散对数数学难题的ECDSA算法。">
+<meta name="keywords" content="加密算法,比特币,go语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECDSA算法如何保护我们的数据">
+<meta property="og:url" content="http://datacruiser.io/2019/12/12/理解ECDSA算法如何保护我们的数据/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="学习区块链，总是无法避开各种加密算法，因为各种加密算法在实现区块链当中的各个环节都有着不可替代的作用。这里介绍一下在比特币以及以太坊当中被大量使用基于离散对数数学难题的ECDSA算法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/Elliptic%20curves.jpg">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/Elliptic%20curves%20II.jpg">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/Elliptic%20curves%20III.jpg">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/ramdom%20number.jpg">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ECDSA算法如何保护我们的数据">
+<meta name="twitter:description" content="学习区块链，总是无法避开各种加密算法，因为各种加密算法在实现区块链当中的各个环节都有着不可替代的作用。这里介绍一下在比特币以及以太坊当中被大量使用基于离散对数数学难题的ECDSA算法。">
+<meta name="twitter:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/Elliptic%20curves.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/12/12/理解ECDSA算法如何保护我们的数据/"/>
+
+
+
+
+
+  <title>ECDSA算法如何保护我们的数据 | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/12/12/理解ECDSA算法如何保护我们的数据/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ECDSA算法如何保护我们的数据</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-12T18:41:00+00:00">
+                2019-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/区块链/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/12/理解ECDSA算法如何保护我们的数据/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/12/12/理解ECDSA算法如何保护我们的数据/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  21
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  学习区块链，总是无法避开各种加密算法，因为各种加密算法在实现区块链当中的各个环节都有着不可替代的作用。这里介绍一下在比特币以及以太坊当中被大量使用基于离散对数数学难题的ECDSA算法。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要翻译自这篇文章<a href="https://www.instructables.com/id/Understanding-how-ECDSA-protects-your-data/" target="_blank" rel="noopener">Understanding how ECDSA protects your data</a></p>
+<p>每个人可能都听说过<code>ECDSA</code>算法。当我提到<strong>数字签名</strong>的时候，有些人能够很好地识别出它，有些人却不知道我说的是什么。</p>
+<p>我曾经试图去理解<code>ECDA</code>是如何工作的，但是大部分的在线参考资料都是有缺失的，不足以让我能够很好地理解它。他们要么太基础了──只是解释算法的基础然后留给你“它是如何工作的？”的疑问──要么就是太高阶了，完全略过那些你本该知道但它却假设你已经知道的基础知识。因此，你始终在“它是如何工作的”和“我们如何才能够理解它的工作原理之间”徘徊。如果你没有一个数学或者密码学的学位，但是依然想知道它到底是如何工作的，而不是“魔术发生了，签名被确认了”，那么你运气不够好，因为哪里都没有“新手ECDSA”的教程。</p>
+<p>我决定对<code>ECDSA</code>进行研究，以便更好地了解它是如何保护我的数据以及实际上它有多安全。在做了大量的研究工作并最终弄清楚以后，我打算写一篇文章来解释<code>ECDSA</code>是如何工作的，具体算法是如何实现的，以及一个数字签名是如何进行确认的且在它被确认以后是如何确保它是不可伪造的。说实话，要了解以上所有内容并不容易，但是我将尽我的最大努力进行解释，并且对于读者所应该掌握的知识进行最小的假设，希望所有的人都能够看懂。</p>
+<h1 id="Step-1-What-is-ECDSA？"><a href="#Step-1-What-is-ECDSA？" class="headerlink" title="Step 1: What is ECDSA？"></a>Step 1: What is ECDSA？</h1><p><code>ECDSA</code>是<a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm" target="_blank" rel="noopener">Elliptic Curve Digital Signature Algorithm</a>的简称，主要用于对数据（比如一个文件）创建数字签名，以便于你在不破坏它的安全性的前提下对它的真实性进行验证。可以将它想象成一个实际的签名，你可以识别部分人的签名，但是你无法在别人不知道的情况下伪造它。而ECDSA签名和真实签名的区别在于，伪造ECDSA签名是根本不可能的。</p>
+<p>你不应该将<code>ECDSA</code>与用来对数据进行加密的<code>AES</code>（高级加密标准）相混淆。<code>ECDSA</code>不会对数据进行加密、或阻止别人看到或访问你的数据，它可以防止的是确保数据没有被篡改。</p>
+<p><code>ECDSA</code>当中有两个词需要注意：<code>Curve</code>（曲线）和<code>Algorithm</code>（算法），这意味着<code>ECDSA</code>基本上是基于数学的。并且，这些涉及非常复杂的数学原理。因此，即便我尽力试着进行简单化处理以让非技术背景的人也能够理解，为了更好地理解你依然需要一些数学方面的背景知识。我将分两部分讲这部分的内容，首先是对它具体的工作原理进行解释，然后深入其内部工作机理助于你的理解。需要注意的是，虽然我已经很好地理解<code>ECDSA</code>，但我不是这方面的专家，不过这篇文档还是由相关专家审议过的。</p>
+<h1 id="Step-2-Understanding-the-Basics"><a href="#Step-2-Understanding-the-Basics" class="headerlink" title="Step 2: Understanding the Basics"></a>Step 2: Understanding the Basics</h1><p>原理非常简单，有一个数学方程，在图上画了一条曲线，然后你在这条曲线上面随机选取了一个点作为你的<code>原点(point of origin)</code>。接着你产生了一个随机数，作为你的<code>私钥(Private key)</code>，最后你用上面的随机数和原点通过一些复杂的魔法数学方程得到该条曲线上面的第二个点，这是你的<code>公钥(Public key)</code>。</p>
+<p>当你想要对一个文件进行签名的时候，你会用这个私钥（随机数）和文件的哈希（一串独一无二的代表该文件的数）组成一个魔法数学方程，这将给出你的签名。签名本身将被分成两部分，称为<code>R</code>和<code>S</code>。为了验证签名的正确性，你只需要公钥（用私钥在曲线上面产生的点）并将公钥和签名的一部分<code>S</code>一起代入另外一个方程，如果这个签名是由私钥正确签名过的数字签名，那么它将给出签名的另外一部分<code>R</code>。简单来说，一个数字签名包含两个数字，<code>R</code>和<code>S</code>，然后你使用一个私钥来产生<code>R</code>和<code>S</code>，如果将公钥和<code>S</code>代入被选定的魔法数学方程给出<code>R</code>的话，这个签名就是有效的。仅仅知道公钥是无法知道私钥或者创建出数字签名。</p>
+<h1 id="Step-3-Why-Use-ECDSA？"><a href="#Step-3-Why-Use-ECDSA？" class="headerlink" title="Step 3: Why Use ECDSA？"></a>Step 3: Why Use ECDSA？</h1><p>现在你可能知道一些基础，但是还不是特别理解，毕竟它还是太复杂了，公钥、私钥这些，都是什么东西呢？不必担心，我很快会进行具体解释。在这之前，我先介绍下为什么我们使用<code>ECDSA</code>以及其具体的应用场景。</p>
+<p>除了显而易见的“我需要对一份文件/合同进行签名”，还有一个非常流行的应用场景：让我们以一个不想自己的数据被用户修改或者破坏的应用程序为例，比如一个只允许你载入官方地图和不可修改的模块的游戏，或者一部只允许你安装官方应用程序的手机或其它设备。</p>
+<p>在这些案例当中，相关文件（应用程序、游戏地图、数据等）会用<code>ECDSA</code>进行签名，公钥会随应用程序/游戏/设备一起捆绑并用来验证签名来确保数据没有被修改，而私钥在本地一个私密的地方进行保存。由于你可以用公钥对签名进行验证，但是不能用它创建或者伪造新的签名，你可以无所顾忌地将公钥随应用程序/游戏/设备一起分发。</p>
+<p>这与<code>AES</code>相比，区别是显而易见的。<code>AES</code>加密系统允许你对数据进行加密，但是你需要用密钥来解密，这就要求你将密钥与应用程序一起捆绑，破坏了对数据进行保护防止数据被用户修改的目的。</p>
+<p>一个很好的例子就是PS3的控制台，它被大量的破解，所有的文件可以解密，所有的密钥可以从解密的文件当中抽取，但是为了能够在最新的固件上面运行程序，你还需要破解一个<code>ECDSA</code>的数字签名。</p>
+<h1 id="Step-4-Basic-Mathematics-and-Binary"><a href="#Step-4-Basic-Mathematics-and-Binary" class="headerlink" title="Step 4: Basic Mathematics and Binary"></a>Step 4: Basic Mathematics and Binary</h1><p>让我们从一些最基本的开始，如果你已经知道了会觉得很无聊，但是对于不知道的人则是必须了解的：<code>ECDSA</code>只使用整数数学，没有浮点数，这意味着可能的数值是1，2，3……，1.5，2.5……则是不被允许的，并且，整数的范围由签名当中所采用的位数决定，更多的位数意味着更大的数字范围，更高的安全性能，因为这使得“猜”到方程当中所采用的具体数字变得更难。正如你所应该知道的，计算机采用比特来表示数据，一个比特是二进制当中的一位，八个比特表示一个字节。每次你增加一个比特，可表示的最大整数就可以翻一倍，使用4个比特，你可以表示0~15，一共16个数字，5个比特，你可以表示32个数字，6个比特，可以表示64个数字……一个字节，可以表示256个数字，32比特，可以表示4294967296个数字……通常<code>ECDSA</code>会总共使用160比特，它可以表示相当大的数，可以由49个数字在里面。</p>
+<p>另外一个需要知道的数学组成是<a href="https://en.wikipedia.org/wiki/Modular_arithmetic" target="_blank" rel="noopener">模运算</a>，可以简单地说是整数求除之后的余数。举个例子，$x \mod 10$是指$x$除以10以后的余数，这个余数总是在0和10之间，$140 \mod 10$的结果是2 。另外一个例子，对于$x \mod 2$的结果，如果$x$偶数则结果为0，如果$x$奇数则结果为1。</p>
+<h1 id="Step5：The-Hash"><a href="#Step5：The-Hash" class="headerlink" title="Step5：The Hash"></a>Step5：The Hash</h1><p><a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm" target="_blank" rel="noopener">ECDSA</a>与消息的<a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" rel="noopener">SHA-1</a><a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function" target="_blank" rel="noopener">加密哈希</a>一起使用来对文件进行签名。一个<a href="https://en.wikipedia.org/wiki/Hash_function" target="_blank" rel="noopener">哈希</a>是你作用于数据的每一个字节然后给你一个代替该数据的整数的另外一个数学函数。举个例子，所有字节所代表的数值之和可以被认为是一个非常简单的哈希函数。于是，消息或文件当中任何修改，整个哈希就会变得完全不同。在SHA1哈希算法当中，它的输出结果总是20字节，即160比特。在验证文件是否被修改或者破坏，它非常有用，你可以得到任意大小的文件的20字节的哈希，并且你可以非常方便的重新计算哈希以确认他们是否匹配得上。而<code>ECDSA</code>所签名的正是那个哈希，因此，如果文件或者数据发生了改变，哈希就会发生改变，然后签名失效了。</p>
+<p>为了便于理解，让我们举一个例子。我们用一个最简单的哈希函数：将所有的数据求和再对10取模运算。</p>
+<p>第一步，你必须理解所有的数据将用整数来进行表示。一个文本文件就是一系列的字节，正如我们之前所解释的，一个字节表示8个比特，可以表示0~255之间的一个数。因此，如果我们用一个整数来表示每一个字节，并且将文件的每一个字节所代表的数相加，然后将求和后的结果对10取模，我们将能够得到一个0~9之间的数作为最终的结果哈希。对于相同的数据我们将总是得到相同的结果，并且假如你修改了文件中的一个字节，结果将会不同。当然，你也知道，因为这个哈希函数的输出空间只有0~9这10种可能性，你想要获得相同的输出，可以非常容易的通过修改文件内容得到，因此，修改文件内容将有1/10的概率得到相同的哈希。</p>
+<p>这是SHA1出来扮演重要角色的地方，SHA1算法比起我们刚才简单的“对10取模”的哈希函数要复杂复杂得多，它将给出一个非常巨大的数（160位或者比特，如果用十进制表示的话将由49个数字组成），并且随着文件的一点细微的小变化，它也能够产生显著的变化。</p>
+<p>这个不可预测的特性让SHA1算法成为一个非常好的哈希算法，非常安全且产生“碰撞(collision)”（两个不同文件有相同的哈希）的可能性非常低，使得通过伪造数据获得特定的哈希的变得不可能。</p>
+<h1 id="Step6-The-ECDSA-Equation"><a href="#Step6-The-ECDSA-Equation" class="headerlink" title="Step6: The ECDSA Equation"></a>Step6: The ECDSA Equation</h1><p>好了，那到底<code>ECDSA</code>是如何工作的呢？<a href="https://en.wikipedia.org/wiki/Elliptic_curve_cryptography" target="_blank" rel="noopener">椭圆曲线密码学</a>是基于以下形式的方程：<br>$$y^2 = (x^3+a\times x + b) \mod p$$</p>
+<p>第一点你需要注意的是这里有一个取模运算，然后$y$是进行了平方处理，另外也别忘记这是一条曲线的方程。这意味着对于所有的$x$坐标（x只能取整数），你可以得到两个$y$的值，且曲线关于$X$轴对称。取模运算的底是一个<a href="https://en.wikipedia.org/wiki/Prime_number" target="_blank" rel="noopener">素数</a>且确保所有得到的数值在160比特所能够表示的范围之内，允许采用<a href="https://en.wikipedia.org/wiki/Quadratic_residue" target="_blank" rel="noopener">模平方根</a>和<a href="https://en.wikipedia.org/wiki/Modular_multiplicative_inverse" target="_blank" rel="noopener">模的乘法逆元</a>来简化运算。因为我们以$p$为模的底，这意味着$y^2$可能的取值在0~p-1之间，一共有$p$个可能的值空间。不过，因为我们只能处理整数，只有一部分取值能够满足<a href="https://en.wikipedia.org/wiki/Square_number" target="_blank" rel="noopener">完美平方数</a>（两个整数的平方值）的要求，我们只能在曲线上面得到$N$个可能的点，且满足$N&lt;p$，其中$N$是0~p之间的完美平方数。</p>
+<p>因为每一个$x$可以得到两个曲线上的点（$y^2$的两个正负平方根），这意味着一共有$N/2$个可行的$x$坐标是有效的，并在曲线上面给出相关的点。且因为整数运算和模运算的存在，这条椭圆曲线上面只有有限个点。</p>
+<p>哈哈，是不是有点难，有点复杂，在继续之前，让我们先总结一下。<code>ECDSA</code>方程给出了而一条曲线，这条曲线上面一共有$N$个有效的点，因为$Y$轴的取值区间由模底$p$来确定，并且需要满足完美平方（$Y^2$）并关于$X$轴对称。我们一共有$N/2$个有效的$x$坐标，最后还有满足$N&lt;p$。</p>
+<h1 id="Step-7-Point-Addition"><a href="#Step-7-Point-Addition" class="headerlink" title="Step 7: Point Addition"></a>Step 7: Point Addition</h1><p>关于<a href="https://en.wikipedia.org/wiki/Elliptic_curve" target="_blank" rel="noopener">椭圆曲线</a>需要了解的另外一个事情是<a href="https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication" target="_blank" rel="noopener">椭圆曲线点加法</a>的表示方法。它是这样定义的：将一个点$P$和另外一个点$Q$相加将得到点$S$，如果我们从$P$到 $Q$画一条线，并延长与曲线相交于第三个点$R$，则$R$为 $S$的负值，别忘记曲线是关于$X$轴对称的。在这种情况下，我们定义$R=-S$来表示$R$在 $X$轴上面的对称点。具体可以看下面这张图。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/Elliptic%20curves.jpg" alt=""></p>
+<p>这是令$a=-4, b=0$以后的椭圆曲线，关于$X$轴对称，$P+Q$是 $R$关于 $X$轴上面的对称点，且$R$是从$P$到 $Q$连线延长线与曲线的第三个交叉点。</p>
+<h1 id="Step8-Point-Multiplication"><a href="#Step8-Point-Multiplication" class="headerlink" title="Step8: Point Multiplication"></a>Step8: Point Multiplication</h1><p>同样的机制，如果你进行$P+P$，其结果为经过$P$的切线与曲线的交点关于$X$轴的对称点，然后$P+P+P$可以看作是$P+P$点与 $P$点相加的结果。这就可以用来对<a href="https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication" target="_blank" rel="noopener">椭圆曲线点乘法</a>进行定义：$k \times P$就是点$P$自身进行$k$次相加，以以下两幅图为例。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/Elliptic%20curves%20II.jpg" alt=""><br><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/Elliptic%20curves%20III.jpg" alt=""></p>
+<p>这里你可以看到两个椭圆曲线和一个用来作切线的点$P$，它与曲线相交于第三点，然后其对称点是$2P$，接着从这个点开始，你画一条从$2P$到 $P$的直线与曲线相交，交点的对称点为$3P$。你可以类推一直做下去来完成椭圆曲线乘法。你也可以猜出为什么在做加法时需要取$R$的对称点，因为只有这样，才可以避免在做同一点的多次加法的时候得到同一条线和相同的三个交点。</p>
+<h1 id="Step-9-The-Trap-Door-Function"><a href="#Step-9-The-Trap-Door-Function" class="headerlink" title="Step 9: The Trap Door Function!"></a>Step 9: The Trap Door Function!</h1><p>一个椭圆曲线乘法的特性是你有一个点$R=k\times P$，你知道$R$和 $P$，但是你无法据此求出$k$，因为这里并没有椭圆曲线减法或者椭圆曲线除法可用，你并不能通过$k=R/P$得到$k$。并且，因为你可以做成千上万次的加法，最终你只是知道在曲线上面结束的点，但是具体是如何到达这个点你也并不知道。你无法进行反向操作，得到与点$P$相乘以后给你点$R$的 $k$。</p>
+<p>这种即便你知道原点和终点，但是无法知道被乘数是<code>ECDSA</code>算法背后安全性的所有基础，而这一原则也被称为<a href="https://en.wikipedia.org/wiki/Trapdoor_function" target="_blank" rel="noopener">单向陷门函数</a>。</p>
+<h1 id="Step-10-The-ECDSA-Algorithm"><a href="#Step-10-The-ECDSA-Algorithm" class="headerlink" title="Step 10: The ECDSA Algorithm"></a>Step 10: The ECDSA Algorithm</h1><p>现在已经掌握了基础，现在让我们来谈谈实际的<code>ECDSA</code>签名算法。</p>
+<p>对于<code>ECDSA</code>算法，首先你需要知道你的曲线参数，一共有$a,b,p,N,G$，你已经了解$a$和 $b$是曲线方程的参数（$y^2=x^3+a \times x + b$）,$p$是模运算的底，$N$是曲线上面点的个数，对于<code>ECDSA</code>，还需要一个参数<code>G</code>，它表示一个你所选中的一个参考的起始点。它可以是曲线上面的任意一点。</p>
+<p>这些曲线参数非常重要，如果不能够事先获得它们，你显然无法签署或者验证一个签名。是的，验证一个签名并不只是知道公钥，你还需要知道这个公钥是从什么曲线参数推算出来的。<a href="https://www.nist.gov/" target="_blank" rel="noopener">NIST(National Institute of Standards and Technology)</a>和<a href="http://www.secg.org/" target="_blank" rel="noopener">SECG(Standards for Efficient Cryptography Group)</a>已经提供了预处理的已知高效和安全的标准化曲线参数。</p>
+<p>总结一下：首先，你有一对密钥：公钥和私钥，私钥是一个随机数，也是160比特大小，公钥是将曲线上的点$G$与私钥相乘以后的曲线上的点。令$dA$表示私钥，一个随机数，$Qa$表示公钥，曲线上面的一个点，我们有$Qa = dA \times G$，其中$G$是曲线上面的参考点。</p>
+<h1 id="Step-11-Creating-a-Signature"><a href="#Step-11-Creating-a-Signature" class="headerlink" title="Step 11: Creating a Signature"></a>Step 11: Creating a Signature</h1><p>下面的问题来了，那么我们是如何对一个文件或者一个信息进行签名的呢？</p>
+<p>第一步，你需要知道签名本身是40字节，由各20字节的两个值来进行表示，第一个值叫作$R$，第二个叫作$S$。值对$(R,S)$放到一起就是你的<code>ECDSA</code>签名。</p>
+<p>然后来看看为了进行签名如何创建这一值对：</p>
+<ul>
+<li>产生一个随机数$k$，20字节</li>
+<li>利用点乘法计算$P=k \times G$</li>
+<li>点$P$的 $x$坐标即为$R$</li>
+<li>利用SHA1计算信息的哈希，得到一个20字节的巨大的整数$z$</li>
+<li>利用方程$S=k^{-1}(z + dA \times R) \mod p$计算$S$</li>
+</ul>
+<p>其中$k$是用来生成$R$的随机数，$k^{-1}$是 $k$的<a href="https://en.wikipedia.org/wiki/Modular_multiplicative_inverse" target="_blank" rel="noopener">模的乘法逆元</a>。</p>
+<h1 id="Step-12-Verifying-the-Signature"><a href="#Step-12-Verifying-the-Signature" class="headerlink" title="Step 12: Verifying the Signature"></a>Step 12: Verifying the Signature</h1><p>好了，现在有了你的签名，你想要来验证它，也非常的简单，你只需要公钥和导出这个公钥的曲线参数就可以了。你用以下方程来计算点$P$：<br>$$P=S^{-1}\times z \times G + S^{-1} \times R \times Qa$$</p>
+<p>如果点$P$的 $x$坐标与$R$相等，则意味着这个签名是有效的，否则是无效的。</p>
+<p>非常简单，下面来看看如何一步一步从数学上面进行推导的。</p>
+<p>首先，我们有：<br>$$P=S^{-1}\times z \times G + S^{-1} \times R \times Qa$$</p>
+<p>由于$Qa=dA\times G$，代入上式，则有：<br>$$P=S^{-1}\times z \times G + S^{-1} \times R \times dA \times G=S^{-1}(z+dA\times R)\times G$$</p>
+<p>再由点$P$的 $x$坐标必须与$R$匹配，且$R$是点$k\times P$的 $x$坐标，即 $P=k\times G$，于是有：<br>$$k\times G=S^{-1}(z+dA\times R)\times G$$</p>
+<p>两边将$G$拿掉，有：<br>$$k=S^{-1}(z+dA\times R)$$</p>
+<p>两边求逆，即：<br>$$S=k^{-1}(z + dA \times R)$$</p>
+<p>最后这个就是之前用来产生签名的方程，这是相匹配的，这是我们可以采用本节开头给出的方程进行签名验证的原因。</p>
+<h1 id="Step13-The-Security-of-ECDSA"><a href="#Step13-The-Security-of-ECDSA" class="headerlink" title="Step13: The Security of ECDSA"></a>Step13: The Security of ECDSA</h1><p>你可以注意到你需要同时知道随机数$k$和私钥$dA$才能够计算出$S$，但是你需要$R$和公钥$Qa$来对签名进行确认和验证。并且由于$R=k\times G$以及$Qa = dA\times G$再加上<code>ECDSA</code>点乘法当中的单向陷门函数的特性（在Step9中进行过解释），我们无法通过$Qa$和 $R$来计算$dA$或 $k$，这使得<code>ECDSA</code>算法非常安全，没有办法找到私钥，也无法在不知道私钥的情况下伪造签名。</p>
+<h1 id="Step14-The-Importance-of-a-Random-K"><a href="#Step14-The-Importance-of-a-Random-K" class="headerlink" title="Step14: The Importance of a Random K"></a>Step14: The Importance of a Random K</h1><p>现在我们来讨论一下索尼PS3中使用的<code>ECDSA</code>签名是如何以及为什么产生问题的，以及它是如何允许黑客访问PS3的<code>ECDSA</code>的私钥的。</p>
+<p>你还记得产生一个签名的两个方程，$R=k\times G$ 和 $S=k^{-1}(z+dA\times R) \mod p$，这些方程的强势在于实际上有一个方程里面有两个未知数（$k$和 $dA$），因此你是无法确定其中的任意一个。</p>
+<p>话又说回来，算法的安全是基于其实现的。确保随机数$k$确实是随机产生的变得非常重要，并且没有人能够猜测、计算或者其它任何类型的攻击来得到随机数。但是索尼在它们的实现当中犯了一个巨大的错误，它们在任何地方都采用了同一个随机数，然后它们将具有相同的$R$，这意味着你可以使用两个分别具有散列$z$和 $z’$和签名$S$和 $S’$的两个文件的$S$签名来计算随机数$k$：<br>$$S – S’ = k^{-1} (z + dA\times R) – k^{-1} (z’ + dA\times R) = k^{-1} (z + dA\times R – z’ -dA\times R) = k^{-1} (z – z’)$$</p>
+<p>于是有：<br>$$k = \frac{z-z’}{S-S’}$$</p>
+<p>一旦你知道了随机数$k$，求解$S$的方程就变成了一个只含一个未知数的方程，然后可以很容易地解出$dA$：</p>
+<p>$$dA=（S\times k–z）/R$$</p>
+<p>而一旦你知道了私钥$dA$，你现在可以签署自己的文件，PS3将承认它是一个由索尼签署的官方文件。这就是为什么重要的是要确保用于生成签名的随机数实际上是“加密随机的”。这也是为什么不可能有一个3.56版本以上的自定义固件的原因，因为自从3.56版本以来，索尼已经修复了他们的<code>ECDSA</code>算法实现，并使用了新的密钥，现在不可能这么容易找到私钥。</p>
+<p>这个问题的另一个例子是，一些比特币客户使用非加密随机数生成器（在一些浏览器和一些Android客户机上），导致他们以相同的随机数$k$来签署交易，恶意用户能够据此找到他们比特币钱包的私钥并窃取他们的资金。</p>
+<p>这表明了每次签名时使用真正随机数的重要性，因为如果$(R，S)$签名对的$R$值在两个不同签名上相同，则会暴露私钥。</p>
+<p>下图展示了一个关于随机数的笑话。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/ECDSA/ramdom%20number.jpg" alt=""></p>
+<p>当然，只要实现是正确合理的，<code>ECDSA</code>算法非常安全，不可能找到私钥。如果有办法很容易找到私钥，那么每台计算机、网站、系统的安全都可能受到危害，因为很多系统都依赖<code>ECDSA</code>来保证安全，而且不可能破解。</p>
+<h1 id="Step15-Conclusion"><a href="#Step15-Conclusion" class="headerlink" title="Step15: Conclusion"></a>Step15: Conclusion</h1><p>终于！我希望这能让很多人更清楚整个算法。我知道这仍然很复杂、很难理解。我试图让非技术人员更容易理解，但这个算法太复杂，无法用任何简单的术语解释。</p>
+<p>但是，如果你是一个开发人员或数学家，或者有兴趣学习这方面的知识，因为你想帮助或简单地获得知识，那么我确信这包含了足够的信息，你可以开始学习，或者至少理解这个名为<code>ECDSA</code>的未知野兽背后的概念。</p>
+<p>尽管如此，我还是要感谢一些帮助我理解这一切的人，特别是希望保持匿名的人，以及我在这篇文章中链接到的许多维基百科页面，还有Avi Kak，感谢他解释<code>ECDSA</code>背后的<a href="https://engineering.purdue.edu/kak/compsec/NewLectures/Lecture14.pdf" target="_blank" rel="noopener">数学的论文</a>，我从中借用了上面的这些图片。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/12/12/理解ECDSA算法如何保护我们的数据/" title="ECDSA算法如何保护我们的数据">http://datacruiser.io/2019/12/12/理解ECDSA算法如何保护我们的数据/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/加密算法/" rel="tag"># 加密算法</a>
+          
+            <a href="/tags/比特币/" rel="tag"># 比特币</a>
+          
+            <a href="/tags/go语言/" rel="tag"># go语言</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/10/区块链核心技术及应用场景演讲脚本/" rel="next" title="区块链核心技术及其应用演讲脚本">
+                <i class="fa fa-chevron-left"></i> 区块链核心技术及其应用演讲脚本
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/07/椭圆曲线密码学简介/" rel="prev" title="椭圆曲线密码学简介（一）：实数域的椭圆曲线及其群运算规则">
+                椭圆曲线密码学简介（一）：实数域的椭圆曲线及其群运算规则 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-1-What-is-ECDSA？"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Step-1-What-is-ECDSA&#xFF1F;" class="headerlink" title="Step 1: What is ECDSA&#xFF1F;"></a>Step 1: What is ECDSA&#xFF1F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-2-Understanding-the-Basics"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Step-2-Understanding-the-Basics" class="headerlink" title="Step 2: Understanding the Basics"></a>Step 2: Understanding the Basics</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-3-Why-Use-ECDSA？"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Step-3-Why-Use-ECDSA&#xFF1F;" class="headerlink" title="Step 3: Why Use ECDSA&#xFF1F;"></a>Step 3: Why Use ECDSA&#xFF1F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-4-Basic-Mathematics-and-Binary"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Step-4-Basic-Mathematics-and-Binary" class="headerlink" title="Step 4: Basic Mathematics and Binary"></a>Step 4: Basic Mathematics and Binary</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step5：The-Hash"><span class="nav-number">5.</span> <span class="nav-text"><a href="#Step5&#xFF1A;The-Hash" class="headerlink" title="Step5&#xFF1A;The Hash"></a>Step5&#xFF1A;The Hash</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step6-The-ECDSA-Equation"><span class="nav-number">6.</span> <span class="nav-text"><a href="#Step6-The-ECDSA-Equation" class="headerlink" title="Step6: The ECDSA Equation"></a>Step6: The ECDSA Equation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-7-Point-Addition"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Step-7-Point-Addition" class="headerlink" title="Step 7: Point Addition"></a>Step 7: Point Addition</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step8-Point-Multiplication"><span class="nav-number">8.</span> <span class="nav-text"><a href="#Step8-Point-Multiplication" class="headerlink" title="Step8: Point Multiplication"></a>Step8: Point Multiplication</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-9-The-Trap-Door-Function"><span class="nav-number">9.</span> <span class="nav-text"><a href="#Step-9-The-Trap-Door-Function" class="headerlink" title="Step 9: The Trap Door Function!"></a>Step 9: The Trap Door Function!</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-10-The-ECDSA-Algorithm"><span class="nav-number">10.</span> <span class="nav-text"><a href="#Step-10-The-ECDSA-Algorithm" class="headerlink" title="Step 10: The ECDSA Algorithm"></a>Step 10: The ECDSA Algorithm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-11-Creating-a-Signature"><span class="nav-number">11.</span> <span class="nav-text"><a href="#Step-11-Creating-a-Signature" class="headerlink" title="Step 11: Creating a Signature"></a>Step 11: Creating a Signature</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-12-Verifying-the-Signature"><span class="nav-number">12.</span> <span class="nav-text"><a href="#Step-12-Verifying-the-Signature" class="headerlink" title="Step 12: Verifying the Signature"></a>Step 12: Verifying the Signature</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step13-The-Security-of-ECDSA"><span class="nav-number">13.</span> <span class="nav-text"><a href="#Step13-The-Security-of-ECDSA" class="headerlink" title="Step13: The Security of ECDSA"></a>Step13: The Security of ECDSA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step14-The-Importance-of-a-Random-K"><span class="nav-number">14.</span> <span class="nav-text"><a href="#Step14-The-Importance-of-a-Random-K" class="headerlink" title="Step14: The Importance of a Random K"></a>Step14: The Importance of a Random K</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step15-Conclusion"><span class="nav-number">15.</span> <span class="nav-text"><a href="#Step15-Conclusion" class="headerlink" title="Step15: Conclusion"></a>Step15: Conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/12/12/理解ECDSA算法如何保护我们的数据/';
+          this.page.identifier = '2019/12/12/理解ECDSA算法如何保护我们的数据/';
+          this.page.title = 'ECDSA算法如何保护我们的数据';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

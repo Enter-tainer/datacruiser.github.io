@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="函数式编程,大数据,Scala for the Impatient," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="《Scala for the Impatient》第十章练习。">
+<meta name="keywords" content="函数式编程,大数据,Scala for the Impatient">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scala for the Impatient Chapter 10 练习">
+<meta property="og:url" content="http://datacruiser.io/2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="《Scala for the Impatient》第十章练习。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/Q10Nz0G.png">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scala for the Impatient Chapter 10 练习">
+<meta name="twitter:description" content="《Scala for the Impatient》第十章练习。">
+<meta name="twitter:image" content="https://i.imgur.com/Q10Nz0G.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/"/>
+
+
+
+
+
+  <title>Scala for the Impatient Chapter 10 练习 | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Scala for the Impatient Chapter 10 练习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-08T16:38:44+00:00">
+                2019-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Scala/" itemprop="url" rel="index">
+                    <span itemprop="name">Scala</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  《Scala for the Impatient》第十章练习。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="第1题"><a href="#第1题" class="headerlink" title="第1题"></a>第1题</h4><p><code>java.awt.Rectangle</code>类有两个有用的方法<code>translate</code>和<code>grow</code>，但可惜的是像<code>java.awt.geom.Ellipse2D</code>这样的类中没有。在Scala当中，你可以解决掉这个问题。定一个一个<code>RectangleLike</code>特质，加入具体的<code>translate</code>和<code>grow</code>方法。提供任何你需要用来实现的抽象方法，以便你可以像如下代码这样混入该特质：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> egg = <span class="keyword">new</span> java.awt.geom.<span class="type">Ellipse2D</span>.<span class="type">Double</span>(<span class="number">5</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>) <span class="keyword">with</span> <span class="type">RectangleLike</span> </span><br><span class="line">egg.translate(<span class="number">10</span>, <span class="number">-10</span>)</span><br><span class="line">egg.grow(<span class="number">10</span>, <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+<p>利用自身类型将特质指定为<code>java.awt.geom.Ellipse2D</code>类型，然后加入具体的<code>translate</code>和<code>grow</code>方法，在方法体当中调用重写<code>Ellipse2D</code>类型当中的<code>setFrame(double x, double y, double w, double h)</code>方法，实现<code>Rectangle</code>类当中<code>translate</code>和<code>grow</code>方法的功能。具体代码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.awt.geom.<span class="type">Ellipse2D</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">RectangleLike</span> <span class="keyword">extends</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">trait</span> <span class="title">RectangleLike</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>: java.awt.geom.<span class="type">Ellipse2D</span> =&gt;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">translate</span></span>(dx: <span class="type">Int</span>, dy: <span class="type">Int</span>): <span class="type">Unit</span> =&#123;</span><br><span class="line">      setFrame(getX + dx, getY + dy, getWidth, getHeight)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">grow</span></span>(dw: <span class="type">Int</span>, dh: <span class="type">Int</span>): <span class="type">Unit</span> =&#123;</span><br><span class="line">      setFrame(getX, getY, getWidth + dw, getHeight + dh)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> egg = <span class="keyword">new</span> <span class="type">Ellipse2D</span>.<span class="type">Double</span>(<span class="number">5</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>) <span class="keyword">with</span> <span class="type">RectangleLike</span></span><br><span class="line">  egg.translate(<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">  assert(egg.getX == <span class="number">15</span>)</span><br><span class="line">  assert(egg.getY == <span class="number">20</span>)</span><br><span class="line">  egg.grow(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">  assert(egg.getWidth == <span class="number">30</span>)</span><br><span class="line">  assert(egg.getHeight == <span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">  println(egg.getX == <span class="number">15</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[info] <span class="type">Running</span> excercises.chapter10.<span class="type">RectangleLike</span> </span><br><span class="line"><span class="literal">true</span></span><br><span class="line">[success] <span class="type">Total</span> time: <span class="number">2</span> s, completed <span class="type">May</span> <span class="number">8</span>, <span class="number">2019</span> <span class="number">7</span>:<span class="number">14</span>:<span class="number">38</span> <span class="type">PM</span></span><br></pre></td></tr></table></figure>
+<h4 id="第2题"><a href="#第2题" class="headerlink" title="第2题"></a>第2题</h4><p>通过把<code>scala.math.Ordered[Point]</code>混入<code>java.awt.Point</code>的方式，定义OrderedPoint类。按辞典编辑方式排列，也就是说，如果$x&lt;x^{‘}$或者$x=x^{‘}$且$y&lt;y^{‘}$则$(x,y)&lt;(x^{‘},y^{‘})$。</p>
+<p>根据题意编写代码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"><span class="keyword">import</span> java.awt.<span class="type">Point</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderedPoint</span>(<span class="params">x: <span class="type">Int</span>, y: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Point</span>(<span class="params">x, y</span>) <span class="keyword">with</span> <span class="title">scala</span>.<span class="title">math</span>.<span class="title">Ordered</span>[<span class="type">Point</span>] </span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(that: <span class="type">Point</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.x &lt;= that.x &amp;&amp; <span class="keyword">this</span>.y &lt; that.y)</span><br><span class="line">      <span class="number">-1</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.x == that.x &amp;&amp; <span class="keyword">this</span>.y == that.y)</span><br><span class="line">      <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">orderPoint</span> <span class="keyword">extends</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> op1 = <span class="keyword">new</span> <span class="type">OrderedPoint</span>(<span class="number">10</span>, <span class="number">5</span>)</span><br><span class="line">  <span class="keyword">val</span> op2 = <span class="keyword">new</span> <span class="type">OrderedPoint</span>(<span class="number">10</span> ,<span class="number">6</span>)</span><br><span class="line">  println(op1 &lt; op2)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[info] <span class="type">Running</span> excercises.chapter10.orderPoint </span><br><span class="line"><span class="literal">true</span></span><br><span class="line">[success] <span class="type">Total</span> time: <span class="number">8</span> s, completed <span class="type">May</span> <span class="number">8</span>, <span class="number">2019</span> <span class="number">8</span>:<span class="number">03</span>:<span class="number">17</span> <span class="type">PM</span></span><br></pre></td></tr></table></figure>
+<h4 id="第3题"><a href="#第3题" class="headerlink" title="第3题"></a>第3题</h4><p>查看<code>BitSet</code>类，将它所有超类和特质绘制成一张图。忽略类型参数（[…]中的所有内容）。然后给出该特质的线性化规格说明。</p>
+<p>查看<code>BitSet</code>类，结构如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BitSet</span> <span class="keyword">extends</span> <span class="title">AbstractSet</span>[<span class="type">Int</span>] <span class="keyword">with</span> <span class="title">SortedSet</span>[<span class="type">Int</span>] <span class="keyword">with</span> <span class="title">collection</span>.<span class="title">BitSet</span> <span class="keyword">with</span> <span class="title">BitSetLike</span>[<span class="type">BitSet</span>] <span class="keyword">with</span> <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+<p>线性化规格说明如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lin(<span class="type">BitSet</span>) = <span class="type">BitSet</span> &gt;&gt; lin(<span class="type">Serializable</span>) &gt;&gt; lin(<span class="type">BitSetLike</span>) &gt;&gt; lin(collection.<span class="type">BitSet</span>) &gt;&gt; lin(<span class="type">SortedSet</span>) &gt;&gt; lin(<span class="type">AbstractSet</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="第4题"><a href="#第4题" class="headerlink" title="第4题"></a>第4题</h4><p>提供一个<code>CryptoLogger</code>类，将日志消息以凯撒密码加密。缺省情况下密钥为3，不过使用者也可以重写它。提供缺省密钥和-3作为密钥时的使用示例。</p>
+<p>首先，根据题意需要理解凯撒密码加密是怎么一回事，密钥是如何起作用的。凯撒密码加密的具体内容可以参阅下面这个文档：</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%87%B1%E6%92%92%E5%AF%86%E7%A2%BC" target="_blank" rel="noopener">凯撒密码加密</a></p>
+<p>然后结合题意，编码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">log</span></span>(str:<span class="type">String</span>,key:<span class="type">Int</span> = <span class="number">3</span>):<span class="type">String</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CryptoLogger</span> <span class="keyword">extends</span> <span class="title">Logger</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">log</span></span>(str: <span class="type">String</span>, key:<span class="type">Int</span>): <span class="type">String</span> = &#123;</span><br><span class="line">    <span class="keyword">for</span> ( i &lt;- str) <span class="keyword">yield</span> <span class="keyword">if</span> (key &gt;= <span class="number">0</span>) (<span class="number">97</span> + ((i - <span class="number">97</span> + key) % <span class="number">26</span>)).toChar <span class="keyword">else</span> (<span class="number">97</span> + ((i - <span class="number">97</span> + <span class="number">26</span> + key) % <span class="number">26</span>)).toChar</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">cryptoTest</span> <span class="keyword">extends</span> <span class="title">App</span></span>&#123;</span><br><span class="line">  <span class="keyword">val</span> plain = <span class="string">"Simon Scala"</span>;</span><br><span class="line">  println(<span class="string">"明文为："</span> + plain)</span><br><span class="line">  println(<span class="string">"加密后为："</span> + <span class="keyword">new</span> <span class="type">CryptoLogger</span>().log(plain))</span><br><span class="line">  println(<span class="string">"加密后为："</span> + <span class="keyword">new</span> <span class="type">CryptoLogger</span>().log(plain,<span class="number">-3</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试运行结果如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[info] <span class="type">Running</span> excercises.chapter10.cryptoTest </span><br><span class="line">明文为：<span class="type">Simon</span> <span class="type">Scala</span></span><br><span class="line">加密后为：<span class="type">VlprqWVfdod</span></span><br><span class="line">加密后为：jfjlkQjzxix</span><br><span class="line">[success] <span class="type">Total</span> time: <span class="number">3</span> s, completed <span class="type">May</span> <span class="number">9</span>, <span class="number">2019</span> <span class="number">5</span>:<span class="number">59</span>:<span class="number">41</span> <span class="type">PM</span></span><br></pre></td></tr></table></figure>
+<p>需要特别指出的一点是，在代码的26行，新建的一个变量<code>numberArray</code>用来存储<code>Double</code>类型的数组，这样可以在后面方便地调用<code>sum</code>、<code>max</code>以及<code>min</code>等函数。    </p>
+<h4 id="第5题"><a href="#第5题" class="headerlink" title="第5题"></a>第5题</h4><p>JavaBeans规范里有一种提法讲座属性变更监听器（property change listener），这是bean用来通知其属性变更的标准方式。PropertyChangeSupport类对于任何想要支持属性变更监听器的bean而言是个便捷的超类。但可惜已有其他超类的类——比如JComponet——必须重新实现相应的方法。将PropertyChangeSupport重新实现为一个特质，然后把它混入到java.awt.Point类中。</p>
+<p>查了下Java API，对于<code>PropertyChangeSupport</code>类，根据<code>JavaBeans</code>规范，文档当中给出了下面一段代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBean</span> </span>&#123;</span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">final</span> PropertyChangeSupport pcs = <span class="keyword">new</span> PropertyChangeSupport(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPropertyChangeListener</span><span class="params">(PropertyChangeListener listener)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.pcs.addPropertyChangeListener(listener);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removePropertyChangeListener</span><span class="params">(PropertyChangeListener listener)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.pcs.removePropertyChangeListener(listener);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">private</span> String value;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(String newValue)</span> </span>&#123;</span><br><span class="line">         String oldValue = <span class="keyword">this</span>.value;</span><br><span class="line">         <span class="keyword">this</span>.value = newValue;</span><br><span class="line">         <span class="keyword">this</span>.pcs.firePropertyChange(<span class="string">"value"</span>, oldValue, newValue);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     [...]</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>从这段代码可以看出，任何服从<code>JavaBean</code>规范的类都首先需要实例化一个PropertyChangeSupport对象，然后实现<code>addPropertyChangeListener()</code>和<code>removePropertyChangeListener()</code>方法。</p>
+<p>根据题意编码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.awt.<span class="type">Point</span></span><br><span class="line"><span class="keyword">import</span> java.beans.&#123;<span class="type">PropertyChangeEvent</span>, <span class="type">PropertyChangeListener</span>, <span class="type">PropertyChangeSupport</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">ScalaPropertyChangeSupport</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> pcs = <span class="keyword">new</span> <span class="type">PropertyChangeSupport</span>(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">addPropertyChangeListener</span></span>(propertyName: <span class="type">String</span>, listener: <span class="type">PropertyChangeListener</span>): <span class="type">Unit</span> =&#123;</span><br><span class="line">    <span class="keyword">this</span>.pcs.addPropertyChangeListener(propertyName, listener)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">removePropertyChangeListener</span></span>(listener: <span class="type">PropertyChangeListener</span>): <span class="type">Unit</span> =&#123;</span><br><span class="line">    <span class="keyword">this</span>.pcs.removePropertyChangeListener(listener)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Listener</span> <span class="keyword">extends</span> <span class="title">PropertyChangeListener</span></span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">propertyChange</span></span>(evt: <span class="type">PropertyChangeEvent</span>): <span class="type">Unit</span> = &#123;</span><br><span class="line">    println(evt.getSource.asInstanceOf[<span class="type">Point</span>].x)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">ListenedPoint</span> <span class="keyword">extends</span> <span class="title">Point</span></span>&#123;</span><br><span class="line">  <span class="keyword">this</span>: <span class="type">ScalaPropertyChangeSupport</span> =&gt;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">setLocation</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Unit</span> = &#123;</span><br><span class="line">    pcs.firePropertyChange(<span class="string">"setLocation"</span>, (getX, getY), (x, y))</span><br><span class="line">    <span class="keyword">super</span>.setLocation(x, y)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">pcsTest</span> <span class="keyword">extends</span> <span class="title">App</span></span>&#123;</span><br><span class="line">   println(<span class="type">P</span>.getX, <span class="type">P</span>.getY)</span><br><span class="line">  <span class="type">P</span>.addPropertyChangeListener(<span class="string">"setLocaltion"</span>, <span class="type">L</span>)</span><br><span class="line">  <span class="type">P</span>.setLocation(<span class="number">5</span>, <span class="number">10</span>)</span><br><span class="line">  println(<span class="type">P</span>.getX, <span class="type">P</span>.getY)</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试运行结果如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[info] <span class="type">Running</span> excercises.chapter10.pcsTest </span><br><span class="line">(<span class="number">4.0</span>,<span class="number">4.0</span>)</span><br><span class="line">(<span class="number">5.0</span>,<span class="number">10.0</span>)</span><br><span class="line">[success] <span class="type">Total</span> time: <span class="number">5</span> s, completed <span class="type">May</span> <span class="number">10</span>, <span class="number">2019</span> <span class="number">6</span>:<span class="number">26</span>:<span class="number">52</span> <span class="type">PM</span></span><br></pre></td></tr></table></figure>
+<h4 id="第6题"><a href="#第6题" class="headerlink" title="第6题"></a>第6题</h4><p>在Java AWT类库中，我们有一个Container类，一个可以用于各种组件的Component子类。举例来说，Button是一个Component，但Panel是Container。这是一个运转中的组合模式。Swing有JComponent和JContainer，但如果你仔细看的话，你会发现一些奇怪的细节。尽管把其他组件添加到比如JButton中毫无意义，JComponent依然扩展自Container。Swing的设计者们理想情况下应该会更倾向于图10-4中的设计。但在Java中那是不可能的。请解释这是为什么？Scala中如何用特质来设计出这样的效果?</p>
+<p><img src="https://i.imgur.com/Q10Nz0G.png" alt="Imgur"></p>
+<p>因为Java不支持多重继承，Java只能单继承，JContainer不能同时继承自Container和JComponent。Scala可以通过特质实例化并实现Component类中的方法来解决这个问题。</p>
+<h4 id="第7题"><a href="#第7题" class="headerlink" title="第7题"></a>第7题</h4><p>市面上有不下数十种关于Scala特质的教程，用的都是些“在叫的狗”啦，“讲哲学的青蛙”啦之类的傻乎乎的示例。阅读和理解这些机巧的继承层级很乏味且对于理解问题没什么帮助，但自己设计一套继承层级就不同了，会很有启发。做一个你自己的关于特质的继承层级，要求体现出叠加在一起的特质、具体的和抽象的方法，以及具体的和抽象的字段。</p>
+<p>根据题意编码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Cycle</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">cycle</span></span>(): <span class="type">Unit</span> =&#123;</span><br><span class="line">    println(<span class="string">"Ride a bicycle"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Run</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">run</span></span>(): <span class="type">Unit</span> =&#123;</span><br><span class="line">    println(<span class="string">"Run Run Run"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">runWithNothing</span></span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Swim</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">swim</span></span>(): <span class="type">Unit</span> =&#123;</span><br><span class="line">    println(<span class="string">"Swim in a pool"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>(<span class="params">name: <span class="type">String</span></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">val</span> height: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Athletes</span>(<span class="params">name: <span class="type">String</span></span>) <span class="keyword">extends</span> <span class="title">People</span>(<span class="params">name: <span class="type">String</span></span>) <span class="keyword">with</span> <span class="title">Cycle</span> <span class="keyword">with</span> <span class="title">Run</span> <span class="keyword">with</span> <span class="title">Swim</span> </span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">runWithNothing</span></span>(): <span class="type">Unit</span> = &#123;</span><br><span class="line">    println(<span class="string">"Run with Nothing by an athletes"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">TraitTest</span> <span class="keyword">extends</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> athletes = <span class="keyword">new</span> <span class="type">Athletes</span>(<span class="string">"Triathlon"</span>)</span><br><span class="line">  athletes.runWithNothing()</span><br><span class="line">  athletes.run()</span><br><span class="line">  athletes.swim()</span><br><span class="line">  athletes.cycle()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试运行结果如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[info] <span class="type">Running</span> excercises.chapter10.<span class="type">TraitTest</span> </span><br><span class="line"><span class="type">Run</span> <span class="keyword">with</span> <span class="type">Nothing</span> by an athletes</span><br><span class="line"><span class="type">Run</span> <span class="type">Run</span> <span class="type">Run</span></span><br><span class="line"><span class="type">Swim</span> in a pool</span><br><span class="line"><span class="type">Ride</span> a bicycle</span><br><span class="line">[success] <span class="type">Total</span> time: <span class="number">14</span> s, completed <span class="type">May</span> <span class="number">10</span>, <span class="number">2019</span> <span class="number">7</span>:<span class="number">42</span>:<span class="number">45</span> <span class="type">PM</span></span><br></pre></td></tr></table></figure>
+<h4 id="第8题"><a href="#第8题" class="headerlink" title="第8题"></a>第8题</h4><p>在java.io类库中，你可以通过BufferedInputStream修饰器来给输入流增加缓冲机制。用特质来重新实现缓冲。简单起见，重写read方法。</p>
+<p>根据题意编码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.&#123;<span class="type">BufferedInputStream</span>, <span class="type">File</span>, <span class="type">FileInputStream</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">TraitBuffer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>: <span class="type">FileInputStream</span> =&gt;</span><br><span class="line">  <span class="keyword">val</span> b = <span class="keyword">new</span> <span class="type">BufferedInputStream</span>(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">read</span></span>(ab: <span class="type">Array</span>[<span class="type">Byte</span>]): <span class="type">Int</span> = b.read(ab)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">traintBuffer</span> <span class="keyword">extends</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> dir = <span class="keyword">new</span> <span class="type">File</span>(<span class="string">"src/main/scala/excercises/chapter10"</span>)</span><br><span class="line">  <span class="keyword">val</span> path: <span class="type">String</span> = dir.getAbsolutePath()</span><br><span class="line">  <span class="keyword">val</span> b = <span class="keyword">new</span> <span class="type">FileInputStream</span>(path + <span class="string">"/"</span> + <span class="string">"test.txt"</span>) <span class="keyword">with</span> <span class="type">TraitBuffer</span></span><br><span class="line">  <span class="keyword">val</span> ab = <span class="keyword">new</span> <span class="type">Array</span>[<span class="type">Byte</span>](<span class="number">1024</span>)</span><br><span class="line"></span><br><span class="line">  b.read(ab)</span><br><span class="line"></span><br><span class="line">  ab.foreach(a =&gt; print(a.toChar))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[info] <span class="type">Running</span> excercises.chapter10.traintBuffer </span><br><span class="line"><span class="type">Scala</span></span><br><span class="line"><span class="type">Java</span></span><br><span class="line"><span class="type">Hadoop</span></span><br><span class="line"><span class="type">Spark</span></span><br><span class="line">[success] <span class="type">Total</span> time: <span class="number">2</span> s, completed <span class="type">May</span> <span class="number">10</span>, <span class="number">2019</span> <span class="number">7</span>:<span class="number">59</span>:<span class="number">44</span> <span class="type">PM</span></span><br></pre></td></tr></table></figure>
+<h4 id="第9题"><a href="#第9题" class="headerlink" title="第9题"></a>第9题</h4><p>使用本章的日志生成器特质,给前一个练习中的方案增加日志功能，要求体现缓冲的效果。</p>
+<p>借助9.7节提供的遍历目录的代码段，编码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.&#123;<span class="type">BufferedInputStream</span>, <span class="type">File</span>, <span class="type">FileInputStream</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">TLogger</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">log</span></span>(msg: <span class="type">String</span>): <span class="type">Unit</span> =&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">LogTraitBuffer</span> <span class="keyword">extends</span> <span class="title">TLogger</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>: <span class="type">FileInputStream</span> =&gt;</span><br><span class="line">  <span class="keyword">val</span> b = <span class="keyword">new</span> <span class="type">BufferedInputStream</span>(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">read</span></span>(): <span class="type">Int</span> = &#123;</span><br><span class="line">    log(<span class="string">"可用性差异："</span> + (b.available() - <span class="keyword">this</span>.available()))</span><br><span class="line">    b.read()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">log</span></span>(msg: <span class="type">String</span>): <span class="type">Unit</span> = &#123;</span><br><span class="line">    println(msg)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">logTraitBuffer</span> <span class="keyword">extends</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> dir = <span class="keyword">new</span> <span class="type">File</span>(<span class="string">"src/main/scala/excercises/chapter10"</span>)</span><br><span class="line">  <span class="keyword">val</span> path: <span class="type">String</span> = dir.getAbsolutePath()</span><br><span class="line">  <span class="keyword">val</span> b = <span class="keyword">new</span> <span class="type">FileInputStream</span>(path + <span class="string">"/"</span> + <span class="string">"test.txt"</span>) <span class="keyword">with</span> <span class="type">LogTraitBuffer</span></span><br><span class="line">  <span class="type">Iterator</span>.continually(b.read()).takeWhile(_ != <span class="number">-1</span>).map(_.toChar).mkString</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第10题"><a href="#第10题" class="headerlink" title="第10题"></a>第10题</h4><p>实现一个IterableInputStream类，扩展java.io.InputStream并混入Iterable[Byte]特质。    </p>
+<p>根据题意，编码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> excercises.chapter10</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.&#123;<span class="type">File</span>, <span class="type">FileInputStream</span>, <span class="type">InputStream</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IterableInputStream</span>(<span class="params">is: <span class="type">InputStream</span></span>) <span class="keyword">extends</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">InputStream</span> <span class="keyword">with</span> <span class="title">Iterable</span>[<span class="type">Byte</span>] </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">iterator</span> </span>= <span class="keyword">new</span> <span class="type">Iterator</span>[<span class="type">Byte</span>] &#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hasNext</span></span>() = is.available &gt; <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next</span></span>() = is.read.toByte</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">read</span> </span>= is.read()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">iterableInputSteam</span> <span class="keyword">extends</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> dir = <span class="keyword">new</span> <span class="type">File</span>(<span class="string">"src/main/scala/excercises/chapter10"</span>)</span><br><span class="line">  <span class="keyword">val</span> path: <span class="type">String</span> = dir.getAbsolutePath()</span><br><span class="line">  <span class="keyword">val</span> b = <span class="keyword">new</span> <span class="type">IterableInputStream</span>(<span class="keyword">new</span> <span class="type">FileInputStream</span>(path + <span class="string">"/"</span> + <span class="string">"test.txt"</span>)).iterator</span><br><span class="line">  <span class="keyword">val</span> r = b.map(_.toChar).mkString</span><br><span class="line">  println(r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[info] <span class="type">Running</span> excercises.chapter10.iterableInputSteam </span><br><span class="line"><span class="type">Scala</span></span><br><span class="line"><span class="type">Java</span></span><br><span class="line"><span class="type">Hadoop</span></span><br><span class="line"><span class="type">Spark</span></span><br><span class="line">[success] <span class="type">Total</span> time: <span class="number">7</span> s, completed <span class="type">May</span> <span class="number">11</span>, <span class="number">2019</span> <span class="number">3</span>:<span class="number">17</span>:<span class="number">23</span> <span class="type">PM</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/" title="Scala for the Impatient Chapter 10 练习">http://datacruiser.io/2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/函数式编程/" rel="tag"># 函数式编程</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/Scala-for-the-Impatient/" rel="tag"># Scala for the Impatient</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/29/Scala-for-the-Impatient-Chapter-9-练习/" rel="next" title="Scala for the Impatient Chapter 9 练习">
+                <i class="fa fa-chevron-left"></i> Scala for the Impatient Chapter 9 练习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/11/Scala-for-the-Impatient-Chapter-11-练习/" rel="prev" title="Scala for the Impatient Chapter 11 练习">
+                Scala for the Impatient Chapter 11 练习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#第1题"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x7B2C;1&#x9898;" class="headerlink" title="&#x7B2C;1&#x9898;"></a>&#x7B2C;1&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第2题"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x7B2C;2&#x9898;" class="headerlink" title="&#x7B2C;2&#x9898;"></a>&#x7B2C;2&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第3题"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x7B2C;3&#x9898;" class="headerlink" title="&#x7B2C;3&#x9898;"></a>&#x7B2C;3&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第4题"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x7B2C;4&#x9898;" class="headerlink" title="&#x7B2C;4&#x9898;"></a>&#x7B2C;4&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第5题"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x7B2C;5&#x9898;" class="headerlink" title="&#x7B2C;5&#x9898;"></a>&#x7B2C;5&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第6题"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x7B2C;6&#x9898;" class="headerlink" title="&#x7B2C;6&#x9898;"></a>&#x7B2C;6&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第7题"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x7B2C;7&#x9898;" class="headerlink" title="&#x7B2C;7&#x9898;"></a>&#x7B2C;7&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第8题"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x7B2C;8&#x9898;" class="headerlink" title="&#x7B2C;8&#x9898;"></a>&#x7B2C;8&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第9题"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x7B2C;9&#x9898;" class="headerlink" title="&#x7B2C;9&#x9898;"></a>&#x7B2C;9&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第10题"><span class="nav-number">10.</span> <span class="nav-text"><a href="#&#x7B2C;10&#x9898;" class="headerlink" title="&#x7B2C;10&#x9898;"></a>&#x7B2C;10&#x9898;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/';
+          this.page.identifier = '2019/05/08/Scala-for-the-Impatient-Chapter-10-练习/';
+          this.page.title = 'Scala for the Impatient Chapter 10 练习';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

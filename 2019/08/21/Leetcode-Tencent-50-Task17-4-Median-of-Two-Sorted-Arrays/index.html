@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据结构,算法,C语言,数组," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="DataWhale暑期学习小组-LeetCode刷题第八期Task17。">
+<meta name="keywords" content="数据结构,算法,C语言,数组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode Tencent 50 Task17 4. Median of Two Sorted Arrays">
+<meta property="og:url" content="http://datacruiser.io/2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="DataWhale暑期学习小组-LeetCode刷题第八期Task17。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-25-12.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-26-22.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-26-40.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-26-55.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-11.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-25.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-40.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-57.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-28-16.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-28-38.png">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Leetcode Tencent 50 Task17 4. Median of Two Sorted Arrays">
+<meta name="twitter:description" content="DataWhale暑期学习小组-LeetCode刷题第八期Task17。">
+<meta name="twitter:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-25-12.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/"/>
+
+
+
+
+
+  <title>Leetcode Tencent 50 Task17 4. Median of Two Sorted Arrays | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Leetcode Tencent 50 Task17 4. Median of Two Sorted Arrays</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-21T08:35:21+00:00">
+                2019-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode-腾讯精选50题/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode 腾讯精选50题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  DataWhale暑期学习小组-LeetCode刷题第八期Task17。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>给定两个大小为 <code>m</code>和 <code>n</code>的有序数组 <code>nums1</code>和 <code>nums2</code>。</p>
+<p>请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为<code>O(log(m + n))</code>。</p>
+<p>你可以假设 <code>nums1</code> 和 <code>nums2</code> 不会同时为空。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">nums1 = [<span class="number">1</span>, <span class="number">3</span>]</span><br><span class="line">nums2 = [<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">则中位数是 <span class="number">2.0</span></span><br></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">nums1 = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">nums2 = [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">则中位数是 (<span class="number">2</span> + <span class="number">3</span>)/<span class="number">2</span> = <span class="number">2.5</span></span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/median-of-two-sorted-arrays" target="_blank" rel="noopener">4. Median of Two Sorted Arrays</a></p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>显然，这道题对于时间复杂度有要求，常规的合并两个有序数组然后再根据数组下标再找中位数的思路是行不通的。看到<code>O(log(m + n))</code>应该能够想到采用二分法。</p>
+<h2 id="中位数定义"><a href="#中位数定义" class="headerlink" title="中位数定义"></a>中位数定义</h2><p><strong>中位数</strong>（又称中值，英语：Median），统计学中的专有名词，代表一个样本、种群或概率分布中的一个数值，其可将数值集合划分为相等的上下两部分。对于有限的数集，可以通过把所有观察值高低排序后找出正中间的一个作为中位数。如果观察值有偶数个，则中位数不唯一，通常取最中间的两个数值的平均数作为中位数。</p>
+<p>一个数集中最多有一半的数值小于中位数，也最多有一半的数值大于中位数。如果大于和小于中位数的数值个数均少于一半，那么数集中必有若干值等同于中位数。</p>
+<p>设连续随机变量X的分布函数为F(X)，那么满足条件P(X≤m)=F(m)=1/2的数称为X或分布F的中位数。</p>
+<p>对于一组有限个数的数据来说，其中位数是这样的一种数：这群数据的一半的数据比它大，而另外一半数据比它小。</p>
+<p>计算有限个数的数据的中位数的方法是：把所有的同类数据按照大小的顺序排列。如果数据的个数是奇数，则中间那个数据就是这群数据的中位数；如果数据的个数是偶数，则中间那2个数据的算术平均值就是这群数据的中位数。</p>
+<p><strong>公式</strong></p>
+<p>根据定义，若实数$x_1,x_2,…,x_n$按大小顺序（顺序，降序皆可）排列$x_1^{‘},x_2^{‘},…x_n^{‘}$，则实数数列$x=(x_1,x_2,…,x_n)$的中位数$Q_{\frac{1}{2}}(x)$为：</p>
+<p>$$<br>Q_{\frac{1}{2}}(x)=\begin{cases}<br>x_{\frac{n+1}{2}}^{‘}\quad &amp;{\rm if} \,\,n\,\, {\rm is\,\, odd \,\,number.} \\\\<br>\frac{1}{2}\left(x_{\frac{n}{2}}^{‘}+x_{\frac{n}{2}+1}^{‘}\right)\quad &amp;{\rm if} \,\,n\,\, {\rm is\,\, even \,\,number.}<br>\end{cases}<br>$$</p>
+<p>其中<code>odd number</code>表示奇数，<code>even number</code>表示偶数。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>参考题解里面的一个<a href="https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/he-bing-yi-hou-zhao-gui-bing-guo-cheng-zhong-zhao-/" target="_blank" rel="noopener">解答</a>，太详细了，这里直接转载贴图然后再加以说明。</p>
+<h3 id="配图1"><a href="#配图1" class="headerlink" title="配图1"></a>配图1</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-25-12.png" alt=""></p>
+<h3 id="配图2"><a href="#配图2" class="headerlink" title="配图2"></a>配图2</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-26-22.png" alt=""></p>
+<h3 id="配图3"><a href="#配图3" class="headerlink" title="配图3"></a>配图3</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-26-40.png" alt=""></p>
+<h3 id="配图4"><a href="#配图4" class="headerlink" title="配图4"></a>配图4</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-26-55.png" alt=""></p>
+<h3 id="配图5"><a href="#配图5" class="headerlink" title="配图5"></a>配图5</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-11.png" alt=""></p>
+<h3 id="配图6"><a href="#配图6" class="headerlink" title="配图6"></a>配图6</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-25.png" alt=""></p>
+<h3 id="配图7"><a href="#配图7" class="headerlink" title="配图7"></a>配图7</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-40.png" alt=""></p>
+<h3 id="配图8"><a href="#配图8" class="headerlink" title="配图8"></a>配图8</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-27-57.png" alt=""></p>
+<h3 id="配图9"><a href="#配图9" class="headerlink" title="配图9"></a>配图9</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-28-16.png" alt=""></p>
+<h3 id="配图10"><a href="#配图10" class="headerlink" title="配图10"></a>配图10</h3><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Task17%204.%20Median%20of%20Two%20Sorted%20Arrays/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E7%9F%AD%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%EF%BC%8C%E9%95%BF%E6%95%B0%E7%BB%84%E7%9A%84%E2%80%9C%E8%BE%B9%E7%95%8C%E7%BA%BF%E2%80%9D%E8%87%AA%E5%8A%A8%E7%A1%AE%E5%AE%9A%EF%BC%88Python%20%E4%BB%A3%E7%A0%81%E3%80%81Java%20%E4%BB%A3%E7%A0%81%EF%BC%89%20-%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0%20-%20%E5%8A%9B%E6%89%A3%EF%BC%88LeetCode%EF%BC%89%202019-08-21%2020-28-38.png" alt=""></p>
+<p>贴了这么多图，这里再用文字总结一下。上述方法的核心就是直接依据中位数的定义，在两个数组之间采用二分法找到两个数组作为一个整体时符合定义的分界线，然后根据两个数组元素个数的奇偶性来求出中位数的值。</p>
+<p>这里有一个小trick，分别找出第$(m+n+1)/2$和$(m+n+2)/2$个元素，然后求平均值即可，这对于数组总体元素奇偶性都能够适用。</p>
+<p>然后，为了找到符合中位数定义的分界线，其实可以转化为在两个有序数组中找到第K个元素，主要可以分为以下几步：</p>
+<ul>
+<li>定义一个寻找两个有序数组中第K个元素的函数用来递归调用，并将K初始化为m+n的中间值</li>
+<li>用两个变量<code>i</code>和<code>j</code>来标记<code>nums1</code>和<code>nums2</code>的起始位置</li>
+<li>处理边界条件<ul>
+<li>当一个数组的起始位置大于等于其数组长度的时候，那么就可以直接在另外一个数组当中找</li>
+<li>如果K=1的时候，那么直接比较两个数组起始位置上面的数字，返回较小的那个值即可</li>
+</ul>
+</li>
+<li>一般情况下，对K进行二分，分别在两个数组当中查找第K/2个元素<ul>
+<li>确认数组中到底存不存在第K/2个数字，存在就取出来，不存在就赋值为整型最大值</li>
+<li>如果某一个数组没有第K/2个数字，淘汰另外一个数组前K/2个数字</li>
+<li>比较两个数组当中第K/2小的数字 <code>midValue1</code> 和 <code>midValue2</code>的大小，如果 <code>midValue1</code>小的化，我们可以淘汰 <code>nums1</code>中的前K/2个元素，随后将 <code>nums1</code>的起始位置后移K/2个，并且 <code>K=K-K/2</code>，调用递归</li>
+</ul>
+</li>
+</ul>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code class="c"><span class="comment">//定义辅助比较函数</span>
+<span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>
+<span class="function"></span>{
+    <span class="keyword">if</span>(a &gt; b) <span class="keyword">return</span> b;
+    <span class="keyword">else</span> <span class="keyword">return</span> a;
+}
+
+<span class="comment">//定义递归调用该函数</span>
+<span class="function"><span class="keyword">int</span> <span class="title">findKth</span><span class="params">(<span class="keyword">int</span>* nums1, <span class="keyword">int</span> i, <span class="keyword">int</span> nums1Size, <span class="keyword">int</span>* nums2, <span class="keyword">int</span> j, <span class="keyword">int</span> nums2Size, <span class="keyword">int</span> k)</span></span>
+<span class="function"></span>{
+    <span class="keyword">if</span>(i &gt;= nums1Size)
+    {
+        <span class="keyword">return</span> nums2[j + k - <span class="number">1</span>];
+    }
+    <span class="keyword">if</span>(j &gt;= nums2Size)
+    {
+        <span class="keyword">return</span> nums1[i + k - <span class="number">1</span>];
+    }
+
+    <span class="keyword">if</span>(k == <span class="number">1</span>)
+    {
+        <span class="keyword">return</span> min(nums1[i], nums2[j]);
+    }
+
+    <span class="keyword">int</span> midValue1 = (i + k / <span class="number">2</span> - <span class="number">1</span> &lt; nums1Size) ? nums1[i + k / <span class="number">2</span> <span class="number">-1</span>] : INT_MAX;
+    <span class="keyword">int</span> midValue2 = (j + k / <span class="number">2</span> - <span class="number">1</span> &lt; nums2Size) ? nums2[j + k / <span class="number">2</span> <span class="number">-1</span>] : INT_MAX;
+
+    <span class="keyword">if</span>(midValue1 &lt; midValue2)
+    {
+        <span class="keyword">return</span> findKth(nums1, i + k / <span class="number">2</span>, nums1Size, nums2, j, nums2Size, k - k / <span class="number">2</span>);
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">return</span> findKth(nums1, i, nums1Size, nums2, j + k / <span class="number">2</span>, nums2Size, k - k / <span class="number">2</span>);
+    }
+    <span class="comment">// return (arg1 &gt; arg2) - (arg1 &lt; arg2); // possible shortcut</span>
+    <span class="comment">// return arg1 - arg2; // erroneous shortcut (fails if INT_MIN is present)</span>
+}
+
+
+<span class="function"><span class="keyword">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(<span class="keyword">int</span>* nums1, <span class="keyword">int</span> nums1Size, <span class="keyword">int</span>* nums2, <span class="keyword">int</span> nums2Size)</span></span>
+<span class="function"></span>{
+    <span class="keyword">int</span> m  = nums1Size, n = nums2Size;
+    <span class="keyword">int</span> left = (m + n + <span class="number">1</span>) / <span class="number">2</span>, right = (m + n + <span class="number">2</span>) / <span class="number">2</span>; <span class="comment">//初始化K的位置，找到以后返回两者平均值即可</span>
+
+    <span class="keyword">return</span> (findKth(nums1, <span class="number">0</span>, m, nums2, <span class="number">0</span>, n, left) + findKth(nums1, <span class="number">0</span> , m, nums2, <span class="number">0</span>, n, right)) / <span class="number">2.0</span>;
+}
+</code></pre>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/he-bing-yi-hou-zhao-gui-bing-guo-cheng-zhong-zhao-/" target="_blank" rel="noopener">二分查找短数组的“边界线”，长数组的“边界线”自动确定（Python 代码、Java 代码）
+</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/" title="Leetcode Tencent 50 Task17 4. Median of Two Sorted Arrays">http://datacruiser.io/2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/C语言/" rel="tag"># C语言</a>
+          
+            <a href="/tags/数组/" rel="tag"># 数组</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/20/Leetcode-Tencent-50-Task16-292-Nim-Game/" rel="next" title="Leetcode Tencent 50 Task16 292. Nim Game">
+                <i class="fa fa-chevron-left"></i> Leetcode Tencent 50 Task16 292. Nim Game
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/25/Leetcode-Tencent-50-Task18-11-Container-With-Most-Water/" rel="prev" title="Leetcode Tencent 50 Task20 11. Container With Most Water">
+                Leetcode Tencent 50 Task20 11. Container With Most Water <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#描述"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x63CF;&#x8FF0;" class="headerlink" title="&#x63CF;&#x8FF0;"></a>&#x63CF;&#x8FF0;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题思路"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x89E3;&#x9898;&#x601D;&#x8DEF;" class="headerlink" title="&#x89E3;&#x9898;&#x601D;&#x8DEF;"></a>&#x89E3;&#x9898;&#x601D;&#x8DEF;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#中位数定义"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x4E2D;&#x4F4D;&#x6570;&#x5B9A;&#x4E49;" class="headerlink" title="&#x4E2D;&#x4F4D;&#x6570;&#x5B9A;&#x4E49;"></a>&#x4E2D;&#x4F4D;&#x6570;&#x5B9A;&#x4E49;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题解"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x9898;&#x89E3;" class="headerlink" title="&#x9898;&#x89E3;"></a>&#x9898;&#x89E3;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配图1"><span class="nav-number">2.2.1.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;1" class="headerlink" title="&#x914D;&#x56FE;1"></a>&#x914D;&#x56FE;1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图2"><span class="nav-number">2.2.2.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;2" class="headerlink" title="&#x914D;&#x56FE;2"></a>&#x914D;&#x56FE;2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图3"><span class="nav-number">2.2.3.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;3" class="headerlink" title="&#x914D;&#x56FE;3"></a>&#x914D;&#x56FE;3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图4"><span class="nav-number">2.2.4.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;4" class="headerlink" title="&#x914D;&#x56FE;4"></a>&#x914D;&#x56FE;4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图5"><span class="nav-number">2.2.5.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;5" class="headerlink" title="&#x914D;&#x56FE;5"></a>&#x914D;&#x56FE;5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图6"><span class="nav-number">2.2.6.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;6" class="headerlink" title="&#x914D;&#x56FE;6"></a>&#x914D;&#x56FE;6</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图7"><span class="nav-number">2.2.7.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;7" class="headerlink" title="&#x914D;&#x56FE;7"></a>&#x914D;&#x56FE;7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图8"><span class="nav-number">2.2.8.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;8" class="headerlink" title="&#x914D;&#x56FE;8"></a>&#x914D;&#x56FE;8</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图9"><span class="nav-number">2.2.9.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;9" class="headerlink" title="&#x914D;&#x56FE;9"></a>&#x914D;&#x56FE;9</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配图10"><span class="nav-number">2.2.10.</span> <span class="nav-text"><a href="#&#x914D;&#x56FE;10" class="headerlink" title="&#x914D;&#x56FE;10"></a>&#x914D;&#x56FE;10</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;" class="headerlink" title="&#x4EE3;&#x7801;"></a>&#x4EE3;&#x7801;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x53C2;&#x8003;" class="headerlink" title="&#x53C2;&#x8003;"></a>&#x53C2;&#x8003;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/';
+          this.page.identifier = '2019/08/21/Leetcode-Tencent-50-Task17-4-Median-of-Two-Sorted-Arrays/';
+          this.page.title = 'Leetcode Tencent 50 Task17 4. Median of Two Sorted Arrays';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="区块链,非对称加密,比特币,共识算法,DoW,DoS,PDoS,PBFT," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="最近又在公司更大的范围重新讲了一次上次做的关于区块链的片子，当然随着最近自己也看了一些新的资料，片子本身的内容也进行了大幅度的修改，并且时间上面也允许我花一些时间写一个演讲脚本出来，这样子，整个文章就更加丰满了。">
+<meta name="keywords" content="区块链,非对称加密,比特币,共识算法,DoW,DoS,PDoS,PBFT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链核心技术及其应用演讲脚本">
+<meta property="og:url" content="http://datacruiser.io/2019/12/10/区块链核心技术及应用场景演讲脚本/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="最近又在公司更大的范围重新讲了一次上次做的关于区块链的片子，当然随着最近自己也看了一些新的资料，片子本身的内容也进行了大幅度的修改，并且时间上面也允许我花一些时间写一个演讲脚本出来，这样子，整个文章就更加丰满了。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%203.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%204.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%205.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%206.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%207.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%208.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%209.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2010.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2011.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2012.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2013.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2014.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2015.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2016.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2017.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2018.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2020.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2021.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2022.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2023.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2024.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2027%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2028%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2029%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2030%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2031%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2032%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2033%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2034%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2035%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2036%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2037%2011%3A12%3A2019.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2036.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2039%2011%3A12%3A2019.png">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="区块链核心技术及其应用演讲脚本">
+<meta name="twitter:description" content="最近又在公司更大的范围重新讲了一次上次做的关于区块链的片子，当然随着最近自己也看了一些新的资料，片子本身的内容也进行了大幅度的修改，并且时间上面也允许我花一些时间写一个演讲脚本出来，这样子，整个文章就更加丰满了。">
+<meta name="twitter:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%203.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/12/10/区块链核心技术及应用场景演讲脚本/"/>
+
+
+
+
+
+  <title>区块链核心技术及其应用演讲脚本 | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/12/10/区块链核心技术及应用场景演讲脚本/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">区块链核心技术及其应用演讲脚本</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-10T10:09:26+00:00">
+                2019-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/区块链/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/比特币/" itemprop="url" rel="index">
+                    <span itemprop="name">比特币</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/10/区块链核心技术及应用场景演讲脚本/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/12/10/区块链核心技术及应用场景演讲脚本/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  7.3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  24
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  最近又在公司更大的范围重新讲了一次上次做的关于区块链的片子，当然随着最近自己也看了一些新的资料，片子本身的内容也进行了大幅度的修改，并且时间上面也允许我花一些时间写一个演讲脚本出来，这样子，整个文章就更加丰满了。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>﻿大家晚上好，我是来自大数据中心的潘华引，首先非常感谢大家能够从百忙之中抽出宝贵的时间来听我的介绍。</p>
+<p>晚上我分享的题目是《区块链核心技术及应用场景》，主要有以下七个部分的内容，希望通过晚上的分享，能够让大家对区块链的发展历程和底层的数据结构以及主要算法能够有所了解。</p>
+<p>准备的时间比较仓促，区块链技术本身也发展很快，有哪里讲得不对的地方请大家多多包涵~</p>
+<ul>
+<li><p>发展历史</p>
+</li>
+<li><p>技术概括</p>
+</li>
+<li><p>核心技术</p>
+</li>
+<li><p>架构分析</p>
+</li>
+<li><p>应用场景</p>
+</li>
+<li><p>产业政策</p>
+</li>
+<li><p>总结展望</p>
+</li>
+</ul>
+<h1 id="区块链发展历史"><a href="#区块链发展历史" class="headerlink" title="区块链发展历史"></a>区块链发展历史</h1><p>我们首先来看看区块链技术在Gartner历年新兴科技发展历程曲线当中的位置，我看了下近10年，也就是从中本聪的比特币白皮书发布以来历年的曲线，区块链技术是从2016年开始在这个曲线首次出现，而且首次出现就处于过热期的阶段，随后两年徘徊在过热期到幻想破灭期的边缘，今年呢，干脆已经消失了，不过随着越来越多的国家将区块链技术放到比较高的战略位置，特别是中国在中共中央政治局会议上进行了集中学习，希望以后特别是明年，能够进入到复苏期。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%203.png" alt=""></p>
+<p>下面这张片子展示了区块链技术的主要里程碑节点，从中本聪的比特币白皮书，比特币创世区块、比特币的首个与美元的汇率，到以太坊的上线，以及中国人民银行DCEP项目的启动，到各种巨头参与的区块链联盟的成立，以及Facebook发布的Libra加密货币白皮书，大家有兴趣可以看看小扎在美国国会上面的听证会，他们的野心的很大的，不过我们在这方面的研究和积累也是比较深厚的，DCEP项目启动时间早，而且国内阿里巴巴、腾讯等巨头也很早开始投入，</p>
+<p>习主席在中央政治局第十八次集体学习时更是强调把区块链作为核心技术自主创新重要突破口 加快推动区块链技术和产业创新发展。可以说把区块链放到了很高的战略地位。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%204.png" alt=""></p>
+<h1 id="区块链技术概述"><a href="#区块链技术概述" class="headerlink" title="区块链技术概述"></a>区块链技术概述</h1><p>那么我们来看看什么是区块链，狭义地说，区块链是一种分布式账本技术，形式上表现为一种基于哈希密码学和梅克尔树模型的链式数据结构。借助非对称加密、点对点网络、节点共识算法和时间戳等机制，为参与节点提供了一个具有充分可信、不可篡改的、数据透明的分布式账本。</p>
+<p>大家请看屏幕右边的这张示意图，所谓分布式账本，就是A君到B君的这一笔转账，整个网络上面的所有人都会将这一笔交易进行记录。广义的讲，区块链还包括在这个分布式账本上面搭建起来的各种商业逻辑。显然，区块链不等于比特币，比特币只是基于区块链技术的一种较为成功的应用，而且也是比特币首次采用了区块链这一独特的数据结构。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%205.png" alt=""></p>
+<p>随着十年的发展，我们把区块链技术进行了分代，分别为：</p>
+<ul>
+<li><p>以比特币为代表的区块链1.0</p>
+</li>
+<li><p>以以太坊为代表的区块链2.0</p>
+</li>
+<li><p>以EOS、DFINITY为代表的区块链3.0</p>
+</li>
+</ul>
+<p>1.0的应用比较单一，就是数字加密货币，以比特币及各种山寨比特币为代表；</p>
+<p>2.0在1.0的基础上，提供了图灵完备的通用编程语言，可以实现各种具有复杂逻辑的金融交易，所谓的智能合约，不过不要被合约两个字唬住了，其实和现实当中的合约并不相同，只是计算机能够识别并执行的各种代码而已；</p>
+<p>3.0则超越了在金融领域的束缚，试图将区块链技术在其它的垂直领域进行应用，后面将区块链应用场景的时候会再具体展开。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%206.png" alt=""></p>
+<p>下面再来对区块链技术分分类：</p>
+<ul>
+<li><p>以各种数字货币为代表的共有链</p>
+</li>
+<li><p>以Linux基金的超级账本为代表的联盟链</p>
+</li>
+<li><p>最后是各种公司内部的私有链</p>
+</li>
+</ul>
+<p>不同类别的区块链从参与者、共识机制、记账主体、是否需要激励、以及适用的场景等方面都有所不同，片子上面都有，这里就不具体展开了。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%207.png" alt=""></p>
+<p>分布式记账相比起传统的记账方式有如下特点：</p>
+<ul>
+<li><p>账本多点存储，通过P2P网络进行更新</p>
+</li>
+<li><p>将每一笔账都打上时间戳，并采用特殊的节点共识算法，确保账本信息的权威且不可篡改</p>
+</li>
+<li><p>当然，密码学上的非对称加密技术也会被采用，用来确保账本内容和交易的安全性</p>
+</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%208.png" alt=""></p>
+<p>从交易的流程看，相比起传统账本的记账写入和查账读出，基于区块链的分布式账本要更为复杂。大致需要经过以下五个步骤：</p>
+<ul>
+<li><p>交易创建</p>
+</li>
+<li><p>交易传播</p>
+</li>
+<li><p>交易验证</p>
+</li>
+<li><p>网络核实</p>
+</li>
+<li><p>区块更新</p>
+</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%209.png" alt=""></p>
+<h1 id="区块链核心技术"><a href="#区块链核心技术" class="headerlink" title="区块链核心技术"></a>区块链核心技术</h1><p>到现在，相信大家对区块链应该有一个大致的了解，接下来我们再看看区块链当中所采用的一些核心技术。首先，区块链技术更多的是对已有技术的一种集成，然后在使用模式上进行大量创新。比如密码学上的加密哈希函数，虽然在前面套上加密两个字，但是本质上还是一个哈希函数，和大学本科《数据结构》里面的哈希函数一样，不过有更多的独特性质。</p>
+<ul>
+<li><p>单向性：对于给定的输入可以简单快捷地得到输出，但是，从输出几乎是无法反推出输入，这个可以从数学上面进行确保，比如幂模运算问题，离散对数问题</p>
+</li>
+<li><p>定时/定长性：定时指的是函数计算时间大致相同，定长指的是函数输出内容长度相同，我们看下面这个例子：以比特币系统当中大量采用的SHA256算法为例，不管输入的是“1”，还是“BlockChain”，输出的摘要长度都是256位，这里的位是二进制，一位只有两个取值，0或者1，这样总共256位，为了便于阅读，片子上面用16进制进行表示</p>
+</li>
+<li><p>抗碰撞性：就是很难找到两个不相同的输入，但是输出是相同的，我们看“BlockChain”和“Blockchian”，虽然只是Chain这个字母大小写不同，但是输出却相差万里</p>
+</li>
+</ul>
+<p>另外，在密码学当中，有个nonce的概念，是一个一次性使用的随机数，通常用来与需要进行加密的数据组合使用，以或得特定的摘要（digest）。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2010.png" alt=""></p>
+<p>基于加密哈希函数，区块链技术当中大量使用非对称加密技术，就是通常所说的公钥加密，开发和运维的同学一定非常熟悉，我们在远程登录服务器的时候一般会采用这一技术达到安全和免密登录的目的。</p>
+<p>与对称加密只有一个密钥不同，非对称加密有一对密钥，一个公钥，一个私钥，公钥由私钥通过加密哈希函数计算产生，即私钥是输入，公钥是输出，显然，无法从公开的公钥反推出私钥。公钥可以公开，但是私钥需要小心保存。</p>
+<p>在区块链当中，非对称加密主用在信息加密和数字签名这两个场景有着具体的应用。</p>
+<ul>
+<li><p>信息加密：信息发送者 A 使用接收者 B 的公钥对信息加密后再发送给 B，B 用自己的私钥对信息进行解密</p>
+</li>
+<li><p>数字签名：发送者 A 采用自己的私钥加密信息后发送给 B，B 使用 A 的公钥对信息解密，从而可确保信息是由 A 发送的</p>
+</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2011.png" alt=""></p>
+<p>这张图展示了比特币应用当中的钱包的产生过程。</p>
+<p>首先，需要一个随机数，通常会借助操作系统的底层随机数生成器生成一个随机数，为了确保安全，区块链系统当中，可靠的随机源非常重要，因为随机数就是你的私钥，在比特币当中，直接决定着比特币的归属。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2012.png" alt=""></p>
+<p>我们常说，程序=数据结构+算法，区块链也不例外。<br>下面先来看看数据结构，需要说明的是，下面提到的数据结构是比特币的数据结构，可能不同的项目，比如以太坊，可能具体的数据域可能有所不同，但是，大体上的哈希链表框架是一样的。</p>
+<p>随着时间的推移，从创世区块开始，区块一个一个地增加，除了创世区块，每个区块都有一个哈希指针，指向前一个区块。</p>
+<p>单个区块来讲，每个区块主要有两部分数据：区块头和区块数据。</p>
+<ul>
+<li>区块头：里面主要含有指向前一个区块的哈希指针，时间戳，Nonce加密随机数，当前区块的哈希</li>
+<li>区块数据：对于比特币来说区块数据就是交易数据，里面是一条条的交易数据</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2013.png" alt=""></p>
+<p>再将当个区块拿出来看，区块头与区块数据之间是通过Merkle树进行联系的。</p>
+<p>我们先来看这个Merkle树，不难发现，它其实是一棵二叉树，树是一种数据结构，所谓二叉树就是这棵树除了叶子节点，都有两个子节点。而Merkle树的底下一层是比特币交易数据，每笔交易数据使用加密哈希函数进行取哈希操作，然后每两笔相邻交易的哈希继续取哈希，这样不断重复，直到最后剩下一个根节点，所谓的Merkle Root，就是图中的Hash 12345678. 现实情况下可能有更多笔交易。这样设计的好处是什么呢？</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2014.png" alt=""></p>
+<p>显而易见的一点是：区块头只需要保存Merkle树的根哈希就可以了，而不用去管具体的交易，提高区块链的运行效率和可扩展性，另外一点是充分利用了二叉树这一数据结构的特性，在N个交易组成的区块中确认任一交易的算法复杂度仅为$O(logN)$</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2015.png" alt=""></p>
+<p>下面看一个具体比特币区块的结构，这是第100000个区块。</p>
+<ul>
+<li>区块哈希</li>
+<li>包含交易数目</li>
+<li>区块奖励：50个比特币</li>
+<li>Merkle Root</li>
+<li>时间戳</li>
+<li>加密随机数Nonce</li>
+<li>区块大小</li>
+<li>难度值</li>
+<li>前后区块的指针</li>
+<li>详细的交易列表</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2016.png" alt=""></p>
+<p>讲完数据结构，下面来看看区块链当中所采用的共识算法，因为是分布式账本，所以如何才能够达成共识非常重要。</p>
+<p>比特币当中所采用的共识算法叫作工作证明，<code>Proof of Work</code>，简称<code>PoW</code>。计算过程如下：</p>
+<ul>
+<li>步骤1: 搜集当前时间段的全网未确认交易, 并增加一个用于发行新比特币奖励的 Coinbase 交易，形成当前区块的交易集合</li>
+<li>步骤2: 计算区块体交易集合的 Merkle 根记入区块头, 并填写区块头的其他元数据, 其中随机数 Nonce 置零</li>
+<li>步骤3: 随机数 Nonce 加 1，采用SHA256算法计算当前区块头的哈希值, 如果小于或等于目标值, 则成功搜索到合适的随机数并获得该区块的记账权; 否则继续步骤 3 直到任一节点搜索到合适的随机数为止</li>
+<li>步骤4: 如果一定时间内未成功, 则更新时间戳和未确认交易集合、重新计算 Merkle 根后继续搜索</li>
+</ul>
+<p>为了确保每十分钟出一个区块，目标值会根据当前网络的算力进行动态调整，具体公式如下：</p>
+<ul>
+<li>目标值 = 最大目标值（恒定值）/ 难度值</li>
+<li>难度值 = 上一个区块难度值 *（过去2016个区块的实际花费时长）/ 20160分钟</li>
+</ul>
+<p>其中最大目标值为（十六进制）：<code>0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</code></p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2017.png" alt=""></p>
+<p>下面看一个两个区块信息的对比来加深对PoW算法的理解。</p>
+<p>从时间戳上面可以看出，两个区块被挖出的时间相差将近九年，一个是上个月我做PPT的时候被挖出来的，另外一个是2010年底被挖出来的。</p>
+<p>首先从两个区块区块哈希可以看出，目标值越来越小，也就是难度越来越大，这是因为随着这几年比特币价格的节节升高，不断地有人投入挖矿设备，系统内部的算力越来越大。难度的加大，每次计算哈希的次数也大大增加，加密随机数也增加了一个数量级。</p>
+<p>还有一个是挖矿的奖励，从50个比特币降低到12.5个比特币。<br>这是比特币系统本身的设定，大约4年的时间，挖矿奖励减半，直到最后为0，总的比特币个数为：2100万个。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2018.png" alt=""></p>
+<p>下面再具体看下POW共识算法的共识是如何达成的：</p>
+<ul>
+<li>步骤1: 客户端发生新的交易，向全网广播要求记账</li>
+<li>步骤2: 每个记账（矿工）节点收到请求后，将当前时间段内的所有交易以及增加的一个用于发行新比特币奖励的 Coinbase 交易汇总纳入一个新区块</li>
+<li>步骤3: 每个记账节点开始PoW计算，尝试寻找满足当前网络难度目标要求的nonce随机数</li>
+<li>步骤4: 当某个记账节点完成了PoW计算以后，就将自己记录的区块向全网广播</li>
+<li>步骤5: 其它节点通过计算哈希验证该区块PoW计算所找到的nonce随机数满足要求，并验证包含在该区块中的所有交易都是有效且之前未存在过的，认可该区块的有效性，然后继续向邻近节点转发</li>
+<li>步骤6: 其它节点接受该数据区块，并将其加入本节点账本（链条）的末端，延长区块链</li>
+<li>步骤7: 客户端等待至少6个区块确认，以避免出现“双花”等问题，交易结束</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2019.png" alt=""></p>
+<p>因为区块大小的限制（1M），以及出块时间的限制（大约十分钟），比特币的交易处理能力低下，并且PoW需要大量哈希计算，这也是它的名字的由来，需要一定的哈希计算工作量。这个过程需要消耗大量电力，目前的统计，比特币每笔交易需要消耗660多度电，比特币整个网络所消耗的电力约占全世界电力消耗的0.33%，与奥地利整个国家的电力消耗接近；以太坊因为10秒钟可以出一个块，单笔交易的电力消耗大约30多度，比比特币的小一个数量级。</p>
+<p>为了提高共识达成的效率，就有人提出了PoS算法，权益证明机制，PoS算法依然还是要不断计算哈希，但是，每个人的难度是不一样的，如果你的权益多，且为了取得某次记账权愿意消耗一部分权益，那么你的挖矿难度将会大大降低。</p>
+<p>这样那些没有权益或者不愿意花费一定权益的节点就不会去挖矿，白白浪费资源。</p>
+<p>目前，点点币是采用了PoS机制，另外以太坊也有这方面的打算，虽然已经这样计划了很久。</p>
+<p>从安全性方面来考虑，PoS比起PoW还有这样一个好处：在应对外部攻击的时候，PoS机制的区块链本身是闭环的。怎么理解这个问题呢？我们来分析一下：对于PoW机制，理论上，如果我有足够的计算设备，就可以控制网络上面的算力，就可以为所欲为，跟我是否有对应的区块链中的权益无关，比如比特币；但是，对于PoS机制，要发起攻击，你只有算力是不够的，你还需要有权益，比如点点币，你需要有点点币，而且持有的时间越长越好，那你的点点币哪里来呢？你必须从市场上面去购买，这样币的价格就会升高，你买到的难度就会加大，这里就像股票交易市场一样，当市场上面有大量的人都冲着某一只股票去的时候，那么它的价格就会升高，你买到的难度或者要付出的成本就要增加。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2020.png" alt=""></p>
+<p>节点共识算法还有很多，包括DPoS，和PBFT等等。DPoS是在PoS的基础之上，选举出一个权益代表委员会，大家轮流记账，产生新区块，那个时候也就不用挖矿了。目前EOS使用的是DPoS机制。</p>
+<p>PBFT是在传统BFT算法的基础上面进行的优化，使得算法复杂度从指数级别下降到$O(N^2)$的程度，在现实当中堪用，通常在联盟链和私有链当中会有所采用，比如Linux基金会的HyperLedger，超级账本。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2021.png" alt=""></p>
+<p>上述几种算法的主要指标对比如下：</p>
+<p>在去中心化、安全性、可用性的“不可能三角”当中，各种算法各有优劣，通常会根据场景综合选择或者组合使用。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2022.png" alt=""></p>
+<p>在区块链的核心技术当中，最后再来讲讲分叉，fork和对区块链的攻击。</p>
+<p>这里强调一点：在区块链当中，最长的链才是合法的链。</p>
+<p>在修复Bug或者更新共识机制的时候，区块链会发生分叉。根据最终结果的不同，可以分为hard fork和soft fork。</p>
+<p>举个例子，比如关于比特币区块的大小，如果从1M调整为8M，那么更新后的算力会挖出小于等于8M的区块，旧的节点是不会对这些区块进行确认的，旧节点依然挖小于等于1M的区块，当然，如果在新的链当中出现了小于等于1M的区块，新节点也是会进行确认的，但是，旧的链上永远不会出现大于1M的区块，这样，最终一条链变成两条链；如果是将区块大小从1M调整为0.5M，那么不管节点是否升级，大家都是认可0.5M大小的区块的，因此，最终，软分叉最终会导致一条新区块的区块大小都是0.5M的新链。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2023.png" alt=""></p>
+<p>对分叉有所了解以后，理解共识攻击应该也不难。</p>
+<p>对于数字货币，比较难解决的一个问题就是双花问题，就是如何杜绝一块钱花两次。因为理论上，在计算机当中，它只是一份数据，可以无限拷贝。而现实中的现金显然不会遇到这个问题，你的现金花出去了就花出去了，后面就不属于你了，根本没有机会让你花两次。</p>
+<p>比特币是这样规定的，其实前面我们已经讲过，只认为最长的链才是合法的。</p>
+<p>我们看下面的第一张图，假设Block 1 和Block 1’里面有两笔相同的交易，如果都有效那么就会发生双花，但是比特币只认上面这条更长的链。这是正常的情况，在有人借助算力优势，发动51%攻击，企图对区块链进行篡改的时候，还是可以进行双花的，即便那样会得不偿失。具体过程是这样的：</p>
+<ul>
+<li>首先，在Block 1进行交易，然后在得到商家的货物以后，马上发起另外一笔交易，这笔交易要花同一笔钱，然后利用算力优势获得记账权并将这笔交易纪录在Block 1’当中，并且以后都在Block 1’后面进行记账，延长这一条链，这样就可以将前面的Block 1的交易作废，达到了双花的目的。</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2024.png" alt=""></p>
+<p>不过，依据目前比特币网络当中的算力，想发动51%攻击的成本巨大，远远高于双花的收益。同时，如果发生攻击也会大大影响比特币的价值。</p>
+<p>到这里，终于把区块链的核心数据结构和算法讲完了。</p>
+<h1 id="区块链架构分析"><a href="#区块链架构分析" class="headerlink" title="区块链架构分析"></a>区块链架构分析</h1><p>从经典的架构层级分析的角度，区块链的架构如下，主要有数据层、网络层、共识层、激励层、合约层和应用层。</p>
+<p>数据层主要就是各种数据结构和加密算法，是基础。网络层是区块链网络里面的数据如何传播，比如通过P2P、TCP/IP协议等等，是各种数据交换的基础。网络层之上是共识层，承载各种共识协议。激励层为区块链的可持续运行提供措施，合约层和应用层直接解决现实痛点。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2027%2011%3A12%3A2019.png" alt=""></p>
+<p>具体到各个现有案例的传统前后端的架构如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2028%2011%3A12%3A2019.png" alt=""></p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2029%2011%3A12%3A2019.png" alt=""></p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2030%2011%3A12%3A2019.png" alt=""></p>
+<p>下面是具体企业的架构设想，大家可以参考，具体了解可以再看看他们发布的白皮书。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2031%2011%3A12%3A2019.png" alt=""></p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2032%2011%3A12%3A2019.png" alt=""></p>
+<h1 id="区块链应用场景"><a href="#区块链应用场景" class="headerlink" title="区块链应用场景"></a>区块链应用场景</h1><p>根据它的特点，区块链典型的应用场景主要具备以下两个条件：</p>
+<ul>
+<li>注定无法中心化</li>
+<li>有达成共识的刚需</li>
+</ul>
+<p>比如暗网上面的地下交易市场，注定无法使用国家中心化的货币以及当前的全球化的金融体系，同时又有达成交易共识的需求，恰好基于区块链技术的比特币解决了该问题，这也是比特币的价格不断上涨的原因之一。</p>
+<p>另外，比如多家企业需要定期进行结算的这么一个场景：当结算发生争议的时候，比如各家的交易纪录不一致，这个时候免不了需要一些第三方的机构介入，耽误时间不说，成本也不小。如果采用了区块链这一分布式账本，则在每一次<br>记账就自然而然地纪录了相应的交易纪录，且能够做到一致、不可篡改，就能够比较好地解决该问题。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2033%2011%3A12%3A2019.png" alt=""></p>
+<p>腾讯等大公司其实非常早就在区块链应用方面进行了大量的探索，积极拓展、落地相关场景。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2034%2011%3A12%3A2019.png" alt=""></p>
+<p>另外，本人是能源背景，在能源领域有着将近10年的工作经验，区块链技术在能源领域也有一些很好的切入点。</p>
+<p>首先是碳排放权的认证。</p>
+<p>联合国政府间气候变化专门委员会1997年通过《京都议定书》，确立了二氧化碳排放权（简称碳排放权）的认证及其交易机制。顾名思义，碳排放权是对各行业二氧化碳排放的一种 分配和计量方式。政府有关部 门会结合我国碳减排目标 ，根据各行业排放情况，对产生排放的各主体分配一定配额的碳排放权。排放超过配额 的主体要被处以罚款 。多产生的碳排放需要通过额外购买排放权的方式抵消，排放权有余额 的参主体可以将多余部分转移给排放超额的主体，从而获取利润。　</p>
+<p>电力系统是碳排放的大户，将是碳交易的活跃部门，主要的需求是买入排放权，特别是燃煤发电的企业，煤的主要成分是碳，燃烧以后将会排放大量的二氧化碳。而一些新能源领域的企业，比如太阳能发电、风力发电，甚至电动汽车的制造商，本身的碳排放配额会有富余，可以将排放权卖出去，比如特斯拉依靠碳排放权交易，从2010年开始至今已经收入超过20亿美元。</p>
+<p>我国作为负责任的大国，根据《京都议定书》以及《巴黎气候协定》等国际文件的安排，承担了一定的二氧化碳减排要求，也就是说随着时间，我们的碳排放总量在达到一定的峰值以后是要不断减少的，而政府监管部门将会面对碳排放权的配额认证、交易追溯、配额监管等各种痛点，根据目前我们所了解的区块链的一些特性，如果我们用基于区块链技术的分布式账本来构建一个碳排放交易系统，将能够非常好地解决这些痛点。</p>
+<p>给每个有碳排放权的企业或者个体分配一个专用ID，相当于公钥，监管部门定期核定并对其碳排放额进行认证，这相当于比特币当中的<code>coinbase</code>，后面不同企业之间的碳排放权的交易可以一笔笔地记录在不可篡改的区块当中。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2035%2011%3A12%3A2019.png" alt=""></p>
+<p>另外一个能源领域的场景是虚拟发电资源交易系统。考虑到各种分布式电源众多，门类多，容量小，出力间断且随机，需要根据响应结合储能进行集中管理、统一调度，实现不同虚拟发电资源的协同是实现分布式能源消纳的重要途径。</p>
+<p>基于区块链技术的虚拟发电资源交易系统可以实现源、荷、储能以及外面需求的信息双向选择和反馈，在资源加入电厂当中的时候根据达成的协议自动生成智能合约，最终打造一个公平可信、公开透明、成本低廉的交易系统。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2036%2011%3A12%3A2019.png" alt=""></p>
+<p>最后这个是中国人民银行做的数字货币项目，从2014年就开始搞了，目前网上有披露了一些资料，主要实现对M0，即流通中的现金的替代，目前已经有一些城市的部分银行正在试点，相信后续会加快推动。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2037%2011%3A12%3A2019.png" alt=""></p>
+<h1 id="区块链产业政策"><a href="#区块链产业政策" class="headerlink" title="区块链产业政策"></a>区块链产业政策</h1><p>，目前中国在区块链方面的产业政策主要两方面，一个是对打着区块链的名义进行<code>ICO</code>以及对虚拟货币投资炒作的打击，另外一个是对具体合适的场景的产业护持。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2051%E5%AD%A6%E9%99%A2%2036.png" alt=""></p>
+<h1 id="区块链总结展望"><a href="#区块链总结展望" class="headerlink" title="区块链总结展望"></a>区块链总结展望</h1><p>总的来讲，区块链是具有国家战略意义的新兴技术，新旧动能持续转换的重要动力，几年前是各行各业的“互联网+”，接下去几年可能是大家积极探索“区块链+”的时候。</p>
+<p>另外，我个人觉得，“区块链+”可能会像石油、电力、通讯等行业类似，蛋糕很大，但是最终分给谁，可能并不取决于谁家的技术实力，政策以及规则的制定者会有更大的话语权。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/blockchain_introduction/BlockChain%20Presentation%2039%2011%3A12%3A2019.png" alt=""></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><a href="https://www.gartner.com/en" target="_blank" rel="noopener">Gartner 历年新兴科技趋势图</a></li>
+<li><a href="https://blockexplorer.com/" target="_blank" rel="noopener">blockexplorer</a></li>
+<li><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">比特币白皮书</a></li>
+<li><a href="https://github.com/ethereum/wiki/wiki/White-Paper" target="_blank" rel="noopener">以太坊白皮书</a></li>
+<li><a href="https://trustsql.qq.com/chain_oss/TrustSQL_WhitePaper.html" target="_blank" rel="noopener">2019 腾讯区块链白皮书</a></li>
+<li><a href="http://www.cbdio.com/image/site2/20190411/f4285315404f1e19523705.pdf" target="_blank" rel="noopener">京东区块链技术实践白皮书（2019）</a></li>
+<li><a href="http://www.aas.net.cn/CN/article/downloadArticleFile.do?attachType=PDF&amp;id=18837" target="_blank" rel="noopener">袁勇, 王飞跃. 区块链技术发展现状与展望[J]. 自动化学报, 2016, 42(4): 481-494</a></li>
+<li>张亮, 刘百祥, 张如意等. 区块链技术综述[J]. 计算机工程, 2019, 45(5): 1-12</li>
+<li>张宁, 王毅, 康重庆等. 能源互联网中的区块链技术：研究框架与典型应用初探[J]. 中国电机工程学报, 2016, 36(15): 4011-4022</li>
+<li><a href="https://nvlpubs.nist.gov/nistpubs/ir/2018/NIST.IR.8202.pdf" target="_blank" rel="noopener">Blockchain Technology Overview. NIST. 2018</a></li>
+<li><a href="https://nvlpubs.nist.gov/nistpubs/ir/2018/NIST.IR.8202.pdf" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Blockchain</a></li>
+<li><a href="https://nvlpubs.nist.gov/nistpubs/ir/2018/NIST.IR.8202.pdf" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Merkle_tree</a></li>
+<li><a href="https://nvlpubs.nist.gov/nistpubs/ir/2018/NIST.IR.8202.pdf" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Hashcash</a></li>
+<li><a href="https://nvlpubs.nist.gov/nistpubs/ir/2018/NIST.IR.8202.pdf" target="_blank" rel="noopener">2018 年中国区块链产业白皮书</a></li>
+<li><a href="https://www.amazon.cn/dp/B071K7FCD4/ref=sr_1_1?keywords=Mastering+Bitcoin&amp;qid=1572521851&amp;sr=8-1" target="_blank" rel="noopener">Andreas M. Antonopoulos, Mastering Bitcoin, 2nd Edition, O•REILLY®, 2017</a></li>
+<li><a href="https://www.searchain.net/news/264496.html" target="_blank" rel="noopener">研报 | 初探中国央行数字货币：目标、定位、机制与影响</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/12/10/区块链核心技术及应用场景演讲脚本/" title="区块链核心技术及其应用演讲脚本">http://datacruiser.io/2019/12/10/区块链核心技术及应用场景演讲脚本/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+            <a href="/tags/非对称加密/" rel="tag"># 非对称加密</a>
+          
+            <a href="/tags/比特币/" rel="tag"># 比特币</a>
+          
+            <a href="/tags/共识算法/" rel="tag"># 共识算法</a>
+          
+            <a href="/tags/DoW/" rel="tag"># DoW</a>
+          
+            <a href="/tags/DoS/" rel="tag"># DoS</a>
+          
+            <a href="/tags/PDoS/" rel="tag"># PDoS</a>
+          
+            <a href="/tags/PBFT/" rel="tag"># PBFT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/22/SHA256算法原理及其实现/" rel="next" title="SHA256算法原理及其实现">
+                <i class="fa fa-chevron-left"></i> SHA256算法原理及其实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/12/理解ECDSA算法如何保护我们的数据/" rel="prev" title="ECDSA算法如何保护我们的数据">
+                ECDSA算法如何保护我们的数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#区块链发展历史"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x533A;&#x5757;&#x94FE;&#x53D1;&#x5C55;&#x5386;&#x53F2;" class="headerlink" title="&#x533A;&#x5757;&#x94FE;&#x53D1;&#x5C55;&#x5386;&#x53F2;"></a>&#x533A;&#x5757;&#x94FE;&#x53D1;&#x5C55;&#x5386;&#x53F2;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区块链技术概述"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x533A;&#x5757;&#x94FE;&#x6280;&#x672F;&#x6982;&#x8FF0;" class="headerlink" title="&#x533A;&#x5757;&#x94FE;&#x6280;&#x672F;&#x6982;&#x8FF0;"></a>&#x533A;&#x5757;&#x94FE;&#x6280;&#x672F;&#x6982;&#x8FF0;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区块链核心技术"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x533A;&#x5757;&#x94FE;&#x6838;&#x5FC3;&#x6280;&#x672F;" class="headerlink" title="&#x533A;&#x5757;&#x94FE;&#x6838;&#x5FC3;&#x6280;&#x672F;"></a>&#x533A;&#x5757;&#x94FE;&#x6838;&#x5FC3;&#x6280;&#x672F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区块链架构分析"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x533A;&#x5757;&#x94FE;&#x67B6;&#x6784;&#x5206;&#x6790;" class="headerlink" title="&#x533A;&#x5757;&#x94FE;&#x67B6;&#x6784;&#x5206;&#x6790;"></a>&#x533A;&#x5757;&#x94FE;&#x67B6;&#x6784;&#x5206;&#x6790;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区块链应用场景"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x533A;&#x5757;&#x94FE;&#x5E94;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x533A;&#x5757;&#x94FE;&#x5E94;&#x7528;&#x573A;&#x666F;"></a>&#x533A;&#x5757;&#x94FE;&#x5E94;&#x7528;&#x573A;&#x666F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区块链产业政策"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x533A;&#x5757;&#x94FE;&#x4EA7;&#x4E1A;&#x653F;&#x7B56;" class="headerlink" title="&#x533A;&#x5757;&#x94FE;&#x4EA7;&#x4E1A;&#x653F;&#x7B56;"></a>&#x533A;&#x5757;&#x94FE;&#x4EA7;&#x4E1A;&#x653F;&#x7B56;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区块链总结展望"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x533A;&#x5757;&#x94FE;&#x603B;&#x7ED3;&#x5C55;&#x671B;" class="headerlink" title="&#x533A;&#x5757;&#x94FE;&#x603B;&#x7ED3;&#x5C55;&#x671B;"></a>&#x533A;&#x5757;&#x94FE;&#x603B;&#x7ED3;&#x5C55;&#x671B;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x53C2;&#x8003;&#x6587;&#x732E;" class="headerlink" title="&#x53C2;&#x8003;&#x6587;&#x732E;"></a>&#x53C2;&#x8003;&#x6587;&#x732E;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/12/10/区块链核心技术及应用场景演讲脚本/';
+          this.page.identifier = '2019/12/10/区块链核心技术及应用场景演讲脚本/';
+          this.page.title = '区块链核心技术及其应用演讲脚本';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

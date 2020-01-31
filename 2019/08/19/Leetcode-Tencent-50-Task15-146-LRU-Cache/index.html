@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据结构,算法,C语言,设计," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="DataWhale暑期学习小组-LeetCode刷题第八期Task15。">
+<meta name="keywords" content="数据结构,算法,C语言,设计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode Tencent 50 Task15 146. LRU Cache">
+<meta property="og:url" content="http://datacruiser.io/2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="DataWhale暑期学习小组-LeetCode刷题第八期Task15。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/DoubleHashLinkedList.png">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Leetcode Tencent 50 Task15 146. LRU Cache">
+<meta name="twitter:description" content="DataWhale暑期学习小组-LeetCode刷题第八期Task15。">
+<meta name="twitter:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/DoubleHashLinkedList.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/"/>
+
+
+
+
+
+  <title>Leetcode Tencent 50 Task15 146. LRU Cache | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Leetcode Tencent 50 Task15 146. LRU Cache</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-19T08:20:34+00:00">
+                2019-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode-腾讯精选50题/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode 腾讯精选50题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  DataWhale暑期学习小组-LeetCode刷题第八期Task15。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>运用你所掌握的数据结构，设计和实现一个  <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU" target="_blank" rel="noopener">LRU (最近最少使用)</a> 缓存机制。它应该支持以下操作： 获取数据 <code>get</code> 和 写入数据 <code>put</code> 。</p>
+<p>获取数据 <code>get(key)</code> - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。<br>写入数据 <code>put(key, value)</code> - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
+<p><strong>进阶:</strong></p>
+<p>你是否可以在 $O(1)$ 时间复杂度内完成这两种操作？</p>
+<p><strong>示例:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LRUCache cache = <span class="keyword">new</span> LRUCache( <span class="number">2</span> <span class="comment">/* 缓存容量 */</span> );</span><br><span class="line"></span><br><span class="line">cache.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">cache.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">cache.get(<span class="number">1</span>);       <span class="comment">// 返回  1</span></span><br><span class="line">cache.put(<span class="number">3</span>, <span class="number">3</span>);    <span class="comment">// 该操作会使得密钥 2 作废</span></span><br><span class="line">cache.get(<span class="number">2</span>);       <span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line">cache.put(<span class="number">4</span>, <span class="number">4</span>);    <span class="comment">// 该操作会使得密钥 1 作废</span></span><br><span class="line">cache.get(<span class="number">1</span>);       <span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line">cache.get(<span class="number">3</span>);       <span class="comment">// 返回  3</span></span><br><span class="line">cache.get(<span class="number">4</span>);       <span class="comment">// 返回  4</span></span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/lru-cache" target="_blank" rel="noopener">146. LRU Cache</a></p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>设计类的题目都略难，参考几位大神的题解，来整理下我的思路。</p>
+<h2 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h2><h3 id="什么是LRU算法"><a href="#什么是LRU算法" class="headerlink" title="什么是LRU算法"></a>什么是LRU算法</h3><p>LRU是一种缓存机制，也是一种缓存淘汰策略。</p>
+<p>计算机的缓存容量有限，如果缓存满了就要删除一些内容，给新内容腾位置。这里有两个问题：</p>
+<ul>
+<li>删除哪些内容</li>
+<li>衡量内容是否删除的依据</li>
+</ul>
+<p>而LRU缓存淘汰算法就是一种用来回答以上两个问题的常用策略，LRU全称Least Recently Used，我们把那些最近没有用过的数据删除，换言之，那些最近使用的数据是有价值的，应该被保留的。</p>
+<h3 id="LRU算法描述"><a href="#LRU算法描述" class="headerlink" title="LRU算法描述"></a>LRU算法描述</h3><p>LRU 算法实际上是让你设计数据结构：首先要接收一个 <code>capacity</code>参数作为缓存的最大容量，然后实现两个 API，一个是 <code>put(key, val)</code> 方法存入键值对，另一个是 <code>get(key)</code>方法获取 <code>key</code>对应的<code>val</code>，如果 <code>key</code>不存在则返回 -1。</p>
+<p>根据题意，<code>get</code>和<code>put</code>方法都是$O(1)$的时间复杂度。下面一个算法工作的流程：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 初始化缓存，分配容量为 2 */</span></span><br><span class="line">LRUCache cache = <span class="keyword">new</span> LRUCache(<span class="number">2</span>);</span><br><span class="line"><span class="comment">// 你可以把 cache 理解成一个队列</span></span><br><span class="line"><span class="comment">// 假设左边是队头，右边是队尾</span></span><br><span class="line"><span class="comment">// 最近使用的排在队头，久未使用的排在队尾</span></span><br><span class="line"><span class="comment">// 圆括号表示键值对 (key, val)</span></span><br><span class="line"></span><br><span class="line">cache.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"><span class="comment">// cache = [(1, 1)]</span></span><br><span class="line">cache.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line"><span class="comment">// cache = [(2, 2), (1, 1)]</span></span><br><span class="line">cache.get(<span class="number">1</span>);       <span class="comment">// 返回 1</span></span><br><span class="line"><span class="comment">// cache = [(1, 1), (2, 2)]</span></span><br><span class="line"><span class="comment">// 解释：因为最近访问了键 1，所以提前至队头</span></span><br><span class="line"><span class="comment">// 返回键 1 对应的值 1</span></span><br><span class="line">cache.put(<span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">// cache = [(3, 3), (1, 1)]</span></span><br><span class="line"><span class="comment">// 解释：缓存容量已满，需要删除内容空出位置</span></span><br><span class="line"><span class="comment">// 优先删除久未使用的数据，也就是队尾的数据</span></span><br><span class="line"><span class="comment">// 然后把新的数据插入队头</span></span><br><span class="line">cache.get(<span class="number">2</span>);       <span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line"><span class="comment">// cache = [(3, 3), (1, 1)]</span></span><br><span class="line"><span class="comment">// 解释：cache 中不存在键为 2 的数据</span></span><br><span class="line">cache.put(<span class="number">1</span>, <span class="number">4</span>);    </span><br><span class="line"><span class="comment">// cache = [(1, 4), (3, 3)]</span></span><br><span class="line"><span class="comment">// 解释：键 1 已存在，把原始值 1 覆盖为 4</span></span><br><span class="line"><span class="comment">// 不要忘了也要将键值对提前到队头</span></span><br></pre></td></tr></table></figure>
+<h2 id="数据结构及算法设计"><a href="#数据结构及算法设计" class="headerlink" title="数据结构及算法设计"></a>数据结构及算法设计</h2><ul>
+<li>首先， 要求<code>get</code>和<code>put</code>都是$O(1)$的时间复杂度， 那么必须要用一个<code>hashmap</code></li>
+<li>其次，光用<code>hashmap</code>无法知道那个元素是最没有被使用过的，通常想要知道某个元素使用的时间顺序，那需要有一个<code>list</code>， 然后每次使用(get/put)的时候把这个元素放到<code>list</code>的最前面</li>
+<li>另外，为了确保$O(1)$时间复杂度，需要用<code>linkedlist</code></li>
+<li>最后，为了在删除<code>linkedlist</code>的中间元素时把前后元素都连起来，采用<code>doublylinkedlist</code></li>
+</ul>
+<p>具体哈希链表的数据结构如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/DoubleHashLinkedList.png" alt=""></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your LRUCache struct will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * LRUCache* obj = lRUCacheCreate(capacity);</span></span><br><span class="line"><span class="comment"> * int param_1 = lRUCacheGet(obj, key);</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> * lRUCachePut(obj, key, value);</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> * lRUCacheFree(obj);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//定义哈希函数求余被除数与哈希表容量的倍数关系</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> scale 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//定义双链表</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> value; <span class="comment">//节点值</span></span><br><span class="line">    <span class="keyword">int</span> key;   <span class="comment">//节点hash值</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">last</span>;</span>  <span class="comment">//指向前向节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span>  <span class="comment">//指向后续节点</span></span><br><span class="line">    <span class="keyword">bool</span> deleted;       <span class="comment">//是否删除标记</span></span><br><span class="line">&#125; Node;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用二级指针变量cache来保存链表节点从而实现哈希表</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    Node **cache;  <span class="comment">//保存链表节点</span></span><br><span class="line">    Node *head;    <span class="comment">//头节点</span></span><br><span class="line">    Node *tail;    <span class="comment">//未节点</span></span><br><span class="line">    <span class="keyword">int</span> capacity;  <span class="comment">//哈希表容量</span></span><br><span class="line">    <span class="keyword">int</span> count;     <span class="comment">//节点数目</span></span><br><span class="line">&#125; LRUCache;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//返回参数key对应hash值所在的节点，若cache变量当中无该key所对应的hash值，返回NULL</span></span><br><span class="line"><span class="function">Node* <span class="title">cacheGet</span><span class="params">(LRUCache *obj, <span class="keyword">int</span> key)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m = obj-&gt;capacity * scale;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> a = <span class="number">0</span>; a &lt; m; a++) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> hash = (key + a) % m;</span><br><span class="line">        Node *nd = obj-&gt;cache[hash];</span><br><span class="line">        <span class="keyword">if</span> (nd != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (nd-&gt;key == key)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> nd;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回参数key对应的节点的hash，若cache变量当中无该key所对应的节点，返回NULL</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">cacheIndex</span><span class="params">(LRUCache *obj, <span class="keyword">int</span> key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m = obj-&gt;capacity * scale;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> a = <span class="number">0</span>; a &lt; m; a++) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> hash = (key + a) % m;</span><br><span class="line">        Node *nd = obj-&gt;cache[hash];</span><br><span class="line">        <span class="keyword">if</span> (nd != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (nd-&gt;key == key)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> hash;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> hash;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据key，value健值对初始化一个节点</span></span><br><span class="line"><span class="function">Node * <span class="title">newNode</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Node *node = <span class="built_in">calloc</span>(<span class="number">1</span>, <span class="keyword">sizeof</span>(Node));</span><br><span class="line">    node-&gt;key = key;</span><br><span class="line">    node-&gt;value = value;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将节点移动到哈希链表的末尾</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveToTail</span><span class="params">(LRUCache *obj, Node *node)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (obj-&gt;tail != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        Node *tail = obj-&gt;tail;</span><br><span class="line">        <span class="keyword">if</span> (node != tail)   <span class="comment">//判断当前节点是不是在哈希链表的尾部节点</span></span><br><span class="line">        &#123;</span><br><span class="line">            Node *last = node-&gt;last; <span class="comment">//保存存入节点的之前一个节点指针</span></span><br><span class="line">            <span class="keyword">if</span> (last != <span class="literal">NULL</span>) </span><br><span class="line">            &#123;</span><br><span class="line">                last-&gt;next = node-&gt;next; <span class="comment">//</span></span><br><span class="line">            &#125;</span><br><span class="line">            Node *next = node-&gt;next;</span><br><span class="line">            <span class="keyword">if</span> (next != <span class="literal">NULL</span>) </span><br><span class="line">            &#123;</span><br><span class="line">                next-&gt;last = last;</span><br><span class="line">                node-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            tail-&gt;next = node;</span><br><span class="line">            obj-&gt;tail = node;</span><br><span class="line">            <span class="keyword">if</span> (obj-&gt;head == node) </span><br><span class="line">            &#123;</span><br><span class="line">                obj-&gt;head = next;</span><br><span class="line">            &#125;</span><br><span class="line">            node-&gt;last = tail;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        obj-&gt;tail = node;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//哈希链表初始化</span></span><br><span class="line"><span class="function">LRUCache* <span class="title">lRUCacheCreate</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LRUCache *cache = <span class="built_in">calloc</span>(<span class="number">1</span>, <span class="keyword">sizeof</span>(LRUCache));</span><br><span class="line">    cache-&gt;cache = <span class="built_in">calloc</span>(capacity * scale, <span class="keyword">sizeof</span>(Node *));</span><br><span class="line">    cache-&gt;capacity = capacity;</span><br><span class="line">    <span class="keyword">return</span> cache;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lRUCacheGet</span><span class="params">(LRUCache* obj, <span class="keyword">int</span> key)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Node *node = cacheGet(obj, key);</span><br><span class="line">    <span class="keyword">if</span> (node != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (node-&gt;deleted) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        moveToTail(obj, node);</span><br><span class="line">        <span class="keyword">return</span> node-&gt;value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lRUCachePut</span><span class="params">(LRUCache* obj, <span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> index = cacheIndex(obj, key);</span><br><span class="line">    <span class="keyword">if</span> (index &gt;= <span class="number">0</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        Node *node = obj-&gt;cache[index];</span><br><span class="line">        <span class="keyword">if</span> (node != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (node-&gt;deleted) </span><br><span class="line">            &#123;</span><br><span class="line">                node-&gt;deleted = <span class="literal">false</span>;</span><br><span class="line">                Node *next = obj-&gt;head-&gt;next;</span><br><span class="line">                <span class="keyword">if</span> (next) </span><br><span class="line">                &#123;</span><br><span class="line">                    next-&gt;last = <span class="literal">NULL</span>;</span><br><span class="line">                    obj-&gt;head-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">                    obj-&gt;head-&gt;deleted = <span class="literal">true</span>;</span><br><span class="line">                    obj-&gt;head = next;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            node-&gt;value = value;</span><br><span class="line">            moveToTail(obj, node);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            node = newNode(key, value);</span><br><span class="line">            obj-&gt;count++;</span><br><span class="line">            <span class="keyword">if</span> (obj-&gt;count &gt; obj-&gt;capacity) </span><br><span class="line">            &#123;</span><br><span class="line">                obj-&gt;head-&gt;deleted = <span class="literal">true</span>;</span><br><span class="line">                Node *next = obj-&gt;head-&gt;next;</span><br><span class="line">                <span class="keyword">if</span> (next) </span><br><span class="line">                &#123;</span><br><span class="line">                    next-&gt;last = <span class="literal">NULL</span>;</span><br><span class="line">                    obj-&gt;head-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">                    obj-&gt;head = next;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            moveToTail(obj, node);</span><br><span class="line">            obj-&gt;cache[index] = node;</span><br><span class="line">            <span class="keyword">if</span> (obj-&gt;head == <span class="literal">NULL</span>) </span><br><span class="line">            &#123;</span><br><span class="line">                obj-&gt;head = node;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Node *node = obj-&gt;head;</span><br><span class="line">        Node *next = node-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (next != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            obj-&gt;head = next;</span><br><span class="line">            next-&gt;last = <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        node-&gt;key = key;</span><br><span class="line">        node-&gt;value = value;</span><br><span class="line">        moveToTail(obj, node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lRUCacheFree</span><span class="params">(LRUCache* obj)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m = obj-&gt;capacity * scale;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> a = <span class="number">0</span>; a &lt; m; a++) </span><br><span class="line">    &#123;</span><br><span class="line">        Node *node = obj-&gt;cache[a];</span><br><span class="line">        <span class="keyword">if</span> (node != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">free</span>(node);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(obj-&gt;cache);</span><br><span class="line">    <span class="built_in">free</span>(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/" title="Leetcode Tencent 50 Task15 146. LRU Cache">http://datacruiser.io/2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/C语言/" rel="tag"># C语言</a>
+          
+            <a href="/tags/设计/" rel="tag"># 设计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/19/DataWhale-Workout-No-8-CatBoost-Summary/" rel="next" title="CatBoost算法梳理">
+                <i class="fa fa-chevron-left"></i> CatBoost算法梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/20/Leetcode-Tencent-50-Task16-292-Nim-Game/" rel="prev" title="Leetcode Tencent 50 Task16 292. Nim Game">
+                Leetcode Tencent 50 Task16 292. Nim Game <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#描述"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x63CF;&#x8FF0;" class="headerlink" title="&#x63CF;&#x8FF0;"></a>&#x63CF;&#x8FF0;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题思路"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x89E3;&#x9898;&#x601D;&#x8DEF;" class="headerlink" title="&#x89E3;&#x9898;&#x601D;&#x8DEF;"></a>&#x89E3;&#x9898;&#x601D;&#x8DEF;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LRU"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是LRU算法"><span class="nav-number">2.1.1.</span> <span class="nav-text"><a href="#&#x4EC0;&#x4E48;&#x662F;LRU&#x7B97;&#x6CD5;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;LRU&#x7B97;&#x6CD5;"></a>&#x4EC0;&#x4E48;&#x662F;LRU&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU算法描述"><span class="nav-number">2.1.2.</span> <span class="nav-text"><a href="#LRU&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;" class="headerlink" title="LRU&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;"></a>LRU&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构及算法设计"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x7ED3;&#x6784;&#x53CA;&#x7B97;&#x6CD5;&#x8BBE;&#x8BA1;" class="headerlink" title="&#x6570;&#x636E;&#x7ED3;&#x6784;&#x53CA;&#x7B97;&#x6CD5;&#x8BBE;&#x8BA1;"></a>&#x6570;&#x636E;&#x7ED3;&#x6784;&#x53CA;&#x7B97;&#x6CD5;&#x8BBE;&#x8BA1;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;" class="headerlink" title="&#x4EE3;&#x7801;"></a>&#x4EE3;&#x7801;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/';
+          this.page.identifier = '2019/08/19/Leetcode-Tencent-50-Task15-146-LRU-Cache/';
+          this.page.title = 'Leetcode Tencent 50 Task15 146. LRU Cache';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

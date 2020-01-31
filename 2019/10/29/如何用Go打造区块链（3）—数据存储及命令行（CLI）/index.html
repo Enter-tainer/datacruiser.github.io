@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="分布式,数据库,go,hash,工作证明,交易,命令行," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="由于众所周知的原因，最近区块链又一次被推到了风口，下面转发几篇两年前翻译的首发于知乎关于如何用Go语言打造区块链的文章。Go语言是由google开发并于2009年发布的一种静态、强类型、编译型、并发型，并具有垃圾回收（GC）功能的编程语言，特别适用于分布式网络系统开发，而区块链（blockchain）本质上是一本在网络上分布存储的账本，这两者具有天然的匹配性，目前火热的[Ethereum Proj">
+<meta name="keywords" content="分布式,数据库,go,hash,工作证明,交易,命令行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何用Go打造区块链（3）—数据存储及命令行（CLI）">
+<meta property="og:url" content="http://datacruiser.io/2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="由于众所周知的原因，最近区块链又一次被推到了风口，下面转发几篇两年前翻译的首发于知乎关于如何用Go语言打造区块链的文章。Go语言是由google开发并于2009年发布的一种静态、强类型、编译型、并发型，并具有垃圾回收（GC）功能的编程语言，特别适用于分布式网络系统开发，而区块链（blockchain）本质上是一本在网络上分布存储的账本，这两者具有天然的匹配性，目前火热的[Ethereum Proj">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何用Go打造区块链（3）—数据存储及命令行（CLI）">
+<meta name="twitter:description" content="由于众所周知的原因，最近区块链又一次被推到了风口，下面转发几篇两年前翻译的首发于知乎关于如何用Go语言打造区块链的文章。Go语言是由google开发并于2009年发布的一种静态、强类型、编译型、并发型，并具有垃圾回收（GC）功能的编程语言，特别适用于分布式网络系统开发，而区块链（blockchain）本质上是一本在网络上分布存储的账本，这两者具有天然的匹配性，目前火热的[Ethereum Proj">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/"/>
+
+
+
+
+
+  <title>如何用Go打造区块链（3）—数据存储及命令行（CLI） | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何用Go打造区块链（3）—数据存储及命令行（CLI）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-29T20:06:12+00:00">
+                2019-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/区块链/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  16
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  由于众所周知的原因，最近区块链又一次被推到了风口，下面转发几篇两年前翻译的首发于知乎关于如何用Go语言打造区块链的文章。Go语言是由google开发并于2009年发布的一种静态、强类型、编译型、并发型，并具有垃圾回收（GC）功能的编程语言，特别适用于分布式网络系统开发，而区块链（blockchain）本质上是一本在网络上分布存储的账本，这两者具有天然的匹配性，目前火热的[Ethereum Project](https://ethereum.org/)就是用go原生实现的。这一系列的文章是由[Ivan Kuznetsov](https://jeiwan.net/)所写，本人觉得是一个结合Go语言学习区块链技术的好资料，后面将用自己的语言翻译一遍，从第一篇开始，顺便对Go语言以及区块链有一个初步的认识。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>到目前为止，我们已经构建了一个带PoW机制的区块链系统，这也使得挖矿变得可能。我们的实现离完整功能的区块链又近了一步，但是依然缺少一些重要的特性。今天开始我们将区块链存储到一个数据库当中，在这之后我们会做一个命令行接口（CLI）来实现与区块链的互动。虽然区块链的核心是分布式数据库，但是目前我们将暂时忽略“分布式”而专注于数据库本身。</p>
+<h1 id="数据库选择"><a href="#数据库选择" class="headerlink" title="数据库选择"></a>数据库选择</h1><p>目前，我们的实现当中并没有数据库；而是在每次运行程序的时候将区块链存储在内存当中，程序结束后所有的数据便消失了。我们无法重复使用一个区块链，也无法与其他人分享。因此后续我们需要将它存储在硬盘当中。</p>
+<p>我们需要哪个数据库呢？事实上，任何一个都可以。在<a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">比特币白皮书</a>当中，并没有特别提到需要使用哪一个数据库，这将取决于每个开发者本身。中本聪首发的<a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">比特币内核</a>且也是当前比特币的一个参考实现，采用<a href="https://github.com/google/leveldb" target="_blank" rel="noopener">google/leveldb</a>。这里我们将采用<a href="https://github.com/boltdb/bolt" target="_blank" rel="noopener">BoltDB</a>…</p>
+<h1 id="BoltDB"><a href="#BoltDB" class="headerlink" title="BoltDB"></a>BoltDB</h1><p>因为：</p>
+<ul>
+<li>简单、简洁</li>
+<li>用Go实现</li>
+<li>不需要运行一个服务</li>
+<li>允许用户构建自己需要的数据结构</li>
+</ul>
+<p>以下是来自Github上BoltDB Readme文件的介绍：</p>
+<p>&gt;<br>Blot 是一个纯Go的键/值（key/value）存储系统，来自于Howard Chu的LMDB项目。该项目的目的是为那些并不需要像Postgres或者MySQL这样的全功能服务数据库的项目提供一款简单、快速且可靠的数据库。<br>正因为 Bolt 注定要用在这样一个队功能要求层次较低的项目上，简单是最关键的。API也很小，也仅仅关注于取值和赋值。就这样小而美。<br>听起来能够完美地满足我们的需求，让我们花几分钟再看一下。</p>
+<p>Bolt 是一个key/value数据库，这意味着没有像其它SQL系的关系型数据库管理系统（RDMBS，比如MySQL，PostgreSQL等）的表（table）、行（row）、列（column）等元素。数据以键/值（key/value）的方式进行存储（类似Go语言中的maps数据结构）。key/value对存储在类似于关系型数据库中的表（table）的 buckets 当中，bucket会将相似的数据对进行分组。因此，要想获得value，你需要知道对应的bucket和key。</p>
+<p><a href="https://github.com/boltdb/bolt" target="_blank" rel="noopener">BoltDB</a> 的重要特点是无数据类型：key/value是byte类型的数组（array）。而我们要存储Go语言的结构体数据（特别是Block结构体），因此我们需要将结构体序列化（serialize）。实现一个首先将Go语言的结构体转化成byte数组，然后将byte数组恢复成结构体的机制。我们将采用encoding/gob来完成这一工作，当然，<strong>JSON, XML, Protocol Buffers</strong> 等工具也是可以的，我们之所以采用gob包是因为它足够简单并且是Go语言标准库的一部分。</p>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>在实现数据持续存储之前，首先需要确定如何在数据库存储数据。就此，我们将参考<a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">比特币内核</a>的实现方式。</p>
+<p>简单地讲，<a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">比特币内核</a>用了两个“Buckets”来存储数据：</p>
+<ul>
+<li><code>blocks</code>：存储区块链中描述区块的元数据</li>
+<li><code>chainstate</code>：存储链的状态，包括所有未成交的交易输出（Outputs）记录和一些元数据</li>
+</ul>
+<p>并且，每一个<code>blocks</code>在硬盘中以单独的文件来保存，这样做是为了提高性能：读取一个单独的区块并不需要载入所有（或者部分）区块到内存。不过我们并不这样实现。</p>
+<p>在<code>blocks</code> 当中，<code>Key -&gt; Value</code> 数据对如下：</p>
+<ul>
+<li>‘b’ + 32-byte block hash -&gt; block index record</li>
+<li>‘f’ + 4-byte file number -&gt; file information record</li>
+<li>‘l’ -&gt; 4-byte file number: the last block file number used</li>
+<li>‘R’ -&gt; 1-byte boolean: whether we’re in the process of reindexing</li>
+<li>‘F’ + 1-byte flag name length + flag name string -&gt; 1 byte boolean: various flags that can be on or off</li>
+<li>‘t’ + 32-byte transaction hash -&gt; transaction index record</li>
+</ul>
+<p>在<code>chainstate</code> 当中，<code>Key -&gt; Value</code>数据对如下：</p>
+<ul>
+<li>‘c’ + 32-byte transaction hash -&gt; unspent transaction output record for that transaction</li>
+<li>‘B’ -&gt; 32-byte block hash: the block hash up to which the database represents the unspent transaction outputs</li>
+</ul>
+<p>（关于以上数据的详细解释可以访问这个链接<a href="https://en.bitcoin.it/wiki/Bitcoin_Core_0.11_(ch_2" target="_blank" rel="noopener">Bitcoin Core 0.11 (ch 2): Data Storage</a>:_Data_Storage)）</p>
+<p>因为目前我们还没有交易记录，我们的数据库当中仅有 blocks 这个bucket。并且，正如前面所提到的，我们将全部的数据库存储在一个文件当中，并不将单个区块存储在单个文件当中。因此，我们也没有什么信息是与文件数（file number）有个的，所能够利用的 key -&gt; value 数据对如下：</p>
+<ul>
+<li>‘b’ + 32-byte block-hash -&gt; Block structure (serialized)区块结构体（序列化后的）</li>
+<li>‘l’ -&gt; the hash of the last block in a chain（区块链中最近一个区块的哈希值）</li>
+</ul>
+<p>以上是目前开始实现数据存储机制所需要了解的全部内容。</p>
+<h1 id="序列化（Serialization）"><a href="#序列化（Serialization）" class="headerlink" title="序列化（Serialization）"></a>序列化（Serialization）</h1><p>正如前面所言，<code>BoltDB</code>数据的值只能是<code>Byte</code> 类型的数组，并且我们想要将<code>Block</code> 结构体的数据存储到数据库当中。我们将采用 <a href="https://golang.org/pkg/encoding/gob/" target="_blank" rel="noopener">encoding/gob</a> 来对结构体进行序列化。</p>
+<p>让我们来实现将 <code>Block</code> 序列化的方法（为了简化，将异常处理部分的代码略去）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Block)</span> <span class="title">Serialize</span><span class="params">()</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> result bytes.Buffer</span><br><span class="line">	encoder := gob.NewEncoder(&amp;result)</span><br><span class="line"></span><br><span class="line">	err := encoder.Encode(b)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> result.Bytes()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为这个只是针对 <code>Block</code>结构体的，所以这里只是一个方法，而不是一个函数（only a method belongs to Block structure particularly, not a general function）。</p>
+<p>这一段简单明了：一开始，我们申明了一个<a href="https://golang.org/pkg/bytes/#Buffer" target="_blank" rel="noopener">bytes.Buffer</a>(bytes 包中用于接收字节读入的缓存）的变量<code>result</code>，用来存储序列化后的数据；然后初始化了一个<code>gob</code>包的 <code>NewEncoder</code> 然后对区块进行编码（Encode）；最后 变量 <code>result</code> 以<code>Bytes</code> 的类型返回。</p>
+<p>接下来，我们需要一个反序列化函数，在我们将一个<code>Byte</code> 数组传递给它以后返回对应的一个<code>Block</code> 结构体。这不是专属于特定一个结构体或者数据类型的方法，而是一个独立的函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DeserializeBlock</span><span class="params">(d []<span class="keyword">byte</span>)</span> *<span class="title">Block</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> block Block</span><br><span class="line"></span><br><span class="line">	decoder := gob.NewDecoder(bytes.NewReader(d))</span><br><span class="line">	err := decoder.Decode(&amp;block)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> &amp;block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上是序列化部分的解释和代码。</p>
+<h1 id="数据存储（Persistence）"><a href="#数据存储（Persistence）" class="headerlink" title="数据存储（Persistence）"></a>数据存储（Persistence）</h1><p>让我们从 NewBlockchain 函数开始。目前，它创建了一个 Blockchain 结构体的实例（instance）并将创始区块（genesis block）加入链中。以下是我们接下来要做的：</p>
+<ul>
+<li><p>打开一个数据库（DB）文件</p>
+</li>
+<li><p>检查数据库文件是否已有其他区块链文件存储，是或者否分两种情况不同论述</p>
+</li>
+<li><p>如果已经有了一个区块链：</p>
+<ul>
+<li><p>创建一个新的 Blockchain 实例</p>
+</li>
+<li><p>将新建 Blockchain 实例的顶端设置为原数据库当中的区块链最后一个区块的哈希值</p>
+</li>
+</ul>
+</li>
+<li><p>假如还有没有区块链：</p>
+<ul>
+<li><p>创建创始区块</p>
+</li>
+<li><p>将新建的创始区块存储到数据当中</p>
+</li>
+<li><p>将创始区块的哈希保存为最后区块的哈希</p>
+</li>
+<li><p>创建一个新的 Blockchain 的实例，然后将其顶端指向创始区块</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>可以用以下代码来表示：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewBlockchain</span><span class="params">()</span> *<span class="title">Blockchain</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> tip []<span class="keyword">byte</span></span><br><span class="line">	db, err := bolt.Open(dbFile, <span class="number">0600</span>, <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line">	err = db.Update(<span class="function"><span class="keyword">func</span><span class="params">(tx *bolt.Tx)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		b := tx.Bucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> b == <span class="literal">nil</span> &#123;</span><br><span class="line">			genesis := NewGenesisBlock()</span><br><span class="line">			b, err := tx.CreateBucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line">			err = b.Put(genesis.Hash, genesis.Serialize())</span><br><span class="line">			err = b.Put([]<span class="keyword">byte</span>(<span class="string">"l"</span>), genesis.Hash)</span><br><span class="line">			tip = genesis.Hash</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			tip = b.Get([]<span class="keyword">byte</span>(<span class="string">"l"</span>))</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	bc := Blockchain&#123;tip, db&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> &amp;bc</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们一条一条地过这段代码。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db, err := bolt.Open(dbFile, <span class="number">0600</span>, <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+<p>这是打开<code>BoltDB</code> 数据文件的标准方式。需要注意的是如果文件不存在，它也不会报错。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">err = db.Update(<span class="function"><span class="keyword">func</span><span class="params">(tx *bolt.Tx)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>在<code>BoltDB</code>当中，对数据库的操作是通过一个个记录（transactions）来实现的。在此有两种记录模式，只读模式和读写模式。这里我们通过<code>db.Updata(...)</code> 以读写的模式打开，因为我们会将创始区块加入到数据库文件当中。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">b := tx.Bucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> b == <span class="literal">nil</span> &#123;</span><br><span class="line">	genesis := NewGenesisBlock()</span><br><span class="line">	b, err := tx.CreateBucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line">	err = b.Put(genesis.Hash, genesis.Serialize())</span><br><span class="line">	err = b.Put([]<span class="keyword">byte</span>(<span class="string">"l"</span>), genesis.Hash)</span><br><span class="line">	tip = genesis.Hash</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	tip = b.Get([]<span class="keyword">byte</span>(<span class="string">"l"</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码是整个函数的核心，这里我们获取了用于存储区块的 <code>bucket</code>：假如它已经存在，我们读取它的 “l”值；如果还不存在，我们创建创始区块，创建 <code>bucket</code>，将创始区块保存到新建的 <code>bucket</code>当中，然后将“l”值更新为区块链当中最近区块的哈希值。</p>
+<p>特别注意到创建 <code>Blockchain</code> 的新方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bc := Blockchain&#123;tip, db&#125;</span><br></pre></td></tr></table></figure>
+<p>我们并不将所有的区块存储进去，而仅仅是存储区块链的顶端。同时，也保存一个数据库文件的链接（DB），因为我们希望打开一次以后只要程序在运行就一直保持打开。这样，现在 Blockchain 结构体看起来像这个样子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Blockchain <span class="keyword">struct</span> &#123;</span><br><span class="line">	tip []<span class="keyword">byte</span></span><br><span class="line">	db  *bolt.DB</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下一件事情我们需要更新修改的是 <code>AddBlock</code> 方法：往一个区块链当中增加一个区块已经不像是像数组添加一个新的元素那么简单了。从现在开始我将区块保存在数据库文件（DB）当中：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(bc *Blockchain)</span> <span class="title">AddBlock</span><span class="params">(data <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> lastHash []<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line">	err := bc.db.View(<span class="function"><span class="keyword">func</span><span class="params">(tx *bolt.Tx)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		b := tx.Bucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line">		lastHash = b.Get([]<span class="keyword">byte</span>(<span class="string">"l"</span>))</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	newBlock := NewBlock(data, lastHash)</span><br><span class="line"></span><br><span class="line">	err = bc.db.Update(<span class="function"><span class="keyword">func</span><span class="params">(tx *bolt.Tx)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		b := tx.Bucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line">		err := b.Put(newBlock.Hash, newBlock.Serialize())</span><br><span class="line">		err = b.Put([]<span class="keyword">byte</span>(<span class="string">"l"</span>), newBlock.Hash)</span><br><span class="line">		bc.tip = newBlock.Hash</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们一段一段过代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">err := bc.db.View(<span class="function"><span class="keyword">func</span><span class="params">(tx *bolt.Tx)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	b := tx.Bucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line">	lastHash = b.Get([]<span class="keyword">byte</span>(<span class="string">"l"</span>))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这是<code>BoltDB</code> 另外一种只读的记录（操作数据库文件）的模式。这里我们从数据库文件获得了最近区块的哈希然后用它来挖一个新的区块哈希。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">newBlock := NewBlock(data, lastHash)</span><br><span class="line">b := tx.Bucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line">err := b.Put(newBlock.Hash, newBlock.Serialize())</span><br><span class="line">err = b.Put([]<span class="keyword">byte</span>(<span class="string">"l"</span>), newBlock.Hash)</span><br><span class="line">bc.tip = newBlock.Hash</span><br></pre></td></tr></table></figure>
+<p>挖到一个新的区块以后，我们将其序列化后的数据保存到数据库当中然后更新其中的“l”值，这时“l”保存新区块的哈希值。</p>
+<p>完成了！看起来不是太难吧？</p>
+<h1 id="查看区块链（Inspecting-Blockchain）"><a href="#查看区块链（Inspecting-Blockchain）" class="headerlink" title="查看区块链（Inspecting Blockchain）"></a>查看区块链（Inspecting Blockchain）</h1><p>所有新的区块现在都保存在数据当中，于是我们可以重复打开一个区块链然后往里面添加新的区块。但是，实现了存储以后，我们失去了一个新的特性：因为我们已经不再将区块存储在数组当中，于是便不能将区块链打印出来了。让我们来消除这个缺陷吧。</p>
+<p><code>BoltDB</code> 允许对<code>bucket</code> 中的<code>key</code> 进行遍历，但是keys是以字节顺序进行保存的，而我们想将区块按区块链中的顺序进行打印。并且，我们也不想将所有的区块载入到内存当中（我们的区块链文件会非常大！。。。或者让我假装它会很大），我们将逐个读取它们。为了这个目的，我们需要一个区块链遍历器（iterator）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> BlockchainIterator <span class="keyword">struct</span> &#123;</span><br><span class="line">	currentHash []<span class="keyword">byte</span></span><br><span class="line">	db          *bolt.DB</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们需要遍历区块链中的区块的时候就创建一个遍历器，并且<code>BlockchainIterator</code> 结构体将存储当前遍历为止的区块哈希值和数据库文件的连接。因为后面这个因素，一个遍历器逻辑上将依附于一个区块链（它是一个存储数据库连接的区块链实例），因此，它将在一个属于<code>Blockchain</code>结构体的方法中创建：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(bc *Blockchain)</span> <span class="title">Iterator</span><span class="params">()</span> *<span class="title">BlockchainIterator</span></span> &#123;</span><br><span class="line">	bci := &amp;BlockchainIterator&#123;bc.tip, bc.db&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> bci</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意到遍历器初始化的时候指向了区块链的顶端，这样可以从顶部到底部从最新到最老的顺序获取区块。实际上，选择顶部是在为一个区块链“投票”。一个区块链可以有很多个分支，最长的那个分支被认识是主分支。取得一个顶部以后（可以是区块链当中的任意一个区块）我们可以重构整个区块链然后确定它的长度以及构建它所需要的工作量。这也意味着顶端数据是一个区块链的识别器。</p>
+<p><code>BlockchainIterator</code> 只做一件事情：从区块链当中返回下一个区块：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(i *BlockchainIterator)</span> <span class="title">Next</span><span class="params">()</span> *<span class="title">Block</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> block *Block</span><br><span class="line"></span><br><span class="line">	err := i.db.View(<span class="function"><span class="keyword">func</span><span class="params">(tx *bolt.Tx)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		b := tx.Bucket([]<span class="keyword">byte</span>(blocksBucket))</span><br><span class="line">		encodedBlock := b.Get(i.currentHash)</span><br><span class="line">		block = DeserializeBlock(encodedBlock)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	i.currentHash = block.PrevBlockHash</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>数据库部分就这样完成了！</p>
+<h1 id="命令行接口（CLI）"><a href="#命令行接口（CLI）" class="headerlink" title="命令行接口（CLI）"></a>命令行接口（CLI）</h1><p>到目前为止我们还没有实现提供一个接口能够与程序互动：我们只是简单的执行 NewBlockchain bc.AddBlock在 main 函数当中。是时候来有所提高了，我们要有这些命令：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blockchain_go addblock <span class="string">"Pay 0.031337 for a coffee"</span></span><br><span class="line">blockchain_go printchain</span><br></pre></td></tr></table></figure>
+<p>所有的命令行相关的操作由CLI 结构体参与执行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> CLI <span class="keyword">struct</span> &#123;</span><br><span class="line">	bc *Blockchain</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它的“切入点”在 <code>Run</code>函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cli *CLI)</span> <span class="title">Run</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cli.validateArgs()</span><br><span class="line"></span><br><span class="line">	addBlockCmd := flag.NewFlagSet(<span class="string">"addblock"</span>, flag.ExitOnError)</span><br><span class="line">	printChainCmd := flag.NewFlagSet(<span class="string">"printchain"</span>, flag.ExitOnError)</span><br><span class="line"></span><br><span class="line">	addBlockData := addBlockCmd.String(<span class="string">"data"</span>, <span class="string">""</span>, <span class="string">"Block data"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> os.Args[<span class="number">1</span>] &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"addblock"</span>:</span><br><span class="line">		err := addBlockCmd.Parse(os.Args[<span class="number">2</span>:])</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"printchain"</span>:</span><br><span class="line">		err := printChainCmd.Parse(os.Args[<span class="number">2</span>:])</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		cli.printUsage()</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> addBlockCmd.Parsed() &#123;</span><br><span class="line">		<span class="keyword">if</span> *addBlockData == <span class="string">""</span> &#123;</span><br><span class="line">			addBlockCmd.Usage()</span><br><span class="line">			os.Exit(<span class="number">1</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		cli.addBlock(*addBlockData)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> printChainCmd.Parsed() &#123;</span><br><span class="line">		cli.printChain()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们使用Go语言的标准库当中的 <a href="https://golang.org/pkg/flag/" target="_blank" rel="noopener">flag</a>包来做命令行的词法分析。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">addBlockCmd := flag.NewFlagSet(<span class="string">"addblock"</span>, flag.ExitOnError)</span><br><span class="line">printChainCmd := flag.NewFlagSet(<span class="string">"printchain"</span>, flag.ExitOnError)</span><br><span class="line">addBlockData := addBlockCmd.String(<span class="string">"data"</span>, <span class="string">""</span>, <span class="string">"Block data"</span>)</span><br></pre></td></tr></table></figure>
+<p>首先，我们创建两个子命令，<code>addblock</code> 和 <code>printchain</code>，然后在前面一个命令当中加入 <code>-data</code> 参数。<code>printchain</code> 命令不带任何参数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> os.Args[<span class="number">1</span>] &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">"addblock"</span>:</span><br><span class="line">	err := addBlockCmd.Parse(os.Args[<span class="number">2</span>:])</span><br><span class="line"><span class="keyword">case</span> <span class="string">"printchain"</span>:</span><br><span class="line">	err := printChainCmd.Parse(os.Args[<span class="number">2</span>:])</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">	cli.printUsage()</span><br><span class="line">	os.Exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们检查用户和词法分析提供的 <code>flag</code> 子命令。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> addBlockCmd.Parsed() &#123;</span><br><span class="line">	<span class="keyword">if</span> *addBlockData == <span class="string">""</span> &#123;</span><br><span class="line">		addBlockCmd.Usage()</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	cli.addBlock(*addBlockData)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> printChainCmd.Parsed() &#123;</span><br><span class="line">	cli.printChain()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我再检查哪一个子命令将被分析然后运行相关函数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cli *CLI)</span> <span class="title">addBlock</span><span class="params">(data <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	cli.bc.AddBlock(data)</span><br><span class="line">	fmt.Println(<span class="string">"Success!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cli *CLI)</span> <span class="title">printChain</span><span class="params">()</span></span> &#123;</span><br><span class="line">	bci := cli.bc.Iterator()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		block := bci.Next()</span><br><span class="line"></span><br><span class="line">		fmt.Printf(<span class="string">"Prev. hash: %x\n"</span>, block.PrevBlockHash)</span><br><span class="line">		fmt.Printf(<span class="string">"Data: %s\n"</span>, block.Data)</span><br><span class="line">		fmt.Printf(<span class="string">"Hash: %x\n"</span>, block.Hash)</span><br><span class="line">		pow := NewProofOfWork(block)</span><br><span class="line">		fmt.Printf(<span class="string">"PoW: %s\n"</span>, strconv.FormatBool(pow.Validate()))</span><br><span class="line">		fmt.Println()</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(block.PrevBlockHash) == <span class="number">0</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一段刚之前那一段非常类似。唯一的不同使我们现在用 BlockchainIterator 去遍历区块链中的区块。</p>
+<p>并且，也不要忘记相应的修改<code>main</code> 函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	bc := NewBlockchain()</span><br><span class="line">	<span class="keyword">defer</span> bc.db.Close()</span><br><span class="line"></span><br><span class="line">	cli := CLI&#123;bc&#125;</span><br><span class="line">	cli.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意无论输入什么样的命令行参数都将会新建 Blockchain 实例。</p>
+<p>好了，就这样，让我们来检查一下一切是否与所期望的相同：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">$ blockchain_go printchain</span><br><span class="line">No existing blockchain found. Creating a <span class="built_in">new</span> one...</span><br><span class="line">Mining the block containing <span class="string">"Genesis Block"</span></span><br><span class="line"><span class="number">000000</span>edc4a82659cebf087adee1ea353bd57fcd59927662cd5ff1c4f618109b</span><br><span class="line"></span><br><span class="line">Prev. hash:</span><br><span class="line">Data: Genesis Block</span><br><span class="line">Hash: <span class="number">000000</span>edc4a82659cebf087adee1ea353bd57fcd59927662cd5ff1c4f618109b</span><br><span class="line">PoW: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">$ blockchain_go addblock -data <span class="string">"Send 1 BTC to Ivan"</span></span><br><span class="line">Mining the block containing <span class="string">"Send 1 BTC to Ivan"</span></span><br><span class="line"><span class="number">000000d</span>7b0c76e1001cdc1fc866b95a481d23f3027d86901eaeb77ae6d002b13</span><br><span class="line"></span><br><span class="line">Success!</span><br><span class="line"></span><br><span class="line">$ blockchain_go addblock -data <span class="string">"Pay 0.31337 BTC for a coffee"</span></span><br><span class="line">Mining the block containing <span class="string">"Pay 0.31337 BTC for a coffee"</span></span><br><span class="line"><span class="number">000000</span>aa0748da7367dec6b9de5027f4fae0963df89ff39d8f20fd7299307148</span><br><span class="line"></span><br><span class="line">Success!</span><br><span class="line"></span><br><span class="line">$ blockchain_go printchain</span><br><span class="line">Prev. hash: <span class="number">000000d</span>7b0c76e1001cdc1fc866b95a481d23f3027d86901eaeb77ae6d002b13</span><br><span class="line">Data: Pay <span class="number">0.31337</span> BTC <span class="keyword">for</span> a coffee</span><br><span class="line">Hash: <span class="number">000000</span>aa0748da7367dec6b9de5027f4fae0963df89ff39d8f20fd7299307148</span><br><span class="line">PoW: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">Prev. hash: <span class="number">000000</span>edc4a82659cebf087adee1ea353bd57fcd59927662cd5ff1c4f618109b</span><br><span class="line">Data: Send <span class="number">1</span> BTC to Ivan</span><br><span class="line">Hash: <span class="number">000000d</span>7b0c76e1001cdc1fc866b95a481d23f3027d86901eaeb77ae6d002b13</span><br><span class="line">PoW: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">Prev. hash:</span><br><span class="line">Data: Genesis Block</span><br><span class="line">Hash: <span class="number">000000</span>edc4a82659cebf087adee1ea353bd57fcd59927662cd5ff1c4f618109b</span><br><span class="line">PoW: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>(简直应该开一瓶啤酒庆祝一下)</p>
+<h1 id="结论（Conclusion）"><a href="#结论（Conclusion）" class="headerlink" title="结论（Conclusion）"></a>结论（Conclusion）</h1><p>下次我们将实现地址、钱包以及交易记录（很有可能）。保持好节奏！</p>
+<h1 id="链接（Links）"><a href="#链接（Links）" class="headerlink" title="链接（Links）"></a>链接（Links）</h1><ul>
+<li><a href="https://github.com/Jeiwan/blockchain_go/tree/part_3" target="_blank" rel="noopener">Full source codes</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Bitcoin_Core_0.11_(ch_2" target="_blank" rel="noopener">Bitcoin Core Data Storage</a>:_Data_Storage)</li>
+<li><a href="https://github.com/boltdb/bolt" target="_blank" rel="noopener">boltdb</a></li>
+<li><a href="https://golang.org/pkg/encoding/gob/" target="_blank" rel="noopener">encoding/gob</a></li>
+<li><a href="https://golang.org/pkg/flag/" target="_blank" rel="noopener">flag</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/" title="如何用Go打造区块链（3）—数据存储及命令行（CLI）">http://datacruiser.io/2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+            <a href="/tags/hash/" rel="tag"># hash</a>
+          
+            <a href="/tags/工作证明/" rel="tag"># 工作证明</a>
+          
+            <a href="/tags/交易/" rel="tag"># 交易</a>
+          
+            <a href="/tags/命令行/" rel="tag"># 命令行</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/29/Leetcode-399-除法求值/" rel="next" title="Leetcode-399.除法求值">
+                <i class="fa fa-chevron-left"></i> Leetcode-399.除法求值
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/06/如何用Go打造区块链（4）—交易记录（一）/" rel="prev" title="如何用Go打造区块链（4）—交易记录（一）">
+                如何用Go打造区块链（4）—交易记录（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4ECB;&#x7ECD;" class="headerlink" title="&#x4ECB;&#x7ECD;"></a>&#x4ECB;&#x7ECD;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库选择"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x5E93;&#x9009;&#x62E9;" class="headerlink" title="&#x6570;&#x636E;&#x5E93;&#x9009;&#x62E9;"></a>&#x6570;&#x636E;&#x5E93;&#x9009;&#x62E9;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BoltDB"><span class="nav-number">3.</span> <span class="nav-text"><a href="#BoltDB" class="headerlink" title="BoltDB"></a>BoltDB</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x7ED3;&#x6784;" class="headerlink" title="&#x6570;&#x636E;&#x7ED3;&#x6784;"></a>&#x6570;&#x636E;&#x7ED3;&#x6784;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列化（Serialization）"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x5E8F;&#x5217;&#x5316;&#xFF08;Serialization&#xFF09;" class="headerlink" title="&#x5E8F;&#x5217;&#x5316;&#xFF08;Serialization&#xFF09;"></a>&#x5E8F;&#x5217;&#x5316;&#xFF08;Serialization&#xFF09;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据存储（Persistence）"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x5B58;&#x50A8;&#xFF08;Persistence&#xFF09;" class="headerlink" title="&#x6570;&#x636E;&#x5B58;&#x50A8;&#xFF08;Persistence&#xFF09;"></a>&#x6570;&#x636E;&#x5B58;&#x50A8;&#xFF08;Persistence&#xFF09;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看区块链（Inspecting-Blockchain）"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x67E5;&#x770B;&#x533A;&#x5757;&#x94FE;&#xFF08;Inspecting-Blockchain&#xFF09;" class="headerlink" title="&#x67E5;&#x770B;&#x533A;&#x5757;&#x94FE;&#xFF08;Inspecting Blockchain&#xFF09;"></a>&#x67E5;&#x770B;&#x533A;&#x5757;&#x94FE;&#xFF08;Inspecting Blockchain&#xFF09;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#命令行接口（CLI）"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x547D;&#x4EE4;&#x884C;&#x63A5;&#x53E3;&#xFF08;CLI&#xFF09;" class="headerlink" title="&#x547D;&#x4EE4;&#x884C;&#x63A5;&#x53E3;&#xFF08;CLI&#xFF09;"></a>&#x547D;&#x4EE4;&#x884C;&#x63A5;&#x53E3;&#xFF08;CLI&#xFF09;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论（Conclusion）"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x7ED3;&#x8BBA;&#xFF08;Conclusion&#xFF09;" class="headerlink" title="&#x7ED3;&#x8BBA;&#xFF08;Conclusion&#xFF09;"></a>&#x7ED3;&#x8BBA;&#xFF08;Conclusion&#xFF09;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接（Links）"><span class="nav-number">10.</span> <span class="nav-text"><a href="#&#x94FE;&#x63A5;&#xFF08;Links&#xFF09;" class="headerlink" title="&#x94FE;&#x63A5;&#xFF08;Links&#xFF09;"></a>&#x94FE;&#x63A5;&#xFF08;Links&#xFF09;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/';
+          this.page.identifier = '2019/10/29/如何用Go打造区块链（3）—数据存储及命令行（CLI）/';
+          this.page.title = '如何用Go打造区块链（3）—数据存储及命令行（CLI）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

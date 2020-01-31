@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="集成学习,sklearn,机器学习,LightGBM,Histogram,分布式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="DataWhale暑期学习小组-高级算法梳理第八期Task4。">
+<meta name="keywords" content="集成学习,sklearn,机器学习,LightGBM,Histogram,分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LightGBM算法梳理">
+<meta property="og:url" content="http://datacruiser.io/2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="DataWhale暑期学习小组-高级算法梳理第八期Task4。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-47-35%E7%9B%B4%E6%96%B9%E5%9B%BE%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="https://www.msra.cn/wp-content/uploads/2017/06/4caedc7agw1fbfnmnhh0qj20fh071q3e.jpg">
+<meta property="og:image" content="https://www.msra.cn/wp-content/uploads/2017/06/4caedc7agw1fbfnof91ndj20ps06ejrv.jpg">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-50-21GOSS%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-50-53EFB%E7%AE%97%E6%B3%951.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-51-17EFB%E7%AE%97%E6%B3%952.png">
+<meta property="og:image" content="https://lightgbm.readthedocs.io/en/latest/_images/level-wise.png">
+<meta property="og:image" content="https://lightgbm.readthedocs.io/en/latest/_images/leaf-wise.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-feature-parallelization.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-data-parallelization.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-pv-tree.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-voting-parallelization.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/Pasted-130-768x230.png">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.384Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LightGBM算法梳理">
+<meta name="twitter:description" content="DataWhale暑期学习小组-高级算法梳理第八期Task4。">
+<meta name="twitter:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-47-35%E7%9B%B4%E6%96%B9%E5%9B%BE%E7%AE%97%E6%B3%95.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/"/>
+
+
+
+
+
+  <title>LightGBM算法梳理 | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LightGBM算法梳理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T23:56:55+00:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  22
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  DataWhale暑期学习小组-高级算法梳理第八期Task4。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h1><p>同XGBoost类似，LightGBM依然是在GBDT算法框架下的一种改进实现，是一种基于决策树算法的快速、分布式、高性能的GBDT框架，主要说解决的痛点是面对高维度大数据时提高GBDT框架算法的效率和可扩展性。</p>
+<p>“Light”主要体现在三个方面，即更少的样本、更少的特征、更少的内存，分别通过单边梯度采样（Gradient-based One-Side Sampling）、互斥特征合并（Exclusive Feature Bundling）、直方图算法（Histogram）三项技术实现。另外，在工程上面，LightGBM还在并行计算方面做了诸多的优化，支持特征并行和数据并行，并针对各自的并行方式做了优化，减少通信量。</p>
+<h1 id="LightGBM的起源"><a href="#LightGBM的起源" class="headerlink" title="LightGBM的起源"></a>LightGBM的起源</h1><p>LightGBM起源于微软亚洲研究院在NIPS发表的系列论文：</p>
+<ul>
+<li><a href="https://papers.nips.cc/paper/6381-a-communication-efficient-parallel-algorithm-for-decision-tree.pdf" target="_blank" rel="noopener">Qi Meng, Guolin Ke, Taifeng Wang, Wei Chen, Qiwei Ye, Zhi-Ming Ma, Tie-Yan Liu. “A Communication-Efficient Parallel Algorithm for Decision Tree.” Advances in Neural Information Processing Systems 29 (NIPS 2016), pp. 1279-1287</a></li>
+</ul>
+<ul>
+<li><a href="https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf" target="_blank" rel="noopener">Guolin Ke, Qi Meng, Thomas Finley, Taifeng Wang, Wei Chen, Weidong Ma, Qiwei Ye, Tie-Yan Liu. “LightGBM: A Highly Efficient Gradient Boosting Decision Tree.” Advances in Neural Information Processing Systems 30 (NIPS 2017), pp. 3149-3157</a></li>
+</ul>
+<p>并于2016年10月17日在<a href="https://github.com/microsoft/LightGBM" target="_blank" rel="noopener">LightGBM</a>上面开源，三天内在GitHub上面被star了1000次，fork了200次。知乎上现有近2000人关注“如何看待微软开源的LightGBM？”问题。</p>
+<p>随后不断迭代，慢慢地开始支持Early Stopping、叶子索引预测、最大深度设置、特征重要性评估、多分类、类别特征支持、正则化（L1，L2及分裂最小增益）……</p>
+<p>具体可以参阅以下链接：</p>
+<p><a href="https://github.com/Microsoft/LightGBM/blob/master/docs/Key-Events.md" target="_blank" rel="noopener">LightGBM大事记</a></p>
+<h1 id="Histogram-VS-Pre-sorted"><a href="#Histogram-VS-Pre-sorted" class="headerlink" title="Histogram VS Pre-sorted"></a>Histogram VS Pre-sorted</h1><h2 id="Pre-sorted"><a href="#Pre-sorted" class="headerlink" title="Pre-sorted"></a>Pre-sorted</h2><p>在XGBoost当中的精确搜索算法（Exact Greedy Algorithm）在寻找分裂点时就是采用Pre-sorted的思想。具体过程不再赘述，可以参阅<a href="http://datacruiser.io/2019/08/10/DataWhale-Workout-No-8-XGboost-Summary/">XGBoost算法梳理</a></p>
+<p>预排序还是有一定优点的，如果不用预排序的话，在分裂节点的时候，选中某一个特征后，需要对A按特征值大小进行排序，然后计算每个阈值的增益，这个过程需要花费很多时间。</p>
+<p>预排序算法在计算最优分裂时，各个特征的增益可以并行计算，并且能精确地找到分割点。但是预排序后需要保存特征值及排序后的索引，因此需要消耗两倍于训练数据的内存，时间消耗大。另外预排序后，特征对梯度的访问是一种随机访问，并且不同的特征访问的顺序不一样，无法对cache进行优化，时间消耗也大。最后，在每一层，需要随机访问一个行索引到叶子索引的数组，并且不同特征访问的顺序也不一样。</p>
+<h2 id="Historgram"><a href="#Historgram" class="headerlink" title="Historgram"></a>Historgram</h2><p>首先需要指出的是，XGBoost在寻找树的分裂节点的也是支持直方图算法的，就是论文中提到的近视搜索算法（Approximate Algorithm）。只是，无论特征值是否为0，直方图算法都需要对特征的分箱值进行索引，因此对于大部分实际应用场景当中的稀疏数据优化不足。</p>
+<p>回过头来，为了能够发挥直方图算法的优化威力，LightGBM提出了另外两个新技术：单边梯度采样（Gradient-based One-Side Sampling）和互斥特征合并（Exclusive Feature Bundling），在减少维度和下采样上面做了优化以后才能够将直方图算法发挥得淋漓尽致。下面依次介绍直方图算法、GOSS和EFB。</p>
+<h3 id="直方图算法"><a href="#直方图算法" class="headerlink" title="直方图算法"></a>直方图算法</h3><p>直方图算法的基本思想是先把连续的浮点特征值离散化成$k$个整数，同时构造一个宽度为$k$的直方图。在遍历数据的时候，根据离散化后的值作为索引在直方图中累积统计量，当遍历一次数据后，直方图累积了需要的统计量，然后根据直方图的离散值，遍历寻找最优的分割点。具体算法描述如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-47-35%E7%9B%B4%E6%96%B9%E5%9B%BE%E7%AE%97%E6%B3%95.png" alt="直方图算法"></p>
+<p><img src="https://www.msra.cn/wp-content/uploads/2017/06/4caedc7agw1fbfnmnhh0qj20fh071q3e.jpg" alt="直方图算法示意图"></p>
+<p>直方图算法有如下优点：</p>
+<ul>
+<li>内存消耗降低。预排序算法需要的内存约是训练数据的两倍（2x样本数x维度x4Bytes），它需要用32位浮点来保存特征值，并且对每一列特征，都需要一个额外的排好序的索引，这也需要32位的存储空间。对于 直方图算法，则只需要(1x样本数x维度x1Bytes)的内存消耗，仅为预排序算法的1/8。因为直方图算法仅需要存储特征的 bin 值(离散化后的数值)，不需要原始的特征值，也不用排序，而bin值用8位整型存储就足够了。</li>
+<li>算法时间复杂度大大降低。决策树算法在节点分裂时有两个主要操作组成，一个是“寻找分割点”，另一个是“数据分割”。从算法时间复杂度来看，在“寻找分割点”时，预排序算法对于深度为$k$的树的时间复杂度：对特征所有取值的排序为$O(NlogN)$，$N$为样本点数目，若有$D$维特征，则$O(kDNlogN)$，而直方图算法需要$O(kD \times bin)$(bin是histogram 的横轴的数量，一般远小于样本数量$N$)。</li>
+<li><p>再举个例子说明上述两点的优化，假设数据集$A$的某个特征的特征值有（二叉树存储）：$\{1.2,1.3,2.2,2.3,3.1,3.3\}$，预排序算法要全部遍历一遍，需要切分大约5次。进行离散化后，只需要切分2次 $\{\{1\},\{2,3\}\}$ 和 $\{\{1,2\},\{3\}\}$，除了切分次数减少，内存消耗也大大降低。</p>
+</li>
+<li><p>直方图算法还可以进一步加速。一个容易观察到的现象：一个叶子节点的直方图可以直接由父节点的直方图和兄弟节点的直方图做差得到。通常构造直方图，需要遍历该叶子上的所有数据，但直方图做差仅需遍历直方图的$k$个bin。利用这个方法，LightGBM可以在构造一个叶子的直方图后，可以用非常微小的代价得到它兄弟叶子的直方图，在速度上可以提升一倍。</p>
+</li>
+</ul>
+<p><img src="https://www.msra.cn/wp-content/uploads/2017/06/4caedc7agw1fbfnof91ndj20ps06ejrv.jpg" alt="直方图差加速"></p>
+<p>当然，直方图算法并不是完美的。由于特征被离散化后，找到的并不是很精确的分割点，所以会对结果产生影响。但在不同的数据集上的结果表明，离散化的分割点对最终的精度影响并不是很大，甚至有时候会更好一点。原因是决策树本来就是弱模型，分割点是不是精确并不是太重要；较粗的分割点也有正则化的效果，可以有效地防止过拟合；即使单棵树的训练误差比精确分割的算法稍大，但在梯度提升（GradientBoosting）的框架下没有太大的影响。</p>
+<h3 id="单边梯度采样（Gradient-based-One-Side-Sampling）"><a href="#单边梯度采样（Gradient-based-One-Side-Sampling）" class="headerlink" title="单边梯度采样（Gradient-based One-Side Sampling）"></a>单边梯度采样（Gradient-based One-Side Sampling）</h3><p>单边梯度采样是一种在减少数据量和保证精度上平衡的算法。在GBDT中， 我们对损失函数的负梯度进行拟合，样本误差越大，梯度的绝对值越大，这说明模型对该样本的学习还不足够，相反如果越小则表示模型对该样本的学习已经很充分。因此，我们可以这样推论：梯度的绝对值越大，样本重要性越高。单边梯度采样正是以样本的梯度作为样本的权重进行采样。</p>
+<p>单边梯度采样保留所有的梯度较大的样本，在梯度小的实例上使用随机采样。为了抵消对数据分布的影响，计算信息增益的时候，单边梯度采样对小梯度的数据引入常量乘数。单边梯度采样首先根据数据的梯度绝对值排序，选取$top\,\,a$个样本。然后在剩余的数据中随机采样$b$个样本。接着计算信息增益时为采样出的小梯度数据乘以$\frac{1-a}{b}$，这样算法就会更关注训练不足的样本例，而不会过多改变原数据集的分布。正是单边梯度采样减少了数据量，让直方图算法发挥了更大的作用。单边梯度采样具体算法见下图：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-50-21GOSS%E7%AE%97%E6%B3%95.png" alt="GOSS"></p>
+<h3 id="互斥特征合并（Exclusive-Feature-Bundling）"><a href="#互斥特征合并（Exclusive-Feature-Bundling）" class="headerlink" title="互斥特征合并（Exclusive Feature Bundling）"></a>互斥特征合并（Exclusive Feature Bundling）</h3><p>高维的数据通常是稀疏的，这种特征空间的稀疏性给我们提供了一种设计一种接近无损地降维的可能性。特别的，在稀疏特征空间中，许多特征是互斥的，换句话说，大部分特征不会同时取非0值，例如One-hot之后的类别特征他们从不同时为非0值。我们可以合并互斥的特征为单一特征（我们将这个过程称为<em>Exclusive Feature Bundle</em>）.通过仔细设计特征扫描算法，我们从合并特征中构建出与单个特征相同的特征直方图。通过这种方式，直方图构建算法的时间复杂度从$O(ND)$，降到$O(N×bundle)$，其中$N$为样本点数目，$D$为特征维度。通常，bundle &lt;&lt; $D$，我们能够在不损失精度的情况下极大地加速GBDT的训练。</p>
+<p>那么接下来有两个问题需要处理：</p>
+<ul>
+<li>需要合并哪些特征</li>
+<li>如何合并这些特征</li>
+</ul>
+<h4 id="Greedy-Bundling"><a href="#Greedy-Bundling" class="headerlink" title="Greedy Bundling"></a>Greedy Bundling</h4><p>找出最优的 bundle 组合数是一个 NP 问题，LightGBM通过将原问题转化为”图着色”问题进行贪心近似解决。</p>
+<p>首先创建一个图$G(V, E)$，其中$V$就是特征，为图中的节点，$E$为$G$中的边，将不是相互独立的特征用一条边连接起来，边的权重就是两个相连接的特征的总冲突值，这样需要绑定的特征就是在图着色问题中要涂上同一种颜色的那些点（特征）。具体算法过程如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-50-53EFB%E7%AE%97%E6%B3%951.png" alt="Greedy Bundling"></p>
+<h4 id="Merge-Exclusive-Features"><a href="#Merge-Exclusive-Features" class="headerlink" title="Merge Exclusive Features"></a>Merge Exclusive Features</h4><p>该过程主要是关键在于原始特征值可以从bundle中区分出来，即绑定几个特征在同一个bundle里需要保证绑定前的原始特征的值在bundle中能够被识别，考虑到直方图算法将连续的值保存为离散的bin，我们可以使得不同特征的值分到bundle中的不同bin中，这可以通过在特征值中加一个偏置常量来解决，比如，我们在bundle中绑定了两个特征A和B，A特征的原始取值为区间[0,10)，B特征的原始取值为区间[0,20），我们可以在B特征的取值上加一个偏置常量10，将其取值范围变为[10,30），这样就可以放心的融合特征A和B了，因为在树模型中对于每一个特征都会计算分裂节点的，也就是通过将他们的取值范围限定在不同的bin中，在分裂时可以将不同特征很好的分裂到树的不同分支中去。具体算法如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM-%20A%20Highly%20Efficient%20Gradient%20Boosting%20Decision%20Tree%202019-08-14%2012-51-17EFB%E7%AE%97%E6%B3%952.png" alt="MEF"></p>
+<h1 id="Leaf-wise-VS-Level-wise"><a href="#Leaf-wise-VS-Level-wise" class="headerlink" title="Leaf-wise VS Level-wise"></a>Leaf-wise VS Level-wise</h1><h2 id="Level-wise"><a href="#Level-wise" class="headerlink" title="Level-wise"></a>Level-wise</h2><p>大多数GBDT框架使用的按层生长 (level-wise)<br>的决策树生长策略，Level-wise遍历一次数据可以同时分裂同一层的叶子，容易进行多线程优化，也好控制模型复杂度，不容易过拟合。但实际上Level-wise是一种低效的算法，因为它不加区分的对待同一层的叶子，带来了很多没必要的开销，因为实际上很多叶子的分裂增益较低，没必要进行搜索和分裂。</p>
+<p><img src="https://lightgbm.readthedocs.io/en/latest/_images/level-wise.png" alt="Level-wise tree growth"></p>
+<h2 id="Leaf-wise"><a href="#Leaf-wise" class="headerlink" title="Leaf-wise"></a>Leaf-wise</h2><p>LightGBM在直方图算法之上，对于树的生长策略做了进一步优化，抛弃了Level-wise策略，使用了带有深度限制的按叶子生长 (leaf-wise)算法。Leaf-wise则是一种更为高效的策略，每次从当前所有叶子中，找到分裂增益最大的一个叶子，然后分裂，如此循环。因此同Level-wise相比，在分裂次数相同的情况下，Leaf-wise可以降低更多的误差，得到更好的精度。Leaf-wise的缺点是可能会长出比较深的决策树，产生过拟合。因此LightGBM在Leaf-wise之上增加了一个最大深度的限制，在保证高效率的同时防止过拟合。</p>
+<p><img src="https://lightgbm.readthedocs.io/en/latest/_images/leaf-wise.png" alt="Leaf-wise"></p>
+<h1 id="特征并行和数据并行"><a href="#特征并行和数据并行" class="headerlink" title="特征并行和数据并行"></a>特征并行和数据并行</h1><p>本小节主要根据<a href="https://lightgbm.readthedocs.io/en/latest/Features.html#optimization-in-network-communication" target="_blank" rel="noopener">LightGBM的官方文档</a>中提到的并行计算优化进行讲解。<br>在本小节中，工作的节点称为<strong>worker</strong></p>
+<p>LightGBM具有支持高效并行的优点。LightGBM原生支持并行学习，目前支持特征并行和数据并行的两种。</p>
+<h2 id="特征并行"><a href="#特征并行" class="headerlink" title="特征并行"></a>特征并行</h2><p>特征并行主要是并行化决策树中寻找最优划分点(“Find Best Split”)的过程，因为这部分最为耗时。</p>
+<p>传统特征并行做法如下：</p>
+<ul>
+<li>垂直划分数据（对特征划分），不同的worker有不同的特征集</li>
+<li>每个workers找到局部最佳的切分点{feature, threshold}</li>
+<li>workers使用点对点通信，找到全局最佳切分点</li>
+<li>具有全局最佳切分点的worker进行节点分裂，然后广播切分后的结果（左右子树的instance indices）</li>
+<li>其它worker根据收到的instance indices也进行划分</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-feature-parallelization.png" alt="预排序特征并行"></p>
+<p>主要有以下缺点： </p>
+<ul>
+<li>无法加速分裂的过程，该过程的时间复杂度为$O(N)$，当数据量大的时候效率不高</li>
+<li>需要广播划分的结果（左右子树的instance indices），1条数据1bit的话，通信花费大约需要$O(N/8)$</li>
+</ul>
+<p>LightGBM的特征并行每个worker保存所有的数据集，这样找到全局最佳切分点后各个worker都可以自行划分，就不用进行广播划分结果，减小了网络通信量。过程如下：</p>
+<ul>
+<li>每个workers找到局部最佳的切分点{feature, threshold}</li>
+<li>workers使用点对点通信，找到全局最佳切分点</li>
+<li>每个worker根据全局全局最佳切分点进行节点分裂</li>
+</ul>
+<p>这样虽然不用进行广播划分结果，减小了网络通信量。但是也有缺点：</p>
+<ul>
+<li>分裂过程的复杂度保持不变</li>
+<li>每个worker保存所有数据，存储代价高</li>
+</ul>
+<h2 id="数据并行"><a href="#数据并行" class="headerlink" title="数据并行"></a>数据并行</h2><p>数据并行的目标是并行化整个决策学习的过程，传统算法的做法如下：</p>
+<ul>
+<li>水平切分数据，不同的worker拥有部分数据</li>
+<li>每个worker根据本地数据构建局部直方图</li>
+<li>合并所有的局部直方图得到全部直方图</li>
+<li>根据全局直方图找到最优切分点并进行分裂</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-data-parallelization.png" alt="数据并行"></p>
+<p>在第3步当中有两种合并方式：</p>
+<ul>
+<li>采用点对点方式(point-to-point communication algorithm)进行通讯，每个worker通讯量为$𝑂(𝑚𝑎𝑐ℎ𝑖𝑛𝑒 × 𝑓𝑒𝑎𝑡𝑢𝑟𝑒× 𝑏𝑖𝑛)$</li>
+<li>采用collective communication algorithm(如“<a href="http://pages.tacc.utexas.edu/~eijkhout/pcse/html/mpi-collective.html" target="_blank" rel="noopener">All Reduce</a>”)进行通讯（相当于有一个中心节点，通讯后在返回结果），每个worker的通讯量为$O(2× 𝑓𝑒𝑎𝑡𝑢𝑟𝑒× 𝑏𝑖𝑛)$</li>
+</ul>
+<p>不难发现，通信的代价也是很高的，这也是数据并行的缺点。</p>
+<p>LightGBM的数据并行主要做了以下两点优化：</p>
+<ul>
+<li>使用“Reduce Scatter”将不同worker的不同特征的直方图合并，然后workers在局部合并的直方图中找到局部最优划分，最后同步全局最优划分</li>
+<li>通过直方图作差法得到兄弟节点的直方图，因此只需要通信一个节点的直方图，减半通信量</li>
+</ul>
+<p>通过上述两点做法，通信开销降为$𝑂(0.5 × 𝑓𝑒𝑎𝑡𝑢𝑟𝑒 × 𝑏𝑖𝑛)$。</p>
+<p>另外，LightGBM还采用 一种称为<strong>PV-Tree</strong>的算法进行投票并行（Voting Parallel），其实本质上也是一种数据并行。</p>
+<p>PV-Tree和普通的决策树差不多，只是在寻找最优切分点上有所不同。具体算法如下：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-pv-tree.png" alt="PV-Tree"></p>
+<p>主要思路如下：</p>
+<ul>
+<li>水平切分数据，不同的worker拥有部分数据</li>
+<li>Local voting: 每个worker构建直方图，找到$top-k$个最优的本地划分特征</li>
+<li>Global voting: 中心节点聚合得到最优的$top-2k$个全局划分特征（$top-2k$是看对各个worker选择特征的个数进行计数，取最多的$2k$个）</li>
+<li>Best Attribute Identification： 中心节点向worker收集这$top-2k$个特征的直方图，并进行合并，然后计算得到全局的最优划分</li>
+<li>中心节点将全局最优划分广播给所有的worker，worker进行本地划分</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/LightGBM-voting-parallelization.png" alt="voting-parallelization"></p>
+<p>可以看出，PV-tree将原本需要$O(𝑓𝑒𝑎𝑡𝑢𝑟𝑒 × 𝑏𝑖𝑛)$ 变为了$O(2k × 𝑏𝑖𝑛)$，通信开销得到降低。此外，可以证明，当每个worker的数据足够多的时候，$top-2k$个中包含全局最佳切分点的概率非常高。</p>
+<h1 id="顺序访问梯度"><a href="#顺序访问梯度" class="headerlink" title="顺序访问梯度"></a>顺序访问梯度</h1><p>Cache（高速缓存）作为内存局部区域的副本，用来存放当前活跃的程序和数据，它利用程序运行的局部性，把局部范围的数据从内存复制到Cache中，使CPU直接高速从Cache中读取程序和数据，从而解决CPU速度和内存速度不匹配的问题。高速缓冲存储器最重要的技术指标是它的命中率。CPU在Cache中找到有用的数据被称为命中，当Cache中没有CPU所需的数据时（这时称为未命中），CPU才访问内存。</p>
+<p>预排序算法中有两个频繁的操作会导致cache-miss，也就是缓存消失（对速度的影响很大，特别是数据量很大的时候，顺序访问比随机访问的速度快4倍以上 ）。</p>
+<ul>
+<li>对梯度的访问：在计算增益的时候需要利用梯度，假设梯度信息存在一个数组$g[i]$中，在对特征$A$进行增益时，需要根据特征$A$排序后的索引找到$g[i]$中对应的梯度信息。特征值$A_1$对应的样本行号可能是3，对应的梯度信息在$g[3]$，而特征值$A_2$对应的样本行号可能是9999，对应的梯度信息在$g[9999]$，即对于不同的特征，访问梯度的顺序是不一样的，并且是随机的</li>
+<li>对于索引表的访问：预排序算法使用了行号和叶子节点号的索引表，防止数据切分的时候对所有的特征进行切分。同访问梯度一样，所有的特征都要通过访问这个索引表来索引</li>
+</ul>
+<p>这两个操作都是随机的访问，会给系统性能带来非常大的下降。</p>
+<p>LightGBM使用的直方图算法能很好的解决这类问题。首先。对梯度的访问，因为不用对特征进行排序，同时，所有的特征都用同样的方式来访问，所以只需要对梯度访问的顺序进行重新排序，所有的特征都能连续的访问梯度。并且直方图算法不需要把数据id到叶子节点号上（不需要这个索引表，没有这个缓存消失问题），大大提高cache的命中率，减少cache-miss出现的概率。</p>
+<h1 id="支持类别特征"><a href="#支持类别特征" class="headerlink" title="支持类别特征"></a>支持类别特征</h1><p>实际上大多数机器学习工具都无法直接支持类别特征，一般需要把类别特征，转化one-hot特征，降低了空间和时间的效率。而类别特征的使用是在实践中很常用的。基于这个考虑，LightGBM优化了对类别特征的支持，可以直接输入类别特征，不需要额外的0/1展开。并在决策树算法上增加了类别特征的决策规则，直接原生支持类别特征，不需要转化，提高了近8倍的速度。<br><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LightGBM/Pasted-130-768x230.png" alt="类别特征"></p>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>作为GBDT框架内的算法，GBDT、XGBoost能够应用的场景LightGBM也都适用，并且考虑到其对于大数据、高维特征的诸多优化，在数据量非常大、维度非常多的场景更具优势。近来，有着逐步替代XGBoost成为各种数据挖掘比赛baseline的趋势。</p>
+<h1 id="sklearn参数"><a href="#sklearn参数" class="headerlink" title="sklearn参数"></a>sklearn参数</h1><p><code>sklearn</code>本身的文档当中并没有LightGBM的描述，<a href="https://github.com/microsoft/LightGBM/blob/master/python-package/lightgbm/sklearn.py" target="_blank" rel="noopener">Github</a>上面看到主要参数如下：</p>
+<ul>
+<li><code>boosting_type</code> : 提升类型，字符串，可选项 (default=<code>gbdt</code>)<ul>
+<li><code>gbdt</code>, 传统梯度提升树</li>
+<li><code>dart</code>, 带Dropout的MART</li>
+<li><code>goss</code>, 单边梯度采样</li>
+<li><code>rf</code>, 随机森林</li>
+</ul>
+</li>
+<li><code>num_leaves</code> : 基学习器的最大叶子树，整型，可选项 (default=31)</li>
+<li><code>max_depth</code> : 基学习器的最大树深度，小于等于0表示没限制，整型，可选项 (default=-1)</li>
+<li><code>learning_rate</code> : 提升学习率，浮点型，可选项 (default=0.1)</li>
+<li><code>n_estimators</code> : 提升次数，整型，可选项 (default=100)</li>
+<li><code>subsample_for_bin</code> : 构造分箱的样本个数，整型，可选项 (default=200000)</li>
+<li><code>objective</code> : 指定学习任务和相应的学习目标或者用户自定义的需要优化的目标损失函数，字符串， 可调用的或者None, 可选项 (default=None)，若不为None，则有:<ul>
+<li><code>regression</code> for LGBMRegressor<br>-<code>binary</code> or <code>multiclass</code> for LGBMClassifier</li>
+<li><code>lambdarank</code> for LGBMRanker</li>
+</ul>
+</li>
+<li><code>class_weight</code> : 该参数仅在多分类的时候会用到，多分类的时候各个分类的权重，对于二分类任务，你可以使用<code>is_unbalance</code> 或 <code>scale_pos_weight</code>，字典数据, <code>balanced</code> or None, 可选项 (default=None)</li>
+<li><code>min_split_gain</code> : 在叶子节点上面做进一步分裂的最小损失减少值，浮点型，可选项 (default=0.)</li>
+<li><code>min_child_weight</code> : 在树的一个孩子或者叶子所需的最小样本权重和，浮点型，可选项 (default=1e-3)</li>
+<li><code>min_child_samples</code> : 在树的一个孩子或者叶子所需的最小样本，整型，可选项 (default=20)</li>
+<li><code>subsample</code> : 训练样本的子采样比例，浮点型，可选项 (default=1.)</li>
+<li><code>subsample_freq</code> : 子采样频率，小于等于0意味着不可用，整型，可选项 (default=0)</li>
+<li><code>colsample_bytree</code> : 构建单棵树时列采样比例，浮点型，可选项 (default=1.)</li>
+<li><code>reg_alpha</code> : $L_1$正则项，浮点型，可选项 (default=0.)</li>
+<li><code>reg_lambda</code> :$L_2$正则项，浮点型，可选项 (default=0.)</li>
+<li><code>random_state</code> : 随机数种子，整型或者None, 可选项 (default=None)</li>
+<li><code>n_jobs</code> : 线程数，整型，可选项 (default=-1)</li>
+<li><code>silent</code> : 运行时是否打印消息，布尔型，可选项 (default=True)</li>
+<li><code>importance_type</code> : 填入到<code>feature_importances_</code>的特征重要性衡量类型，如果是<code>split</code>，则以特征被用来分裂的次数，如果是<code>gain</code>，则以特征每次用于分裂的累积增益，字符串，可选项 (default=<code>split</code>)</li>
+</ul>
+<p>除了以上参数，LightGBM原生接口当中参数众多，主要有以下八大类：</p>
+<ul>
+<li>核心参数</li>
+<li>学习控制参数</li>
+<li>IO参数</li>
+<li>目标参数</li>
+<li>度量参数</li>
+<li>网络参数</li>
+<li>GPU参数</li>
+<li>模型参数</li>
+</ul>
+<p>如果有遗漏，具体可以参阅<a href="https://lightgbm.readthedocs.io/en/latest/Parameters.html" target="_blank" rel="noopener">LightGBM Parameters</a></p>
+<h1 id="CatBoost（了解）"><a href="#CatBoost（了解）" class="headerlink" title="CatBoost（了解）"></a>CatBoost（了解）</h1><p>CatBoost也是Boosting族的算法，由俄罗斯科技公司Yandex于2017年提出，主要在两方面做了优化，一个是对于类别变量的处理，另外一个是对于预测偏移（prediction shift）的处理。</p>
+<p>其中对于类别变量在传统的Greedy TBS方法的基础上添加先验分布项，这样可以减少减少噪声和低频率数据对于数据分布的影响：<br>$$\hat{x}_k^i=\frac{\sum_{j=1}^n I_{\{x_j^i=x_k^i\}}*y_j+a\,P}{\sum_{j=1}^n I_{\{x_j^i=x_k^i\}}+a}$$</p>
+<p>其中 $P$ 是添加的先验项，$a$ 通常是大于 0 的权重系数。</p>
+<p>对于第二个问题，CatBoost采用了排序提升（Ordered Boosting）的方式，首先对所有的数据进行随机排列，然后在计算第 $i$ 步残差时候的模型只利用了随机排列中前 $i-1$ 个样本。具体算法描述请参阅论文<a href="https://papers.nips.cc/paper/7898-catboost-unbiased-boosting-with-categorical-features.pdf" target="_blank" rel="noopener">CatBoost: unbiased boosting with categorical features</a></p>
+<p>时间有限，下次有机会再详细消化下CatBoost的论文。</p>
+<p>总之，CatBoost大大简化了前期数据处理过程，特别是类别特征的数值化，调参也相对容易。近来在数据竞赛领域已经大规模采用。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p><a href="https://book.douban.com/subject/26708119/" target="_blank" rel="noopener">《机器学习》，周志华</a></p>
+</li>
+<li><p><a href="https://book.douban.com/subject/33437381/" target="_blank" rel="noopener">《统计学习方法》（第二版），李航</a></p>
+</li>
+<li><p><a href="https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf" target="_blank" rel="noopener">LightGBM: A Highly Efficient Gradient Boosting Decision Tree</a></p>
+</li>
+</ul>
+<ul>
+<li><a href="https://arxiv.org/pdf/1603.02754.pdf" target="_blank" rel="noopener">XGBoost: A Scalable Tree Boosting System</a></li>
+</ul>
+<ul>
+<li><p><a href="https://papers.nips.cc/paper/6381-a-communication-efficient-parallel-algorithm-for-decision-tree.pdf" target="_blank" rel="noopener">A Communication-Efficient Parallel Algorithm for Decision Tree</a></p>
+</li>
+<li><p><a href="https://www.msra.cn/zh-cn/news/features/lightgbm-20170105" target="_blank" rel="noopener">开源 | LightGBM：三天内收获GitHub 1000  星</a></p>
+</li>
+<li><p><a href="https://lightgbm.readthedocs.io/" target="_blank" rel="noopener">LightGBM Docs</a></p>
+</li>
+<li><p><a href="https://github.com/microsoft/LightGBM" target="_blank" rel="noopener">LightGBM Github</a></p>
+</li>
+</ul>
+<ul>
+<li><a href="https://v.qq.com/x/page/k0362z6lqix.html" target="_blank" rel="noopener">Introduction to LightGBM</a></li>
+<li><a href="https://catboost.ai/" target="_blank" rel="noopener">Catboost</a></li>
+<li><a href="https://papers.nips.cc/paper/7898-catboost-unbiased-boosting-with-categorical-features.pdf" target="_blank" rel="noopener">CatBoost: unbiased boosting with categorical features</a></li>
+<li><a href="http://learningsys.org/nips17/assets/papers/paper_11.pdf" target="_blank" rel="noopener">CatBoost: gradient boosting with categorical features support</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/" title="LightGBM算法梳理">http://datacruiser.io/2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集成学习/" rel="tag"># 集成学习</a>
+          
+            <a href="/tags/sklearn/" rel="tag"># sklearn</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/LightGBM/" rel="tag"># LightGBM</a>
+          
+            <a href="/tags/Histogram/" rel="tag"># Histogram</a>
+          
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/11/Leetcode-Tencent-50-Task9-231-Power-of-Two/" rel="next" title="Leetcode Tencent 50 Task9 231. Power of Two">
+                <i class="fa fa-chevron-left"></i> Leetcode Tencent 50 Task9 231. Power of Two
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/13/Leetcode-Tencent-50-Task10-104-Maximum-Depth-of-Binary-Tree/" rel="prev" title="Leetcode Tencent 50 Task10 104. Maximum Depth of Binary Tree">
+                Leetcode Tencent 50 Task10 104. Maximum Depth of Binary Tree <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LightGBM"><span class="nav-number">1.</span> <span class="nav-text"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LightGBM的起源"><span class="nav-number">2.</span> <span class="nav-text"><a href="#LightGBM&#x7684;&#x8D77;&#x6E90;" class="headerlink" title="LightGBM&#x7684;&#x8D77;&#x6E90;"></a>LightGBM&#x7684;&#x8D77;&#x6E90;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Histogram-VS-Pre-sorted"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Histogram-VS-Pre-sorted" class="headerlink" title="Histogram VS Pre-sorted"></a>Histogram VS Pre-sorted</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pre-sorted"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#Pre-sorted" class="headerlink" title="Pre-sorted"></a>Pre-sorted</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Historgram"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#Historgram" class="headerlink" title="Historgram"></a>Historgram</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图算法"><span class="nav-number">3.2.1.</span> <span class="nav-text"><a href="#&#x76F4;&#x65B9;&#x56FE;&#x7B97;&#x6CD5;" class="headerlink" title="&#x76F4;&#x65B9;&#x56FE;&#x7B97;&#x6CD5;"></a>&#x76F4;&#x65B9;&#x56FE;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单边梯度采样（Gradient-based-One-Side-Sampling）"><span class="nav-number">3.2.2.</span> <span class="nav-text"><a href="#&#x5355;&#x8FB9;&#x68AF;&#x5EA6;&#x91C7;&#x6837;&#xFF08;Gradient-based-One-Side-Sampling&#xFF09;" class="headerlink" title="&#x5355;&#x8FB9;&#x68AF;&#x5EA6;&#x91C7;&#x6837;&#xFF08;Gradient-based One-Side Sampling&#xFF09;"></a>&#x5355;&#x8FB9;&#x68AF;&#x5EA6;&#x91C7;&#x6837;&#xFF08;Gradient-based One-Side Sampling&#xFF09;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互斥特征合并（Exclusive-Feature-Bundling）"><span class="nav-number">3.2.3.</span> <span class="nav-text"><a href="#&#x4E92;&#x65A5;&#x7279;&#x5F81;&#x5408;&#x5E76;&#xFF08;Exclusive-Feature-Bundling&#xFF09;" class="headerlink" title="&#x4E92;&#x65A5;&#x7279;&#x5F81;&#x5408;&#x5E76;&#xFF08;Exclusive Feature Bundling&#xFF09;"></a>&#x4E92;&#x65A5;&#x7279;&#x5F81;&#x5408;&#x5E76;&#xFF08;Exclusive Feature Bundling&#xFF09;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Greedy-Bundling"><span class="nav-number">3.2.3.1.</span> <span class="nav-text"><a href="#Greedy-Bundling" class="headerlink" title="Greedy Bundling"></a>Greedy Bundling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Merge-Exclusive-Features"><span class="nav-number">3.2.3.2.</span> <span class="nav-text"><a href="#Merge-Exclusive-Features" class="headerlink" title="Merge Exclusive Features"></a>Merge Exclusive Features</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Leaf-wise-VS-Level-wise"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Leaf-wise-VS-Level-wise" class="headerlink" title="Leaf-wise VS Level-wise"></a>Leaf-wise VS Level-wise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Level-wise"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#Level-wise" class="headerlink" title="Level-wise"></a>Level-wise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Leaf-wise"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#Leaf-wise" class="headerlink" title="Leaf-wise"></a>Leaf-wise</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特征并行和数据并行"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x7279;&#x5F81;&#x5E76;&#x884C;&#x548C;&#x6570;&#x636E;&#x5E76;&#x884C;" class="headerlink" title="&#x7279;&#x5F81;&#x5E76;&#x884C;&#x548C;&#x6570;&#x636E;&#x5E76;&#x884C;"></a>&#x7279;&#x5F81;&#x5E76;&#x884C;&#x548C;&#x6570;&#x636E;&#x5E76;&#x884C;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征并行"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#&#x7279;&#x5F81;&#x5E76;&#x884C;" class="headerlink" title="&#x7279;&#x5F81;&#x5E76;&#x884C;"></a>&#x7279;&#x5F81;&#x5E76;&#x884C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据并行"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x5E76;&#x884C;" class="headerlink" title="&#x6570;&#x636E;&#x5E76;&#x884C;"></a>&#x6570;&#x636E;&#x5E76;&#x884C;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顺序访问梯度"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x987A;&#x5E8F;&#x8BBF;&#x95EE;&#x68AF;&#x5EA6;" class="headerlink" title="&#x987A;&#x5E8F;&#x8BBF;&#x95EE;&#x68AF;&#x5EA6;"></a>&#x987A;&#x5E8F;&#x8BBF;&#x95EE;&#x68AF;&#x5EA6;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支持类别特征"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x652F;&#x6301;&#x7C7B;&#x522B;&#x7279;&#x5F81;" class="headerlink" title="&#x652F;&#x6301;&#x7C7B;&#x522B;&#x7279;&#x5F81;"></a>&#x652F;&#x6301;&#x7C7B;&#x522B;&#x7279;&#x5F81;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用场景"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x5E94;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x5E94;&#x7528;&#x573A;&#x666F;"></a>&#x5E94;&#x7528;&#x573A;&#x666F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sklearn参数"><span class="nav-number">9.</span> <span class="nav-text"><a href="#sklearn&#x53C2;&#x6570;" class="headerlink" title="sklearn&#x53C2;&#x6570;"></a>sklearn&#x53C2;&#x6570;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CatBoost（了解）"><span class="nav-number">10.</span> <span class="nav-text"><a href="#CatBoost&#xFF08;&#x4E86;&#x89E3;&#xFF09;" class="headerlink" title="CatBoost&#xFF08;&#x4E86;&#x89E3;&#xFF09;"></a>CatBoost&#xFF08;&#x4E86;&#x89E3;&#xFF09;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">11.</span> <span class="nav-text"><a href="#&#x53C2;&#x8003;" class="headerlink" title="&#x53C2;&#x8003;"></a>&#x53C2;&#x8003;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/';
+          this.page.identifier = '2019/08/12/DataWhale-Workout-No-8-LightGBM-Summary/';
+          this.page.title = 'LightGBM算法梳理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next muse" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据结构,算法,C语言,字符串," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Datacruiser's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="DataWhale暑期学习小组-LeetCode刷题第八期Taskxx。">
+<meta name="keywords" content="数据结构,算法,C语言,字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode Tencent 50 5. Longest Palindromic Substring">
+<meta property="og:url" content="http://datacruiser.io/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/index.html">
+<meta property="og:site_name" content="Datacruiser&#39;s Blog">
+<meta property="og:description" content="DataWhale暑期学习小组-LeetCode刷题第八期Taskxx。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Longest%20Palindromic%20Substring.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-3d70e0f9a122ae01.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-c539f9e9d09d69b0.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-01d9889ba9f867cb.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-0f3ed33dabc8f37e.png">
+<meta property="og:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-c123368366c0627a.png">
+<meta property="og:updated_time" content="2020-01-31T14:37:28.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Leetcode Tencent 50 5. Longest Palindromic Substring">
+<meta name="twitter:description" content="DataWhale暑期学习小组-LeetCode刷题第八期Taskxx。">
+<meta name="twitter:image" content="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Longest%20Palindromic%20Substring.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://datacruiser.io/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/"/>
+
+
+
+
+
+  <title>Leetcode Tencent 50 5. Longest Palindromic Substring | Datacruiser's Blog</title>
+  <style>
+  .forkme{
+    display: none;
+  }
+  @media (min-width: 768px) {
+  .forkme{
+    display: inline;
+  }
+  }
+  </style><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <div class="forkme">
+  <a href="https://github.com/datacruiser" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </div>  
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Datacruiser's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数海拾荒</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://datacruiser.io/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datacruiser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.imgur.com/qsQpBoA.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Datacruiser's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Leetcode Tencent 50 5. Longest Palindromic Substring</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T20:25:02+00:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+             <span class="post-updated">
+                &nbsp; | &nbsp; 更新于
+            <time itemprop="dateUpdated" datetime="2020-01-31T14:37:28+00:00" content="2020-01-31">
+                2020-01-31
+             </time>
+             </span>
+         
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode-腾讯精选50题/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode 腾讯精选50题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  DataWhale暑期学习小组-LeetCode刷题第八期Taskxx。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>给定一个字符串<code>s</code>，找到<code>s</code> 中最长的回文子串。你可以假设<code>s</code>的最大长度为 1000。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: <span class="string">"babad"</span></span><br><span class="line">输出: <span class="string">"bab"</span></span><br><span class="line">注意: <span class="string">"aba"</span> 也是一个有效答案。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: <span class="string">"cbbd"</span></span><br><span class="line">输出: <span class="string">"bb"</span></span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/longest-palindromic-substring" target="_blank" rel="noopener">5. Longest Palindromic Substring</a></p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>此题解法繁多，下面一一进行论述比较。</p>
+<h2 id="暴力解法"><a href="#暴力解法" class="headerlink" title="暴力解法"></a>暴力解法</h2><p>通过一个判断是否回文串的辅助函数，然后枚举所有可能的子串，判断是否为回文串，然后保存并返回最长的回文串。有几个细节需要注意：</p>
+<ul>
+<li>在子函数<code>subString</code>当中的临时指针变量<code>*tmp</code>需要动态分配空间，否则在调用<code>strncpy</code>函数的时候会有报错<code>null pointer passed as argument1</code></li>
+<li>既然在子函数当中用<code>malloc</code>函数动态分配了内存，那么在返回主函数以后，在用完以后需要释放内存，不然<code>Leetcode</code>很快就会报<strong>超出内存限制</strong>的错误，提交失败</li>
+</ul>
+<p>现在再来看看本解法的时间复杂度，首先主函数当中两重<code>for</code>循环，妥妥的$O(n^2)$，判断是否回文串的子函数里面又是一重<code>for</code>循环，也是<code>O(n)</code>，总体的时间复杂度是$O(n^3)$，最终也会因为<strong>超出时间限制</strong>而提交失败。</p>
+<p>具体代码将解法一。</p>
+<h2 id="中心扩展解法"><a href="#中心扩展解法" class="headerlink" title="中心扩展解法"></a>中心扩展解法</h2><p>我们知道回文串一定是关于中心对称的，所以我们每次循环的时候选择一个中心进行左右两边扩展，判断左右字符是否相等即可。</p>
+<p>由于可能存在奇数或者偶数个字符的回文字符串，所以我们需要从一个字符开始扩展，或者从两个字符之间开始扩展，如下图所示，总共有<code>n + n - 1</code>个中心需要遍历。</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/Longest%20Palindromic%20Substring.png" alt="奇偶示意图"></p>
+<p>定义一个辅助函数<code>searchPalindrome</code>来遍历寻找每个中心进行两边扩散寻找当前中心的最长回文串的长度，如果<code>i</code>表示字符串的指针，则从字符本身开始扩展需要遍历调用<code>searchPalindrome(s, i, i)</code>，从两个字符之间开始扩展需要遍历调用<code>searchPalindrome(s, i, i + 1)</code>，最后取两者之间的较大的<code>maxLength</code>即为最大回文串的长度，再每次遍历的时候更新一下最大回文串在原字符串当中的起始指针，用暴力解法当中的<code>subString</code>函数返回即可。</p>
+<p>现在再来看看本解法的时间复杂度，主函数里面的第一重<code>for</code>循环为$O(n)$，里面对于<code>searchPalindrome</code>的调用一共需要<code>n + n - 1</code>次，因此，总的时间复杂度是$O(n^2)$。</p>
+<p>具体代码见解法二。</p>
+<h2 id="动态规划法"><a href="#动态规划法" class="headerlink" title="动态规划法"></a>动态规划法</h2><p>动态规划解题的关键是找到状态转移方程。</p>
+<p>我们维护一个二维数组<code>dp</code>，让<code>dp[i][j]</code>表示字符串区间<code>[i,j]</code>是否为回文串，那么有以下几种情况：</p>
+<ul>
+<li>当<code>i = j</code>时，只有一个字符，肯定是回文串</li>
+<li>当<code>j = i + 1</code>时，相邻的两个字符，此时如果<code>s[i] == s[j]</code>，则是回文串</li>
+<li>当<code>j - i &gt;= 2</code>时，除了判断<code>s[i]</code>和<code>s[j]</code>是否相等之外，如果此时<code>dp[i + 1][j - 1]</code>也为真，则是回文串</li>
+</ul>
+<p>状态转移方程为:<code>dp[i][j] = dp[i + 1, j - 1] &amp;&amp; s[i] == s[j]</code></p>
+<p>本解法的时间复杂度为$O(n^2)$，具体代码见解法三。</p>
+<h2 id="马拉车算法"><a href="#马拉车算法" class="headerlink" title="马拉车算法"></a>马拉车算法</h2><p>我首先来看看中心扩散解法存在的缺陷，主要有以下两点：</p>
+<ul>
+<li>由于回文串长度的奇偶性造成了不同性质的对称轴位置，一个是字符本身，另外一个是相邻字符之间的空隙，需要对两种情况分别进行处理</li>
+<li>很多子串被重复多次访问，造成效率的低下</li>
+</ul>
+<p>对于第二个缺陷，可以举一个简单的例子加以说明：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>: a b a b a </span><br><span class="line">i   : <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>当<code>i = 1</code>和<code>i = 2</code>的时候，左边的子串<code>aba</code>分别被遍历了一次，造成执行时间的浪费。</p>
+<p>Manacher算法正是针对以上两点不足，对算法进行了优化，提高了算法的效率。</p>
+<h3 id="解决回文串奇偶性的对称轴位置问题"><a href="#解决回文串奇偶性的对称轴位置问题" class="headerlink" title="解决回文串奇偶性的对称轴位置问题"></a>解决回文串奇偶性的对称轴位置问题</h3><p>Manacher算法首先对字符串做一个预处理，在所有的空隙位置(包括首尾)插入同样的符号，要求这个符号是不会在原串中出现的，比如<code>#</code>，并且为了使得扩展的过程中，到边界后自动结束，在两端分别插入两个不可能在字符串中出现的字符， 比如<code>^</code> 和 <code>$</code>，这样中心扩展的时候，判断两端字符是否相等的时候，如果到了边界就一定会不相等，从而出了循环。经过处理，字符串的长度永远都是奇数了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aba     -------&gt;    ^<span class="meta">#a#b#a#$</span></span><br><span class="line">abba    -------&gt;    ^<span class="meta">#a#b#b#a#$</span></span><br></pre></td></tr></table></figure>
+<p>这样插入与原字符串不相干的相同字符的巧妙之处在于，对原字符串的回文串不造成影响，原来是回文的串，插完之后还是回文的，原来不是回文的，依然不会是回文。</p>
+<h3 id="解决重复访问的问题"><a href="#解决重复访问的问题" class="headerlink" title="解决重复访问的问题"></a>解决重复访问的问题</h3><p>首先引入一个<strong>回文半径</strong>的概念，定义为一个回文串中最左或者最右位置的字符与其对称轴的距离。然后定义一个回文半径数组<code>RL</code>，<code>RL[i]</code>表示以第<code>i</code>个字符为对称轴的回文串的回文半径，我们一般对字符串从左往右处理，因此这里定义<code>RL[i]</code>为第<code>i</code>个字符为对称轴的回文串的最右一个字符与字符<code>i</code>的距离，<code>RL[i] - 1</code> 表示原字符串(处理前)中以第<code>i</code>个字符为对称中心的回文子串长度。如果 <code>RL[i] = 1</code>，则该回文子串就是 <code>s[i]</code> 本身。对于上面插入分隔符之后的两个串，可以得到<code>RL</code>数组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>:    ^ <span class="meta"># a # b # a # $</span></span><br><span class="line"> RL :    <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">4</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line">RL<span class="number">-1</span>:    <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">3</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">  i :    <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span>:    ^ <span class="meta"># a # b # b # a # $</span></span><br><span class="line"> RL :    <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">2</span> <span class="number">5</span> <span class="number">2</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line">RL<span class="number">-1</span>:    <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">4</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">  i :    <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>上面我们还求了一下<code>RL[i] - 1</code>。通过观察再次验证了<code>RL[i] - 1</code>的值，正是在原本那个没有插入过分隔符的串中，以位置<code>i</code>为对称轴的最长回文串的长度。那么只要我们求出了<code>RL</code>数组，就能得到最长回文子串的长度。只知道长度无法定位子串，我们还需要知道子串的起始位置。</p>
+<p>我们以下面这串为例进行分析。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>:    ^  #  <span class="number">1</span>  #  <span class="number">2</span>  #  <span class="number">2</span>  #  <span class="number">1</span>  #  <span class="number">2</span>  #  <span class="number">2</span>  #  $</span><br><span class="line"> RL :    <span class="number">1</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">5</span>  <span class="number">2</span>  <span class="number">1</span>  <span class="number">6</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">2</span>  <span class="number">1</span>  <span class="number">1</span></span><br><span class="line">RL<span class="number">-1</span>:    <span class="number">0</span>  <span class="number">0</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">1</span>  <span class="number">4</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">5</span>  <span class="number">0</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">0</span></span><br><span class="line"> i  :    <span class="number">0</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span>  <span class="number">10</span> <span class="number">11</span> <span class="number">12</span> <span class="number">13</span> <span class="number">14</span></span><br></pre></td></tr></table></figure>
+<p>我们还是先来看中间的 <code>1</code> 在字符串 <code>^#1#2#2#1#2#2#$</code> 中的位置是8，而半径是6，貌似 7-6=2，如果2/2，刚好就是回文子串 <code>22122</code> 在原串 <code>122122</code> 中的起始位置1。那么我们再来验证下 <code>bob</code>，<code>o</code> 在 <code>^#b#o#b#$</code> 中的位置是4，半径是4，这一减为0，除以2还是0，没有问题。再来验证一下 <code>noon</code>，中间的 <code>#</code>在字符串 <code>^#n#o#o#n#$</code> 中的位置是5，半径也是5，相减并除以2还是0，完美。可以任意试试其他的例子，都是符合这个规律的，原字符串中的最长子串的长度是半径减1，而最长子串在原字符串当中的起始位置是对称轴位置减去半径再除以2。另外，在C/C++当中，因为字符串最末尾的位置是<code>\0</code>，最后的<code>$</code>不加也没关系。</p>
+<p>我们再引入一个辅助变量<code>MaxRight</code>，表示当前访问到的所有回文子串，所能触及的最右一个字符的位置。另外还要记录下<code>MaxRight</code>对应的回文串的对称轴所在的位置，记为<code>pos</code>，它们的位置关系如下:</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-3d70e0f9a122ae01.png" alt="total"></p>
+<p>我们从左往右地访问字符串来求<code>RL</code>，假设当前访问到的位置为<code>i</code>，即要求<code>RL[i]</code>，再对应上图，显然的，<code>i</code>必然是在<code>pos</code>右边的。但我们更关注的是，<code>i</code>是在<code>MaxRight</code>的左边还是右边。我们分情况来讨论。</p>
+<h4 id="当i在MaxRight的左边"><a href="#当i在MaxRight的左边" class="headerlink" title="当i在MaxRight的左边"></a>当<code>i</code>在<code>MaxRight</code>的左边</h4><p>这种情况可以用下图来描述：</p>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-c539f9e9d09d69b0.png" alt="1"></p>
+<p>我们知道，图中两个红色块之间（包括红色块）的串是回文的；并且以<code>i</code>为对称轴的回文串，是与红色块间的回文串有所重叠的。我们找到<code>i</code>关于<code>pos</code>的对称位置<code>j</code>，这个<code>j</code>对应的<code>RL[j]</code>我们是已经算过的。根据回文串的对称性，以<code>i</code>为对称轴的回文串和以<code>j</code>为对称轴的回文串，有一部分是相同的。这里又有两种细分的情况。</p>
+<ul>
+<li>以<code>j</code>为对称轴的回文串比较短，短到像下图这样:</li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-01d9889ba9f867cb.png" alt="3"></p>
+<p>这时我们知道<code>RL[i]</code>至少不会小于<code>RL[j]</code>，并且已经知道了部分的以<code>i</code>为中心的回文串，于是可以令<code>RL[i]=RL[j]</code>。但是以<code>i</code>为对称轴的回文串可能实际上更长，因此我们试着以<code>i</code>为对称轴，继续往左右两边扩展，直到左右两边字符不同，或者到达边界。</p>
+<ul>
+<li>以<code>j</code>为对称轴的回文串很长，这么长： </li>
+</ul>
+<p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-0f3ed33dabc8f37e.png" alt="4"></p>
+<p>这时，我们只能确定，两条蓝线之间的部分（即不超过<code>MaxRight</code>的部分）是回文的，于是从这个长度开始，尝试以<code>i</code>为中心向左右两边扩展，直到左右两边字符不同，或者到达边界。</p>
+<p>不论以上哪种情况，之后都要尝试更新<code>MaxRight</code>和<code>pos</code>，因为有可能得到更大的<code>MaxRight</code>。</p>
+<p>具体步骤如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">step <span class="number">1</span>: 令RL[i]=min(RL[<span class="number">2</span>*pos-i], MaxRight-i)</span><br><span class="line">step <span class="number">2</span>: 以i为中心扩展回文串，直到左右两边字符不同，或者到达边界。</span><br><span class="line">step <span class="number">3</span>: 更新MaxRight和pos</span><br></pre></td></tr></table></figure>
+<h4 id="当i在MaxRight的右边"><a href="#当i在MaxRight的右边" class="headerlink" title="当i在MaxRight的右边"></a>当<code>i</code>在<code>MaxRight</code>的右边</h4><p><img src="https://machinelearning-1255641038.cos.ap-chengdu.myqcloud.com/Datacruiser_Blog_Sources/LeetCode_Tencent50/1111151-c123368366c0627a.png" alt="4"></p>
+<p>遇到这种情况，说明以i为对称轴的回文串还没有任何一个部分被访问过，于是只能从<code>i</code>的左右两边开始尝试扩展了，当左右两边字符不同，或者到达字符串边界时停止。然后更新<code>MaxRight</code>和<code>pos</code>。</p>
+<p>Manacher算法的动态过程可以参考这个<a href="http://manacher-viz.s3-website-us-east-1.amazonaws.com/#/" target="_blank" rel="noopener">链接</a>。</p>
+<p>具体代码见解法四，先给一个C++的，C对于字符串的预处理好像有些麻烦。</p>
+<p>现在分析下本解法的复杂度。</p>
+<p>时间复杂度：<code>for</code> 循环里边套了一层 <code>while</code> 循环，难道不是 $O(n^2)$？不！其实是 $O(n)$。不严谨的想一下，因为 <code>while</code> 循环访问 <code>maxRight</code> 右边的数字用来扩展，也就是那些还未求出的节点，然后不断扩展，而期间访问的节点下次就不会再进入 <code>while</code> 了，可以利用对称得到自己的解，所以每个节点访问都是常数次，所以是 $O(n)$。</p>
+<p>空间复杂度也是$O(n)$。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="解法一：暴力解法"><a href="#解法一：暴力解法" class="headerlink" title="解法一：暴力解法"></a>解法一：暴力解法</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//比较两个整数求最大值</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">max</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a &gt; b) <span class="keyword">return</span> a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//判断是否为回文串</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isPalindromic</span><span class="params">(<span class="keyword">char</span> * s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(s);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len / <span class="number">2</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(s[i] != s[len - <span class="number">1</span> - i]) <span class="comment">//类似于</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//subString 子函数</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">subString</span><span class="params">(<span class="keyword">char</span> * s, <span class="keyword">int</span> startIndex, <span class="keyword">int</span> endIndex)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  s: 需要截取的字符串头指针变量</span></span><br><span class="line"><span class="comment">  startIndex: 截取起始索引</span></span><br><span class="line"><span class="comment">  endIndex: 截取终止索引</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">    assert(endIndex &gt;= startIndex);</span><br><span class="line">    assert(s != <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> length = endIndex - startIndex;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *tmp = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">1001</span>*<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">strncpy</span>(tmp, s + startIndex, length);</span><br><span class="line"></span><br><span class="line">    tmp[length] = <span class="string">'\0'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">longestPalindrome</span><span class="params">(<span class="keyword">char</span> * s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *result;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(s);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断极端条件</span></span><br><span class="line">    <span class="keyword">if</span>(len &lt; <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//最大回文串长度</span></span><br><span class="line">    <span class="keyword">int</span> maxLen = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt;=  len; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">char</span> *tmp = subString(s, i, j);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(isPalindromic(tmp) &amp;&amp; <span class="built_in">strlen</span>(tmp) &gt; maxLen)</span><br><span class="line">            &#123;</span><br><span class="line">                result = subString(s, i, j);</span><br><span class="line">                maxLen = max(maxLen, <span class="built_in">strlen</span>(result));</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="built_in">free</span>(tmp); <span class="comment">//释放内存的位置需要与前面动态分配内存的位置对应</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法二：中心扩展解法"><a href="#解法二：中心扩展解法" class="headerlink" title="解法二：中心扩展解法"></a>解法二：中心扩展解法</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">max</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a &gt; b) <span class="keyword">return</span> a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">subString</span><span class="params">(<span class="keyword">char</span> * s, <span class="keyword">int</span> startIndex, <span class="keyword">int</span> endIndex)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    assert(endIndex &gt;= startIndex);</span><br><span class="line">    assert(s != <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> length = endIndex - startIndex;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *tmp = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">1001</span>*<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">strncpy</span>(tmp, s + startIndex, length);</span><br><span class="line"></span><br><span class="line">    tmp[length] = <span class="string">'\0'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//传入一个字符串，搜索回文串，并返回包含最长回文串的长度</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">searchPalindrome</span><span class="params">(<span class="keyword">char</span> * s, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">      char *s: 需要搜索的字符串的头指针</span></span><br><span class="line"><span class="comment">      int left：原字符串搜索中心的左边界</span></span><br><span class="line"><span class="comment">      int right：原字符串搜索中心的右边界</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">while</span>(left &gt;= <span class="number">0</span> &amp;&amp; right &lt; <span class="built_in">strlen</span>(s) &amp;&amp; s[left] == s[right]) <span class="comment">//从中心向两边进行扩散</span></span><br><span class="line">    &#123;</span><br><span class="line">        left--;</span><br><span class="line">        right++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> right - left - <span class="number">1</span>; <span class="comment">//返回最长回文串长度</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">longestPalindrome</span><span class="params">(<span class="keyword">char</span> * s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(s);</span><br><span class="line">    <span class="keyword">int</span> startIndex = <span class="number">0</span>, endIndex = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (len &lt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> maxLength = max(searchPalindrome(s, i, i), searchPalindrome(s, i, i + <span class="number">1</span>));  <span class="comment">//获取最长回文串的长度</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(maxLength &gt; endIndex - startIndex)                                           <span class="comment">//更新最长回文串在原字符串当中头尾指针</span></span><br><span class="line">        &#123;</span><br><span class="line">            startIndex = i - (maxLength - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            endIndex = i + maxLength / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> subString(s, startIndex, endIndex + <span class="number">1</span>);                                     <span class="comment">//调用subString函数返回结果，注意endIndex+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法三：动态规划解法"><a href="#解法三：动态规划解法" class="headerlink" title="解法三：动态规划解法"></a>解法三：动态规划解法</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//subString 子函数</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">subString</span><span class="params">(<span class="keyword">char</span> * s, <span class="keyword">int</span> startIndex, <span class="keyword">int</span> endIndex)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  s: 需要截取的字符串头指针变量</span></span><br><span class="line"><span class="comment">  startIndex: 截取起始索引</span></span><br><span class="line"><span class="comment">  endIndex: 截取终止索引</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">    assert(endIndex &gt;= startIndex);</span><br><span class="line">    assert(s != <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> length = endIndex - startIndex;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *tmp = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">1001</span>*<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">strncpy</span>(tmp, s + startIndex, length);</span><br><span class="line"></span><br><span class="line">    tmp[length] = <span class="string">'\0'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">longestPalindrome</span><span class="params">(<span class="keyword">char</span> * s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(s);</span><br><span class="line">    <span class="keyword">int</span> startIndex = <span class="number">0</span>, maxLength = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> dp[<span class="number">1001</span>][<span class="number">1001</span>];                                                    <span class="comment">//dp二维数组初始化，很遗憾，用len来初始化会报错</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (len &lt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; len; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        dp[j][j] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; j; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[i][j] = (s[i] == s[j] &amp;&amp; (j - i &lt; <span class="number">2</span> || dp[i + <span class="number">1</span>][j - <span class="number">1</span>]));  <span class="comment">//动态计算dp值</span></span><br><span class="line">            <span class="keyword">if</span>(dp[i][j] &amp;&amp;  maxLength &lt; j - i + <span class="number">1</span>)                         <span class="comment">//更新回文串起始指针位置和最大长度</span></span><br><span class="line">            &#123;</span><br><span class="line">                maxLength = j - i + <span class="number">1</span>;</span><br><span class="line">                startIndex = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> subString(s, startIndex, startIndex + maxLength);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法四：马拉车算法（Manache’s-Algorithm）"><a href="#解法四：马拉车算法（Manache’s-Algorithm）" class="headerlink" title="解法四：马拉车算法（Manache’s Algorithm）"></a>解法四：马拉车算法（Manache’s Algorithm）</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestPalindrome</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 插入前缀 '^#'</span></span><br><span class="line">        <span class="built_in">string</span> t = <span class="string">"^#"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.size(); ++i) &#123;</span><br><span class="line">            t += s[i];</span><br><span class="line">            t += <span class="string">"#"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> RL[t.size()];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 记录最长半径范围</span></span><br><span class="line">        <span class="keyword">int</span> maxRight = <span class="number">0</span>, Pos = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 记录最长回文字符串长度</span></span><br><span class="line">        <span class="keyword">int</span> maxLength = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 当前最长半径的对称轴</span></span><br><span class="line">        <span class="keyword">int</span> currentPosition = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; t.size(); ++i) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            如果 maxRight &gt; i, 则 RL[i] = min( RL[2 * Pos - i] , maxRight - i )</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            否则，RL[i] = 1</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line"></span><br><span class="line">            RL[i] = maxRight &gt; i ? min(RL[<span class="number">2</span> * Pos - i], maxRight - i) : <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">while</span> (t[i + RL[i]] == t[i - RL[i]]) </span><br><span class="line">                ++RL[i];</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (maxRight &lt; i + RL[i])</span><br><span class="line">            &#123;</span><br><span class="line">                maxRight = i + RL[i];</span><br><span class="line">                Pos = i;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (maxLength &lt; RL[i])</span><br><span class="line">            &#123;</span><br><span class="line">                maxLength = RL[i];</span><br><span class="line">                currentPosition = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substr((currentPosition - maxLength) / <span class="number">2</span>, maxLength - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://leetcode-cn.com/problems/longest-palindromic-substring/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-bao-gu/" target="_blank" rel="noopener">详细通俗的思路分析，多解法</a></li>
+<li><a href="https://www.cnblogs.com/grandyang/p/4464476.html" target="_blank" rel="noopener">[LeetCode] 5. Longest Palindromic Substring 最长回文子串</a></li>
+<li><a href="https://segmentfault.com/a/1190000003914228" target="_blank" rel="noopener">最长回文子串——Manacher 算法</a></li>
+<li><a href="https://www.jianshu.com/p/2c6515e8b1b2" target="_blank" rel="noopener">最长回文子串</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Datacruiser
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://datacruiser.io/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/" title="Leetcode Tencent 50 5. Longest Palindromic Substring">http://datacruiser.io/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/C语言/" rel="tag"># C语言</a>
+          
+            <a href="/tags/字符串/" rel="tag"># 字符串</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/09/Leetcode-Tencent-50-88-Merge-Sorted-Array/" rel="next" title="Leetcode Tencent 50 Task 27 88. Merge Sorted Array">
+                <i class="fa fa-chevron-left"></i> Leetcode Tencent 50 Task 27 88. Merge Sorted Array
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/11/决策树算法梳理/" rel="prev" title="决策树算法梳理">
+                决策树算法梳理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://i.imgur.com/qsQpBoA.jpg"
+                alt="Datacruiser" />
+            
+              <p class="site-author-name" itemprop="name">Datacruiser</p>
+              <p class="site-description motion-element" itemprop="description">Achieving what I want in light of what is true.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">159</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">121</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/datacruiser" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/realphy" target="_blank" title="Zhihu">
+                    
+                      <i class="fa fa-fw fa-group"></i>Zhihu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/jijiwhywhy" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:phy.zju@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#描述"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x63CF;&#x8FF0;" class="headerlink" title="&#x63CF;&#x8FF0;"></a>&#x63CF;&#x8FF0;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题思路"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x89E3;&#x9898;&#x601D;&#x8DEF;" class="headerlink" title="&#x89E3;&#x9898;&#x601D;&#x8DEF;"></a>&#x89E3;&#x9898;&#x601D;&#x8DEF;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#暴力解法"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x66B4;&#x529B;&#x89E3;&#x6CD5;" class="headerlink" title="&#x66B4;&#x529B;&#x89E3;&#x6CD5;"></a>&#x66B4;&#x529B;&#x89E3;&#x6CD5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中心扩展解法"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x4E2D;&#x5FC3;&#x6269;&#x5C55;&#x89E3;&#x6CD5;" class="headerlink" title="&#x4E2D;&#x5FC3;&#x6269;&#x5C55;&#x89E3;&#x6CD5;"></a>&#x4E2D;&#x5FC3;&#x6269;&#x5C55;&#x89E3;&#x6CD5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态规划法"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x52A8;&#x6001;&#x89C4;&#x5212;&#x6CD5;" class="headerlink" title="&#x52A8;&#x6001;&#x89C4;&#x5212;&#x6CD5;"></a>&#x52A8;&#x6001;&#x89C4;&#x5212;&#x6CD5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#马拉车算法"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#&#x9A6C;&#x62C9;&#x8F66;&#x7B97;&#x6CD5;" class="headerlink" title="&#x9A6C;&#x62C9;&#x8F66;&#x7B97;&#x6CD5;"></a>&#x9A6C;&#x62C9;&#x8F66;&#x7B97;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决回文串奇偶性的对称轴位置问题"><span class="nav-number">2.4.1.</span> <span class="nav-text"><a href="#&#x89E3;&#x51B3;&#x56DE;&#x6587;&#x4E32;&#x5947;&#x5076;&#x6027;&#x7684;&#x5BF9;&#x79F0;&#x8F74;&#x4F4D;&#x7F6E;&#x95EE;&#x9898;" class="headerlink" title="&#x89E3;&#x51B3;&#x56DE;&#x6587;&#x4E32;&#x5947;&#x5076;&#x6027;&#x7684;&#x5BF9;&#x79F0;&#x8F74;&#x4F4D;&#x7F6E;&#x95EE;&#x9898;"></a>&#x89E3;&#x51B3;&#x56DE;&#x6587;&#x4E32;&#x5947;&#x5076;&#x6027;&#x7684;&#x5BF9;&#x79F0;&#x8F74;&#x4F4D;&#x7F6E;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决重复访问的问题"><span class="nav-number">2.4.2.</span> <span class="nav-text"><a href="#&#x89E3;&#x51B3;&#x91CD;&#x590D;&#x8BBF;&#x95EE;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x89E3;&#x51B3;&#x91CD;&#x590D;&#x8BBF;&#x95EE;&#x7684;&#x95EE;&#x9898;"></a>&#x89E3;&#x51B3;&#x91CD;&#x590D;&#x8BBF;&#x95EE;&#x7684;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当i在MaxRight的左边"><span class="nav-number">2.4.2.1.</span> <span class="nav-text"><a href="#&#x5F53;i&#x5728;MaxRight&#x7684;&#x5DE6;&#x8FB9;" class="headerlink" title="&#x5F53;i&#x5728;MaxRight&#x7684;&#x5DE6;&#x8FB9;"></a>&#x5F53;<code>i</code>&#x5728;<code>MaxRight</code>&#x7684;&#x5DE6;&#x8FB9;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当i在MaxRight的右边"><span class="nav-number">2.4.2.2.</span> <span class="nav-text"><a href="#&#x5F53;i&#x5728;MaxRight&#x7684;&#x53F3;&#x8FB9;" class="headerlink" title="&#x5F53;i&#x5728;MaxRight&#x7684;&#x53F3;&#x8FB9;"></a>&#x5F53;<code>i</code>&#x5728;<code>MaxRight</code>&#x7684;&#x53F3;&#x8FB9;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;" class="headerlink" title="&#x4EE3;&#x7801;"></a>&#x4EE3;&#x7801;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解法一：暴力解法"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x89E3;&#x6CD5;&#x4E00;&#xFF1A;&#x66B4;&#x529B;&#x89E3;&#x6CD5;" class="headerlink" title="&#x89E3;&#x6CD5;&#x4E00;&#xFF1A;&#x66B4;&#x529B;&#x89E3;&#x6CD5;"></a>&#x89E3;&#x6CD5;&#x4E00;&#xFF1A;&#x66B4;&#x529B;&#x89E3;&#x6CD5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法二：中心扩展解法"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x89E3;&#x6CD5;&#x4E8C;&#xFF1A;&#x4E2D;&#x5FC3;&#x6269;&#x5C55;&#x89E3;&#x6CD5;" class="headerlink" title="&#x89E3;&#x6CD5;&#x4E8C;&#xFF1A;&#x4E2D;&#x5FC3;&#x6269;&#x5C55;&#x89E3;&#x6CD5;"></a>&#x89E3;&#x6CD5;&#x4E8C;&#xFF1A;&#x4E2D;&#x5FC3;&#x6269;&#x5C55;&#x89E3;&#x6CD5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法三：动态规划解法"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#x89E3;&#x6CD5;&#x4E09;&#xFF1A;&#x52A8;&#x6001;&#x89C4;&#x5212;&#x89E3;&#x6CD5;" class="headerlink" title="&#x89E3;&#x6CD5;&#x4E09;&#xFF1A;&#x52A8;&#x6001;&#x89C4;&#x5212;&#x89E3;&#x6CD5;"></a>&#x89E3;&#x6CD5;&#x4E09;&#xFF1A;&#x52A8;&#x6001;&#x89C4;&#x5212;&#x89E3;&#x6CD5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法四：马拉车算法（Manache’s-Algorithm）"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x89E3;&#x6CD5;&#x56DB;&#xFF1A;&#x9A6C;&#x62C9;&#x8F66;&#x7B97;&#x6CD5;&#xFF08;Manache&#x2019;s-Algorithm&#xFF09;" class="headerlink" title="&#x89E3;&#x6CD5;&#x56DB;&#xFF1A;&#x9A6C;&#x62C9;&#x8F66;&#x7B97;&#x6CD5;&#xFF08;Manache&#x2019;s Algorithm&#xFF09;"></a>&#x89E3;&#x6CD5;&#x56DB;&#xFF1A;&#x9A6C;&#x62C9;&#x8F66;&#x7B97;&#x6CD5;&#xFF08;Manache&#x2019;s Algorithm&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datacruiser</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站总访问量: <span id="busuanzi_value_site_pv"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">275.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://datacruiser.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://datacruiser.io/2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/';
+          this.page.identifier = '2019/09/10/Leetcode-Tencent-50-5-Longest-Palindromic-Substring/';
+          this.page.title = 'Leetcode Tencent 50 5. Longest Palindromic Substring';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://datacruiser.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
